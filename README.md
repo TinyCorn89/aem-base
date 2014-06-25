@@ -1,0 +1,1 @@
+To build and install: under cq-parent run "mvn -e clean install -Pdeploy -Dcq.port=4502 -Dcq.host=localhost"

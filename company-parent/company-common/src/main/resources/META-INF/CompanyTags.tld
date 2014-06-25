@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" version="2.1">
+    <tlib-version>0.0.1</tlib-version>
+    <short-name>Company TagLib</short-name>
+    <uri>http://cms.domain.com/bundles/cq/tags</uri>
+    <tag>
+        <name>defineObjects</name>
+        <tag-class>com.domain.cq.company.common.tags.DefineObjectsTag</tag-class>
+        <info>Sets page context information required for clientlibs</info>
+    </tag>
+    <tag>
+        <name>getYouTubeID</name>
+        <tag-class>com.domain.cq.company.common.tags.GetYouTubeIDTag</tag-class>
+        <info>Return the ID from a YouTube URL</info>
+    </tag>
+    <tag>
+        <name>getTagsForPage</name>
+        <tag-class>com.domain.cq.company.common.tags.GetTagsForPageTag</tag-class>
+        <info>Generates a list of Tag objects representing the tags of a page</info>
+        <attribute>
+            <name>pagepath</name>
+            <type>java.lang.String</type>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>tagType</name>
+            <type>java.lang.String</type>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>getPagesByTag</name>
+        <tag-class>com.domain.cq.company.common.tags.GetPagesByTagTag</tag-class>
+        <info>Generates a list of Pages represented by a specific Tag</info>
+        <attribute>
+            <name>tag</name>
+            <type>java.lang.String</type>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>getStickyNavigation</name>
+        <tag-class>com.domain.cq.company.common.tags.GetStickyNavigationTag</tag-class>
+        <info>Get Sticky Navigation Items</info>
+    </tag>
+</taglib>
