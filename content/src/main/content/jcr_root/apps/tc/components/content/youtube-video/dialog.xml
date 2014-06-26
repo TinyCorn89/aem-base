@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}100"
+    title="Youtube Video"
+    width="{Long}200"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <videoTab
+            jcr:primaryType="cq:Widget"
+            title="Video Information"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <caption
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Video Caption:"
+                    maxLength="200"
+                    name="./caption"
+                    xtype="textfield"/>
+                <youTubeLink
+                    jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
+                    blankText="Link field is required"
+                    fieldDescription="Suppose that if your valid YouTube video URL is https://www.youtube.com/watch?v=2TIz9jNAEGw. Then you have to mention the value of &quot;v&quot; parameter(2TIz9jNAEGw) which is an unique id of the video."
+                    fieldLabel="YouTube Video Id"
+                    name="./youTubeLink"
+                    xtype="textfield"/>
+            </items>
+        </videoTab>
+        <videoDimensionsTab
+            jcr:primaryType="cq:Widget"
+            title="Video Dimensions"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <displayWidth
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Set a specific display width for the video."
+                    fieldLabel="Display Width"
+                    name="./displayWidth"
+                    xtype="textfield"/>
+                <displayHeight
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Set a specific display height for the video."
+                    fieldLabel="Display Height"
+                    name="./displayHeight"
+                    xtype="textfield"/>
+            </items>
+        </videoDimensionsTab>
+    </items>
+</jcr:root>

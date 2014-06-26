@@ -1,0 +1,19 @@
+/**
+ * Copyright (C) 2014 Virtusa Corporation.
+ * This file is proprietary and part of Virtusa LaunchPad.
+ * LaunchPad code can not be copied and/or distributed without the express permission of Virtusa Corporation
+ */
+
+.google-maps {
+    position: relative;
+    padding-bottom: 10%; // This is the aspect ratio
+    height: 0;
+    overflow: hidden;
+}
+.google-maps iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}

@@ -1,0 +1,13 @@
+/**
+ * Copyright (C) 2014 Virtusa Corporation.
+ * This file is proprietary and part of Virtusa LaunchPad.
+ * LaunchPad code can not be copied and/or distributed without the express permission of Virtusa Corporation
+ */
+
+.weatherStyle {
+    display: block !important;
+    width: 180px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 12px;
+}

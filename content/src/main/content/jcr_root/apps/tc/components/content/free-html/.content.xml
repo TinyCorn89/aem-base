@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:description="This is a free-html component that would allow the user to enter html including JS and CSS into the dialog and the component will render it."
+    jcr:primaryType="cq:Component"
+    jcr:title="Free html"
+    componentGroup="TC"/>

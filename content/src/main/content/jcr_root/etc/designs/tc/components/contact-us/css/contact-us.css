@@ -1,0 +1,26 @@
+/**
+ * Copyright (C) 2014 Virtusa Corporation.
+ * This file is proprietary and part of Virtusa LaunchPad.
+ * LaunchPad code can not be copied and/or distributed without the express permission of Virtusa Corporation
+ */
+.contact-us {
+    padding-left: 50px;
+    margin-bottom: 2%;
+}
+
+.form_button_submit {
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.form_field_text {
+    width: 30%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.address-contact-us {
+    padding-top: 200px;
+    padding-left: 60px;
+    width: 70%;
+}

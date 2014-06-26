@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    boxMaxWidth="800"
+    height="500"
+    title="News"
+    width="800"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="news">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <noofitems
+                        jcr:primaryType="nt:unstructured"
+                        fieldDescription="Please enter only numbers"
+                        fieldLabel="No Of Items To Display"
+                        name="./noOfItems"
+                        xtype="numberfield"/>
+                    <showpublicationdate
+                        jcr:primaryType="nt:unstructured"
+                        fieldLabel="Show"
+                        name="./showDate"
+                        type="radio"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <yes
+                                jcr:primaryType="nt:unstructured"
+                                text="publication date"
+                                value="true"/>
+                            <no
+                                jcr:primaryType="nt:unstructured"
+                                fieldLabel="No"
+                                text="time elapsed"
+                                value="false"/>
+                        </options>
+                    </showpublicationdate>
+                    <showdescription
+                        jcr:primaryType="nt:unstructured"
+                        fieldLabel="Show Story Description"
+                        name="./showDescription"
+                        type="radio"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <yes
+                                jcr:primaryType="nt:unstructured"
+                                text="yes"
+                                value="true"/>
+                            <no
+                                jcr:primaryType="nt:unstructured"
+                                text="no"
+                                value="false"/>
+                        </options>
+                    </showdescription>
+                    <feedurl
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Please click on + button to add path"
+                        fieldLabel="List Of Paths"
+                        labelSeparator=":"
+                        name="./feeds"
+                        xtype="multicompositefield">
+                        <fieldConfigs jcr:primaryType="cq:WidgetCollection">
+                            <rssfeedurl
+                                jcr:primaryType="cq:Widget"
+                                allowBlank="false"
+                                fieldLabel="Rss/Atom Feed URL"
+                                name="rssFeedURL"
+                                width="400"
+                                xtype="textfield">
+                                <listeners
+                                    jcr:primaryType="nt:unstructured"
+                                    blur="function(){&#xa;&#xa;var value=this.findParentByType('dialog').find('name', this.name)[0].getValue();&#xa;var rss = value.slice(-4);&#xa;var atom = value.slice(-5);&#xa;var rssXml = value.slice(-7);&#xa;var atomXml = value.slice(-8);&#xa;if(!urlValidate(value)){&#xa;alert('PLEASE ENTER CORRECT URL');&#xa;&#xa;this.findParentByType('dialog').find('name', this.name)[0].setValue(&quot;&quot;);&#xa;}else if(rss !== &quot;.rss&quot; &amp;&amp; atom !== &quot;.atom&quot; &amp;&amp; rssXml !== &quot;rss.xml&quot; &amp;&amp; atomXml !== &quot;atom.xml&quot;){&#xa;alert('PLEASE ENTER CORRECT ATOM OR RSS URL');&#xa;this.findParentByType('dialog').find('name', this.name)[0].setValue(&quot;&quot;);&#xa;}&#xa;&#xa;}"/>
+                            </rssfeedurl>
+                            <starttime
+                                jcr:primaryType="nt:unstructured"
+                                allowBlank="false"
+                                fieldLabel="Start Time"
+                                name="startTime"
+                                xtype="[timefield]">
+                                <listeners
+                                    jcr:primaryType="nt:unstructured"
+                                    blur="function(){&#xa;var check = this.name;&#xa;var sub=check.lastIndexOf('_');&#xa;var num = parseInt(sub)+1;&#xa;var numberOfFields=check.charAt(num);&#xa;var limit = parseInt(numberOfFields);&#xa;var endName = './feeds/item_'+limit+'/endTime';&#xa;&#xa;var outerStartTime=this.findParentByType('dialog').find('name', this.name)[0].getValue();&#xa;var outerStartTimeDate = new Date(&quot;01/01/2007 &quot; + outerStartTime);&#xa;var outerEndTime=this.findParentByType('dialog').find('name', endName)[0].getValue();&#xa;var outerEndTimeDate = new Date(&quot;01/01/2007 &quot; + outerEndTime);&#xa;var limitLess = limit-1;&#xa;&#x9;for(var j = limitLess; j > 0; j--){&#xa;&#x9;&#x9;strtTime = this.findParentByType('dialog').find('name', './feeds/item_'+j+'/startTime')[0].getValue();&#xa;&#x9;&#x9;edTime  = this.findParentByType('dialog').find('name', './feeds/item_'+j+'/endTime')[0].getValue();&#xa;&#x9;&#x9;if(strtTime == &quot;&quot; || edTime == &quot;&quot;){&#xa;&#x9;&#x9;&#x9;alert(&quot;PLEASE ENTER THE TIME WHICH IS EMPTY IN THE PREVIOUS ITEM&quot;);&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;this.findParentByType('dialog').find('name', this.name)[0].setValue(&quot;&quot;);&#xa;&#x9;&#x9;&#x9;return false;&#xa;&#x9;&#x9;}&#xa;&#x9;}&#xa;&#x9;&#xa;for (var i=1;i&lt;limit;i++)&#xa;{&#xa;var innerName='./feeds/item_'+i+'/startTime';&#xa;var endName='./feeds/item_'+i+'/endTime';&#xa;var innerStartTimeValue=this.findParentByType('dialog').find('name', innerName)[0].getValue();&#xa;var innerStartTimeValueDate = new Date(&quot;01/01/2007 &quot; + innerStartTimeValue);&#xa;var innerEndTimeValue=this.findParentByType('dialog').find('name', endName)[0].getValue();&#xa;var innerEndTimeValueDate = new Date(&quot;01/01/2007 &quot; + innerEndTimeValue);&#xa;&#xa;&#xa;&#x9;&#x9;if(innerStartTimeValueDate&lt;=outerStartTimeDate &amp;&amp; outerStartTimeDate&lt;innerEndTimeValueDate){&#x9;&#xa;&#x9;&#x9;&#x9;alert('PLEASE ENTER THE TIME WHICH IS NOT IN THE ABOVE RANGE');&#xa;&#x9;&#x9;&#x9;this.findParentByType('dialog').find('name', this.name)[0].setValue(&quot;&quot;);&#xa;&#x9;&#x9;}&#xa;&#xa;}&#xa;&#xa;}"/>
+                            </starttime>
+                            <endtime
+                                jcr:primaryType="nt:unstructured"
+                                allowBlank="false"
+                                fieldLabel="End Time"
+                                name="endTime"
+                                xtype="timefield">
+                                <listeners
+                                    jcr:primaryType="nt:unstructured"
+                                    blur="function()&#xa; {&#xa; var check = this.name;&#xa; var sub=check.lastIndexOf('_');&#xa; var num = parseInt(sub)+1;&#xa; var numberOfFields=check.charAt(num);&#xa; var limit = parseInt(numberOfFields);&#xa; var startTime = './feeds/item_'+limit+'/startTime';&#xa;&#x9;&#xa;&#x9;&#xa;&#x9;&#xa; var endTimeValue=this.findParentByType('dialog').find('name', this.name)[0].getValue();&#xa; var endTimeValueDate = new Date(&quot;01/01/2007 &quot; + endTimeValue);&#xa; &#xa; var startTimeValue=this.findParentByType('dialog').find('name', startTime)[0].getValue();&#xa; var startTimeValueDate = new Date(&quot;01/01/2007 &quot; + startTimeValue);&#xa; if(startTimeValue == &quot;&quot;){&#xa;&#x9;this.findParentByType('dialog').find('name', this.name)[0].setValue(&quot;&quot;);&#xa;&#x9;alert('PLEASE ENTER THE START TIME FIRST');&#xa; }&#xa; if(endTimeValue &lt;= startTimeValue){&#xa;&#x9;alert('PLEASE ENTER THE TIME WHICH IS NOT IN THE ABOVE RANGE');&#xa;&#x9;var checkId = this.id;&#xa;&#x9;$(function(){&#xa;&#x9;&#x9;$(&quot;#&quot;+checkId).addClass(&quot;x-form-invalid&quot;);&#xa;&#x9;&#x9;$(&quot;#&quot;+checkId).val(&quot;&quot;);&#xa;&#x9;});&#xa; }&#xa; for (var i=1;i&lt;limit;i++)&#xa;{&#xa;var innerName='./feeds/item_'+i+'/startTime';&#xa;var endName='./feeds/item_'+i+'/endTime';&#xa;var innerStartTimeValue=this.findParentByType('dialog').find('name', innerName)[0].getValue();&#xa;&#xa;var innerStartTimeValueDate = new Date(&quot;01/01/2007 &quot; + innerStartTimeValue);&#xa;var innerEndTimeValue=this.findParentByType('dialog').find('name', endName)[0].getValue();&#xa;&#xa;var innerEndTimeValueDate = new Date(&quot;01/01/2007 &quot; + innerEndTimeValue);&#xa;        if(innerEndTimeValueDate>startTimeValueDate){&#xa;&#x9;&#x9;&#x9;if(innerStartTimeValueDate&lt;endTimeValueDate){&#xa;&#x9;&#x9;&#x9;&#x9;alert('PLEASE ENTER THE TIME WHICH IS NOT IN THE ABOVE RANGE');&#xa;&#x9;&#x9;&#x9;&#x9;this.findParentByType('dialog').find('name', this.name)[0].setValue(&quot;&quot;);&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;}&#xa;&#xa;}&#xa; &#xa; }&#xa;"/>
+                            </endtime>
+                            <header
+                                jcr:primaryType="nt:unstructured"
+                                fieldLabel="Header"
+                                name="header"
+                                xtype="textfield"/>
+                        </fieldConfigs>
+                    </feedurl>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

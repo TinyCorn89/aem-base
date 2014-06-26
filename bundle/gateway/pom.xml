@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>com.tc</groupId>
+		<artifactId>bundle</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>./..</relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>tc.framework</groupId>
+	<artifactId>com.tc.gateway</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>${companyName} ${applicationId} Gateway</name>
+	<packaging>bundle</packaging>
+
+	<build>
+
+		<plugins>
+			<!-- plugins to make an osgi bundle out of the jar -->
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${org.apache.felix.maven-bundle-plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Export-Package>com.tc.gateway.api;version=${project.version}
+						</Export-Package>
+						<DynamicImport-Package>*</DynamicImport-Package>
+						<Import-Package>com.tc.framework.api</Import-Package>
+					</instructions>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.felix</groupId>
+						<artifactId>org.osgi.core</artifactId>
+						<version>${org.apache.felix.org.osgi.core.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-scr-plugin</artifactId>
+				<version>1.12.0</version><!--$NO-MVN-MAN-VER$ -->
+				<executions>
+					<execution>
+						<id>generate-scr-descriptor</id>
+						<goals>
+							<goal>scr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>deploy</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.sling</groupId>
+						<artifactId>maven-sling-plugin</artifactId>
+						<version>2.1.0</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>install</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<slingUrl>http://${cq.host}:${cq.port}/system/console/install</slingUrl>
+							<usePut>false</usePut>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<dependencies>
+		<dependency>
+			<groupId>tc.framework</groupId>
+			<artifactId>com.tc.framework</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+</project>

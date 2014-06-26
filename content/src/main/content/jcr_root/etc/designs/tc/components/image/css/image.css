@@ -1,0 +1,18 @@
+/**
+ * Copyright (C) 2014 Virtusa Corporation.
+ * This file is proprietary and part of Virtusa LaunchPad.
+ * LaunchPad code can not be copied and/or distributed without the express permission of Virtusa Corporation
+ */
+
+div.image {
+    margin-bottom: 20px;
+    overflow: hidden;    
+}
+
+div.image img {
+    display: block;
+    max-width: 100%;
+}
+div.image small {
+    display: block;
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    boxMaxWidth="800"
+    height="500"
+    title="Featured"
+    width="800"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Featured">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <parentPath
+                        jcr:primaryType="nt:unstructured"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Please enter articlelocation"
+                        fieldLabel="ArticleLocation"
+                        name="./rootPath"
+                        xtype="pathfield"/>
+                    <cqTagName
+                        jcr:primaryType="nt:unstructured"
+                        fieldDescription="Please select one Tag Name"
+                        fieldLabel="Enter the Tag Name"
+                        name="./tagName"
+                        validator="function(){&#xa;&#x9;var name = this.name;&#xa;&#x9;var value  = this.getValue();&#xa;&#x9;var tags = this.findParentByType(&quot;dialog&quot;).getField(&quot;./tagName&quot;).getValue();&#xa;&#x9;if(tags.length > 1){&#xa;&#x9;CQ.Ext.Msg.alert('Status','Select Only One Tag');&#xa;this.findParentByType(&quot;dialog&quot;).getField(&quot;./tagName&quot;).setValue(&quot;&quot;);&#xa;return false;&#xa;}else{ &#xa;return true;&#xa;}&#xa;}&#xa;"
+                        xtype="tags"/>
+                    <header
+                        jcr:primaryType="nt:unstructured"
+                        defaultValue="Placeholder"
+                        fieldLabel="Header"
+                        name="./header"
+                        xtype="textfield"/>
+                    <seeAllText
+                        jcr:primaryType="nt:unstructured"
+                        defaultValue="Placeholder"
+                        fieldLabel="See All Text"
+                        name="./seeAllText"
+                        xtype="textfield"/>
+                    <noofarticles
+                        jcr:primaryType="nt:unstructured"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Please enter only numbers"
+                        fieldLabel="No Of Articles"
+                        name="./noOfArticles"
+                        xtype="numberfield"/>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

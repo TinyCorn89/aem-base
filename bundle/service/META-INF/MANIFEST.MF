@@ -1,0 +1,9 @@
+Manifest-Version: 1
+Bundle-Version: 1.0.0
+Bundle-Name: com.tc.framework.parent.com.tc.service.factory 
+ [com.tc.framework.service.factory]
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.tc.framework.parent.com.tc.service.
+ factory
+Import-Package: org.osgi.framework,org.osgi.util.tracker
+

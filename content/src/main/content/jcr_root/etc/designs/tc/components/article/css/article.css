@@ -1,0 +1,42 @@
+/**
+ * Copyright (C) 2014 Virtusa Corporation.
+ * This file is proprietary and part of Virtusa LaunchPad.
+ * LaunchPad code can not be copied and/or distributed without the express permission of Virtusa Corporation
+ */
+
+/* MARKETING CONTENT
+-------------------------------------------------- */
+/* Pad the edges of the mobile views a bit */
+.marketing {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Center align the text within the three columns below the carousel */
+.marketing .col-lg-4article {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.marketing h2 {
+  font-weight: normal;
+}
+.marketing .col-lg-4article p {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+
+
+@media (min-width: 768px) {
+  /* Remove the edge padding needed for mobile */
+  .marketing {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.articleImage {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+}

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    boxMaxWidth="800"
+    height="500"
+    title="IFrame"
+    width="800"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="IFrame">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <src
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Please enter the valid URL"
+                        fieldLabel="URL"
+                        name="./urlPath"
+                        xtype="textfield"/>
+                    <size
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Width And Height"
+                        heightParameter="./height"
+                        widthParameter="./width"
+                        xtype="sizefield"/>
+                    <alignment
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Alignment"
+                        name="./alignment"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <top
+                                jcr:primaryType="nt:unstructured"
+                                text="Top"
+                                value="top"/>
+                            <middle
+                                jcr:primaryType="nt:unstructured"
+                                text="Middle"
+                                value="middle"/>
+                            <bottom
+                                jcr:primaryType="nt:unstructured"
+                                text="Bottom"
+                                value="bottom"/>
+                            <left
+                                jcr:primaryType="nt:unstructured"
+                                text="Left"
+                                value="left"/>
+                            <right
+                                jcr:primaryType="nt:unstructured"
+                                text="Right"
+                                value="right"/>
+                            <center
+                                jcr:primaryType="nt:unstructured"
+                                text="Center"
+                                value="center"/>
+                        </options>
+                    </alignment>
+                    <frameborder
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="FrameBorder"
+                        filedDescription="Please select the frame border"
+                        name="./frameBorder"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <yes
+                                jcr:primaryType="nt:unstructured"
+                                text="Yes"
+                                value="1"/>
+                            <no
+                                jcr:primaryType="nt:unstructured"
+                                text="No"
+                                value="0"/>
+                        </options>
+                    </frameborder>
+                    <scrolling
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Scrolling"
+                        name="./scrolling"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <yes
+                                jcr:primaryType="nt:unstructured"
+                                text="Yes"
+                                value="yes"/>
+                            <no
+                                jcr:primaryType="nt:unstructured"
+                                text="No"
+                                value="no"/>
+                            <auto
+                                jcr:primaryType="nt:unstructured"
+                                text="Auto"
+                                value="auto"/>
+                        </options>
+                    </scrolling>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

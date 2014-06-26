@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    boxMaxWidth="800"
+    height="500"
+    title="Events Preview"
+    width="800"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tab1
+            jcr:primaryType="cq:Panel"
+            title="Event-Preview">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <eventspath
+                    jcr:primaryType="nt:unstructured"
+                    fieldLabel="Event Pages Path"
+                    name="./pathOfEvents"
+                    xtype="pathfield"/>
+                <eventallpath
+                    jcr:primaryType="nt:unstructured"
+                    fieldDescription="Please enter path to event view all page"
+                    fieldLabel="Event List Page Path"
+                    name="./eventAllPath"
+                    xtype="pathfield"/>
+                <depth
+                    jcr:primaryType="nt:unstructured"
+                    fieldDescription="please enter only numerics"
+                    fieldLabel="Depth"
+                    name="./depth"
+                    xtype="numberfield"/>
+            </items>
+        </tab1>
+    </items>
+</jcr:root>

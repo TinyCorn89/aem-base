@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}500"
+    title="Event Agenda"
+    width="{Long}700"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <eventdetails
+                jcr:primaryType="cq:Panel"
+                title="Event Details">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <presentations
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Click '+' to add a event details"
+                        fieldLabel=""
+                        name="./presentations"
+                        xtype="multicompositefield">
+                        <fieldConfigs jcr:primaryType="cq:WidgetCollection">
+                            <title
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Title"
+                                name="title"
+                                xtype="textfield"/>
+                            <presentation
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Presentation"
+                                name="presentation"
+                                width="300"
+                                xtype="htmleditor"/>
+                            <pdfLink
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Pdf link"
+                                name="pdfLink"
+                                xtype="pathfield"/>
+                            <htmlLink
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="HTML link"
+                                name="htmlLink"
+                                xtype="pathfield"/>
+                            <from
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="From"
+                                name="from"
+                                xtype="datetime"/>
+                            <to
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="To"
+                                name="to"
+                                xtype="datetime"/>
+                        </fieldConfigs>
+                    </presentations>
+                </items>
+            </eventdetails>
+        </items>
+    </items>
+</jcr:root>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}100"
+    title="map"
+    width="{Long}200"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tab1
+            jcr:primaryType="cq:Widget"
+            anchor="100%"
+            title="Map"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <width
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Width"
+                    fieldWidth="200"
+                    hideLabel="{Boolean}false"
+                    name="./width"
+                    width="{Long}200"
+                    xtype="numberfield"/>
+                <height
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Height"
+                    hideLabel="{Boolean}false"
+                    name="./height"
+                    width="{Long}300"
+                    xtype="numberfield"/>
+                <location
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Location"
+                    hideLabel="{Boolean}false"
+                    name="./location"
+                    xtype="textfield"/>
+            </items>
+        </tab1>
+    </items>
+</jcr:root>

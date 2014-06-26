@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Dialog"
+          fieldDescription="Choose the page where the user result page."
+          title="Adavced Search"
+          width="{Long}200"
+          xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <simple
+            jcr:primaryType="cq:Panel"
+            title="Simple">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <searchButtonText
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Search button text"
+                    name="./searchButtonText"
+                    xtype="textfield"/>
+                <noResultsText
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="No results text"
+                    name="./noResultsText"
+                    xtype="textarea"/>
+                <resultPagesText
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Result pages label"
+                    name="./resultPagesText"
+                    xtype="textfield"/>
+                <previousText
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Previous label"
+                    name="./previousText"
+                    xtype="textfield"/>
+                <nextText
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Next label"
+                    name="./nextText"
+                    xtype="textfield"/>
+            </items>
+        </simple>
+        <advanced
+            jcr:primaryType="cq:Panel"
+            title="Advanced">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <section
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Please click on + button to add path"
+                    fieldLabel="Section"
+                    labelSeparator=":"
+                    name="./section"
+                    xtype="multicompositefield">
+                    <fieldConfigs jcr:primaryType="cq:WidgetCollection">
+                        <pageurl
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="false"
+                            fieldLabel="page URL"
+                            name="sectionURL"
+                            width="200"
+                            xtype="pathfield"/>
+                        <name
+                            jcr:primaryType="nt:unstructured"
+                            allowBlank="false"
+                            fieldLabel="page Name"
+                            name="sectionName"
+                            xtype="textfield"/>
+                    </fieldConfigs>
+                </section>
+                <author
+                    jcr:primaryType="cq:Widget"
+                    defaultValue="{Boolean}false"
+                    fieldLabel="Author"
+                    name="./author"
+                    type="checkbox"
+                    xtype="selection"/>
+                <keyword
+                    jcr:primaryType="cq:Widget"
+                    defaultValue="{Boolean}false"
+                    fieldLabel="Keyword"
+                    name="./keyword"
+                    type="checkbox"
+                    xtype="selection"/>
+                <contentType
+                    jcr:primaryType="cq:Widget"
+                    defaultValue="{Boolean}false"
+                    fieldLabel="Content Type"
+                    name="./contentType"
+                    type="checkbox"
+                    xtype="selection"/>
+                <timeRange
+                    jcr:primaryType="cq:Widget"
+                    defaultValue="{Boolean}false"
+                    fieldLabel="Time Range"
+                    name="./timeRange"
+                    type="checkbox"
+                    xtype="selection"/>
+            </items>
+        </advanced>
+    </items>
+</jcr:root>

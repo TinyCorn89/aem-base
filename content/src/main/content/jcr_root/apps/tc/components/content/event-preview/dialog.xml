@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Dialog"
+          boxMaxWidth="800"
+          height="500"
+          title="Events Preview"
+          width="800"
+          xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="event-preview">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <noofevents
+                        jcr:primaryType="nt:unstructured"
+                        fieldDescription="[Please enter number only]"
+                        fieldLabel="No Of Events To Display"
+                        name="./noOfEvents"
+                        xtype="numberfield"/>
+                    <title
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Heading"
+                        name="./title"
+                        title="title"
+                        xtype="textfield"/>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

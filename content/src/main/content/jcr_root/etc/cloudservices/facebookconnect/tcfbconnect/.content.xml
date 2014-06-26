@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:cloudservicename="facebookconnect"
+        cq:lastModified="{Date}2013-11-22T18:05:36.450+05:30"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/social/connect/templates/facebookconnect"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="TC Facebook Connect"
+        sling:resourceType="social/connect/components/facebookconnectpage"
+        oauth.config.id="76f1c540282d2dbde129323a5a6b14f1"
+        thumbnailPath="/libs/social/connect/templates/facebookconnect/thumbnail.png"
+        urlParams="[]">
+        <com.adobe.granite.auth.oauth.provider-tcfbconnect.config/>
+    </jcr:content>
+</jcr:root>

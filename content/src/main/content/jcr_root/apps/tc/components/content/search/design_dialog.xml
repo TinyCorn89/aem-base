@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Search (Design)"
+    xtype="panel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <contentPage
+            jcr:primaryType="cq:Widget"
+            defaultValue="/content/launchpad/us/en"
+            fieldDescription="Choose the page where the user content page."
+            fieldLabel="Content Page"
+            name="./contentPage"
+            xtype="pathfield"/>
+        <damPage
+            jcr:primaryType="cq:Widget"
+            defaultValue="/content/dam/launchpad"
+            fieldDescription="Choose the page where the user Dam page."
+            fieldLabel="Dam Page"
+            name="./damPage"
+            xtype="pathfield"/>
+        <articlePage
+            jcr:primaryType="cq:Widget"
+            defaultValue="/content/launchpad/us/en/articles"
+            fieldDescription="Choose the page where the user Article page."
+            fieldLabel="Article Page"
+            name="./articlePage"
+            xtype="pathfield"/>
+    </items>
+</jcr:root>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Dialog"
+          title="Short Article"
+          xtype="dialog">
+    <items
+        jcr:primaryType="nt:unstructured"
+        height="100"
+        title="Short Article"
+        width="800"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <list
+                jcr:primaryType="cq:Widget"
+                title="List of Articles"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <RadioTabSelection
+                        jcr:primaryType="cq:Widget"
+                        columns="1"
+                        fieldLabel="Article Type"
+                        name="./selectedTabRadio"
+                        type="radio"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <general
+                                jcr:primaryType="nt:unstructured"
+                                text="General"
+                                value="general"/>
+                            <advanced
+                                jcr:primaryType="nt:unstructured"
+                                text="Advanced"
+                                value="advanced"/>
+                        </options>
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            selectionchanged="function(){&#xa;&#x9;&#x9;&#xa;&#x9;var name = this.name;&#xa;&#x9;var value  = this.getValue();&#xa;&#x9;var str2=&quot;articles&quot;;&#xa;    var str3 =&quot;link&quot;;&#xa;&#x9;if(value == 'general'){&#xa;&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./link&quot;).show(); &#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./articleFolderPath&quot;).hide(); &#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeInterval&quot;).hide(); &#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeUnit&quot;).hide(); &#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./modifyDate&quot;).hide(); &#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./depth&quot;).hide(); &#xa;&#x9;&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./link&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./articleFolderPath&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./buttonText&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeInterval&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeUnit&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./showImpressions&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./showImpressionFor&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./modifyDate&quot;).setValue('');&#xa;&#x9;}&#xa;&#x9;else if(value == 'advanced'){&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./link&quot;).hide(); &#x9;&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./articleFolderPath&quot;).show(); &#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeInterval&quot;).show(); &#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeUnit&quot;).show(); &#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./modifyDate&quot;).show(); &#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./depth&quot;).show(); &#xa;&#x9;&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./link&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./articleFolderPath&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./buttonText&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeInterval&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeUnit&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./showImpressions&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./showImpressionFor&quot;).setValue('');&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./modifyDate&quot;).setValue('');&#xa;&#x9;&#xa;&#x9;}&#xa;&#x9;&#xa;}"/>
+                    </RadioTabSelection>
+                    <link
+                        jcr:primaryType="cq:Widget"
+                        blankText="Long Article Path is mandatory"
+                        fieldLabel="Long Article Path"
+                        hidden="false"
+                        invalidText="Invalid"
+                        labelSeparator=":"
+                        minLength="10"
+                        minLengthText="Long Article Path is Empty"
+                        name="./link"
+                        width="300"
+                        xtype="pathfield"/>
+                    <articleFolderPath
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Articles Folder Path"
+                        hidden="true"
+                        name="./articleFolderPath"
+                        xtype="pathfield"/>
+                    <buttonText
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Button Text"
+                        name="./buttonText"
+                        validateOnBlur="true"
+                        xtype="textfield"/>
+                    <timeInterval
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Time Interval"
+                        hidden="true"
+                        labelSeparator=":"
+                        maxLength="50"
+                        name="./timeInterval"
+                        width="300"
+                        xtype="numberfield">
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            blur="function()&#xa; {&#xa;&#xa; }"/>
+                    </timeInterval>
+                    <timeUnit
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Time Unit"
+                        hidden="true"
+                        labelSeparator=":"
+                        maxLength="50"
+                        name="./timeUnit"
+                        type="select"
+                        width="300"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <seconds
+                                jcr:primaryType="nt:unstructured"
+                                text="seconds"
+                                value="seconds"/>
+                            <minutes
+                                jcr:primaryType="nt:unstructured"
+                                text="minutes"
+                                value="minutes"/>
+                            <hours
+                                jcr:primaryType="nt:unstructured"
+                                text="hours"
+                                value="hours"/>
+                            <days
+                                jcr:primaryType="nt:unstructured"
+                                text="days"
+                                value="days"/>
+                        </options>
+                    </timeUnit>
+                    <showImpressions
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="true"
+                        fieldLabel="Show Impressions"
+                        name="./showImpressions"
+                        type="checkbox"
+                        xtype="selection">
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            selectionchanged="function(){&#xa;&#x9;&#x9;&#xa;&#x9;var name = this.name;&#xa;&#x9;var value  = this.getValue();&#xa;&#x9;&#xa;&#x9;&#x9;if(value == 'true'){&#xa;&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./showImpressionFor&quot;).show(); &#xa;&#x9;&#xa;&#x9;}&#xa;&#x9;else{&#xa;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./showImpressionFor&quot;).hide(); &#xa;&#x9;}&#xa;&#x9;&#xa;&#x9;&#xa;&#x9;&#xa;}"/>
+                    </showImpressions>
+                    <showImpressionFor
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="year"
+                        fieldLabel="Show Impression For"
+                        hidden="true"
+                        labelSeparator=":"
+                        name="./showImpressionFor"
+                        type="select"
+                        width="500"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <day
+                                jcr:primaryType="nt:unstructured"
+                                text="day"
+                                value="day"/>
+                            <month
+                                jcr:primaryType="nt:unstructured"
+                                text="month"
+                                value="month"/>
+                            <year
+                                jcr:primaryType="nt:unstructured"
+                                text="year"
+                                value="year"/>
+                        </options>
+                    </showImpressionFor>
+                    <modifyDate
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="true"
+                        fieldLabel="Modified Date"
+                        hidden="true"
+                        name="./modifyDate"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <depth
+                        jcr:primaryType="nt:unstructured"
+                        fieldDescription="please enter only numerics"
+                        fieldLabel="Depth"
+                        hidden="true"
+                        name="./depth"
+                        xtype="textfield"/>
+                </items>
+            </list>
+        </items>
+    </items>
+</jcr:root>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    boxMaxWidth="800"
+    height="500"
+    title="most_viewed"
+    width="800"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="MostViewed">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <articlelocation
+                        jcr:primaryType="nt:unstructured"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Please enter articlelocation"
+                        fieldLabel="ArticleLocation"
+                        name="./articlePath"
+                        xtype="pathfield"/>
+                    <noofarticles
+                        jcr:primaryType="nt:unstructured"
+                        fieldDescription="Please enter only numbers"
+                        fieldLabel="No Of Articles"
+                        name="./noOfArticles"
+                        xtype="numberfield"/>
+                    <header
+                        jcr:primaryType="nt:unstructured"
+                        defaultValue="Placeholder"
+                        fieldLabel="Header"
+                        name="./header"
+                        xtype="textfield"/>
+                    <seeAllText
+                        jcr:primaryType="nt:unstructured"
+                        defaultValue="Placeholder"
+                        fieldLabel="See All Text"
+                        name="./seeAllText"
+                        xtype="textfield"/>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

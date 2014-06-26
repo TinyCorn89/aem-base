@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Dialog"
+          helpPath="en/cq/current/wcm/default_components.html#Text"
+          title="Weather"
+          xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tab1
+            jcr:primaryType="cq:Widget"
+            anchor="100%"
+            title="Text"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <city
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="City"
+                    maxLength="200"
+                    name="./city"
+                    xtype="textfield" />
+                <state
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="State"
+                    maxLength="200"
+                    name="./state"
+                    xtype="textfield" />
+                <zip
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Zip"
+                    maxLength="200"
+                    name="./zip"
+                    xtype="textfield" />
+            </items>
+        </tab1>
+    </items>
+</jcr:root>

@@ -1,0 +1,137 @@
+/**
+ * Copyright (C) 2014 Virtusa Corporation.
+ * This file is proprietary and part of Virtusa LaunchPad.
+ * LaunchPad code can not be copied and/or distributed without the express permission of Virtusa Corporation
+ */
+
+#content {
+	clear: both;
+	overflow: inherit !important;
+}
+
+.title {
+	font-size: 20px;
+	margin-bottom: 10px;
+}
+
+.box {
+	color: #212121;
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 46.8%;
+	margin-bottom: 20px;
+    min-height: 67px;
+}
+/* template related css overides starts */
+.row-fluid .span6 {
+	width: 100% !important;
+	margin: 0
+}
+
+.posts-grid li .featured-thumbnail {
+	float: left !important;
+	margin: 0 10px 0 0;
+}
+
+.posts-grid li .featured-thumbnail .thumb-border {
+	width: 135px
+}
+
+/* template related css overides end */
+#nav {
+	float: left;
+	margin-left: 10px;
+	margin-top: 20px;
+}
+
+#nav option {
+	text-decoration: none;
+	font-size: 15px;
+	line-height: 25px;
+	color: #59595;
+}
+
+#nav option:hover {
+	color: green;
+}
+
+#nav option:active {
+	color: red;
+}
+
+.isotope-item {
+	z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+	pointer-events: none;
+	z-index: 1;
+}
+
+.isotope,.isotope .isotope-item {
+	/* change duration value to whatever you like */
+	-webkit-transition-duration: 0.8s;
+	-moz-transition-duration: 0.8s;
+	transition-duration: 0.8s;
+}
+
+.isotope {
+	-webkit-transition-property: height, width;
+	-moz-transition-property: height, width;
+	transition-property: height, width;
+}
+
+.isotope .isotope-item {
+	-webkit-transition-property: -webkit-transform, opacity;
+	-moz-transition-property: -moz-transform, opacity;
+	transition-property: transform, opacity;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style-type: none;
+}
+
+#nav {
+	display: table;
+	table-layout: fixed;
+	text-align: center;
+}
+
+#nav li {
+	display: table-cell;
+	width: 50%;
+	padding-right: 1px;
+	height: auto;
+	vertical-align: bottom;
+}
+
+#nav a {
+	display: block;
+	min-height: 100%;
+	padding: 4px 10px;
+	background-color: #323232;
+	color: white;
+	border-radius: 2px 2px 2px 2px;
+	text-decoration: none;
+}
+/*
+#nav a:hover {
+  color: yellow;
+}*/
+#nav a:active {
+	color: #e53465;
+}
+
+#videoNav .ui-selecting a {
+	background: #FECA40;
+}
+
+#videoNav .ui-selected a {
+	background: #F39814;
+}

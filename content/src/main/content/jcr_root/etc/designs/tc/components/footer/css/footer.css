@@ -1,0 +1,119 @@
+/**
+ * Copyright (C) 2014 Virtusa Corporation.
+ * This file is proprietary and part of Virtusa LaunchPad.
+ * LaunchPad code can not be copied and/or distributed without the express permission of Virtusa Corporation
+ */
+
+.footer {
+    background: none;
+    border: none;
+    padding: 0;
+    position: relative !important;
+}
+
+.footer-widgets {
+    background-color: #323232;
+    border-bottom: 1px solid #d3d3d3;
+    margin-bottom: 10px;
+    padding: 25px 0 23px 0;
+    height: 300px;
+}
+
+.footer-widgets .widget-title {
+    color: #fff;
+    font-size: 17px;
+    line-height: 1.2em;
+    border-bottom: 1px solid #525252;
+    padding: 0 0 5px 0;
+    margin: 0 0 16px 0;
+}
+
+.footer-widgets .widget-title a {
+    color: #fff !important;
+}
+
+.footer-widgets ul {
+    margin: 0;
+}
+
+.footer-widgets ul li {
+    list-style: none;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.footer-widgets ul li.current-menu-item a, .footer-widgets ul li.current_page_item a {
+    color: #ff6000;
+}
+
+.footer-widgets ul li a {
+    color: #838282;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+.footer-widgets ul li a abbr[title], .footer-widgets ul li a abbr[data-original-title] {
+    border-bottom-color: #838282;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    transition-property: border-color;
+    -webkit-transition-property: border-color;
+}
+
+.footer-widgets ul li a:hover {
+    color: #ff6000;
+    text-decoration: none;
+}
+
+.footer-widgets ul li a:hover abbr[title], .footer-widgets ul li a:hover abbr[data-original-title] {
+    border-bottom-color: #ff6000;
+}
+
+.footer-widgets [id^="recent-posts"] ul li {
+    text-transform: none;
+}
+
+nav.footer-nav {
+    margin-bottom: 0;
+}
+
+nav.footer-nav ul li a {
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+nav.footer-nav ul li a:hover {
+    color: #323232;
+    text-decoration: underline;
+}
+
+nav.footer-nav ul li.current-menu-item a {
+    color: #323232;
+}
+
+@media (max-width: 767px) {
+    .footer-widgets .widget-footer {
+        margin-bottom: 20px;
+    }
+}
+
+.footer .span2.widget-footer {
+    width: 120px;
+}
+
+.back-to-top {
+    padding-right: 20px;
+    float: right;
+}
+
+.copy-right {
+    padding-left: 20px;
+}

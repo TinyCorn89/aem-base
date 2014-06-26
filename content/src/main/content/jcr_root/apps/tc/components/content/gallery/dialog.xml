@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Dialog"
+          manageTabs="function(tab,noSwitch){&#xa;var tabs=['props','simple','advanced'];&#xa;var index=tabs.indexOf(tab);if(index==-1) &#xa;return;&#xa;for(var i=1;i&lt;tabs.length;i++){&#xa;if(index==i){&#xa;this.unhideTabStripItem(i);&#xa;}&#xa;else{&#xa;this.hideTabStripItem(i);&#xa;}&#xa;}&#xa;this.doLayout();&#xa;if(!noSwitch)this.activate(index);&#xa;}"
+          title="Carousel"
+          xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <simple
+            jcr:primaryType="cq:Widget"
+            title="Gallery"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <selector
+                    jcr:primaryType="nt:unstructured"
+                    fieldLabel="Gallery"
+                    name="./selector"
+                    type="radio"
+                    xtype="selection">
+                    <listeners
+                        jcr:primaryType="nt:unstructured"
+                        selectionchanged="function(){&#xa;&#x9;&#x9;&#xa;&#x9;var name = this.name;&#xa;&#x9;&#xa;&#x9;var value  = this.getValue();&#xa;&#x9;&#xa;&#x9;var str2=&quot;simple&quot;;&#xa;&#x9;var str3=&quot;advanced&quot;;&#xa;&#x9;var ofImg = &quot;image&quot;;&#xa;&#x9;var ofVideo = &quot;video&quot;;&#xa;&#x9;&#xa;&#x9;&#xa;&#x9;if(value==&quot;simple&quot;){&#xa;                this.findParentByType(&quot;dialog&quot;).getField(&quot;./items&quot;).show();&#xa;&#x9;&#x9;&#x9;&#x9; this.findParentByType(&quot;dialog&quot;).getField(&quot;./albumpath&quot;).hide(); &#xa;&#x9;&#x9;&#x9;&#x9;  this.findParentByType(&quot;dialog&quot;).getField(&quot;./displayitems&quot;).hide(); &#xa;&#x9;&#x9;&#x9;&#x9;   this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeInterval&quot;).hide(); &#xa;&#x9;&#x9;&#x9;&#x9;    this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeUnit&quot;).hide(); &#xa;&#x9;&#x9;&#x9;&#x9;&#x9; this.findParentByType(&quot;dialog&quot;).getField(&quot;./modifiedDate&quot;).hide();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;  this.findParentByType(&quot;dialog&quot;).getField(&quot;./heading&quot;).reset();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;    this.findParentByType(&quot;dialog&quot;).getField(&quot;./saveRestrict&quot;).reset();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;if(ofVideo == &quot;video&quot;){&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./radio&quot;).setValue(&quot;video&quot;);&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xa;&#x9;}&#xa;&#x9;&#xa;else if(value==&quot;advanced&quot;){&#xa;                this.findParentByType(&quot;dialog&quot;).getField(&quot;./items&quot;).hide();&#xa;&#x9;&#x9;&#x9;&#x9; this.findParentByType(&quot;dialog&quot;).getField(&quot;./albumpath&quot;).show();&#xa;&#x9;&#x9;&#x9;&#x9; this.findParentByType(&quot;dialog&quot;).getField(&quot;./albumpath&quot;).reset();&#xa;&#x9;&#x9;&#x9;&#x9;  this.findParentByType(&quot;dialog&quot;).getField(&quot;./displayitems&quot;).show();&#xa;&#x9;&#x9;&#x9;&#x9;  this.findParentByType(&quot;dialog&quot;).getField(&quot;./displayitems&quot;).reset();&#xa;&#x9;&#x9;&#x9;&#x9;   this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeInterval&quot;).show();&#xa;&#x9;&#x9;&#x9;&#x9;   this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeInterval&quot;).reset();&#xa;&#x9;&#x9;&#x9;&#x9;    this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeUnit&quot;).show(); &#xa;&#x9;&#x9;&#x9;&#x9;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./timeUnit&quot;).reset();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./modifiedDate&quot;).show();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./modifiedDate&quot;).reset();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9; this.findParentByType(&quot;dialog&quot;).getField(&quot;./heading&quot;).reset();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;  this.findParentByType(&quot;dialog&quot;).getField(&quot;./saveRestrict&quot;).reset();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;  if(ofVideo == &quot;video&quot;){&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;this.findParentByType(&quot;dialog&quot;).getField(&quot;./radio&quot;).setValue(&quot;video&quot;);&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;$(function(){&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;$('.cq-multifield-item').closest('.x-panel-noborder').hide();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;});&#xa;}&#x9;&#xa;&#xa;&#xa;}"/>
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <simple
+                            jcr:primaryType="nt:unstructured"
+                            text="Simple Gallery"
+                            value="simple"/>
+                        <advanced
+                            jcr:primaryType="nt:unstructured"
+                            text="Advanced Gallery"
+                            value="advanced"/>
+                    </options>
+                </selector>
+                <text
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Heading"
+                    hideLabel="{Boolean}false"
+                    name="./heading"
+                    xtype="textfield"/>
+                <radio
+                    jcr:primaryType="nt:unstructured"
+                    fieldLabel="Gallery"
+                    name="./radio"
+                    type="radio"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <videos
+                            jcr:primaryType="nt:unstructured"
+                            text="of Videos"
+                            value="video"/>
+                        <images
+                            jcr:primaryType="nt:unstructured"
+                            text="of Images"
+                            value="image"/>
+                    </options>
+                </radio>
+                <saveRestrict
+                    jcr:primaryType="nt:unstructured"
+                    fieldLabel="Download Restriction"
+                    name="./saveRestrict"
+                    type="checkbox"
+                    xtype="selection"/>
+                <items
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Please click on + button to add path"
+                    fieldLabel="List Of Paths"
+                    labelSeparator=":"
+                    name="./items"
+                    xtype="multicompositefield">
+                    <fieldConfigs jcr:primaryType="cq:WidgetCollection">
+                        <path
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="{Boolean}false"
+                            blankText=""
+                            fieldLabel="Paths"
+                            labelSeparator=":"
+                            maxLength="100"
+                            name="itemPath"
+                            xtype="pathfield"/>
+                        <caption
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Caption"
+                            hideLabel="{Boolean}false"
+                            name="caption"
+                            xtype="textfield"/>
+                        <title
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Title"
+                            hideLabel="{Boolean}false"
+                            name="title"
+                            xtype="textfield"/>
+                        <description
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Description"
+                            hideLabel="{Boolean}false"
+                            maxlength="50"
+                            name="description"
+                            xtype="textarea"/>
+                    </fieldConfigs>
+                </items>
+                <path
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Album Path"
+                    hideLabel="{Boolean}false"
+                    name="./albumpath"
+                    xtype="pathfield"/>
+                <displayitems
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="No of items to be displayed"
+                    labelSeparator=":"
+                    maxLength="{Long}50"
+                    name="./displayitems"
+                    xtype="numberfield"/>
+                <timeInterval
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Time Interval"
+                    labelSeparator=":"
+                    maxLength="{Long}50"
+                    name="./timeInterval"
+                    xtype="numberfield"/>
+                <timeUnit
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Time Unit"
+                    labelSeparator=":"
+                    maxLength="{Long}50"
+                    name="./timeUnit"
+                    type="select"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <seconds
+                            jcr:primaryType="nt:unstructured"
+                            text="seconds"
+                            value="seconds"/>
+                        <minutes
+                            jcr:primaryType="nt:unstructured"
+                            text="minutes"
+                            value="minutes"/>
+                        <hours
+                            jcr:primaryType="nt:unstructured"
+                            text="hours"
+                            value="hours"/>
+                        <days
+                            jcr:primaryType="nt:unstructured"
+                            text="days"
+                            value="days"/>
+                    </options>
+                </timeUnit>
+                <modifiedDate
+                    jcr:primaryType="nt:unstructured"
+                    fieldLabel="ModifiedDate"
+                    name="./modifiedDate"
+                    type="checkbox"
+                    xtype="selection"/>
+            </items>
+        </simple>
+    </items>
+</jcr:root>

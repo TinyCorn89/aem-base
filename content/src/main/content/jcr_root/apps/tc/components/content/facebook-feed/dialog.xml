@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    boxMaxWidth="800"
+    height="500"
+    title="Facebook Feed"
+    width="800"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Facebook Feed Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <pagename
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Page Name"
+                        name="./pageName"
+                        xtype="textfield"/>
+                    <colorscheme
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Color Scheme"
+                        name="./colorScheme"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <light
+                                jcr:primaryType="nt:unstructured"
+                                text="Light"
+                                value="light"/>
+                            <dark
+                                jcr:primaryType="nt:unstructured"
+                                text="Dark"
+                                value="dark"/>
+                        </options>
+                    </colorscheme>
+                    <width
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Width"
+                        name="./width"
+                        xtype="textfield"/>
+                    <height
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Height"
+                        name="./height"
+                        xtype="textfield"/>
+                    <showfaces
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Show Friends' Faces"
+                        name="./showFaces"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <showheader
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="true"
+                        fieldLabel="Show Header"
+                        name="./showHeader"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <showposts
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="true"
+                        fieldLabel="Show Posts"
+                        name="./showPosts"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <showborder
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="true"
+                        fieldLabel="Show Border"
+                        name="./showBorder"
+                        type="checkbox"
+                        xtype="selection"/>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

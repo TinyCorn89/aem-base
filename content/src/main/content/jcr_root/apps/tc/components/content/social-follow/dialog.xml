@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    boxMaxWidth="500"
+    height="400"
+    title="Social Follow"
+    width="800"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Add Social Follow User Id's">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title
+                        jcr:primaryType="nt:unstructured"
+                        fieldLabel="Title"
+                        name="./title"
+                        xtype="textfield"/>
+                    <facebook
+                        jcr:primaryType="nt:unstructured"
+                        fieldDescription="Enter Proper Url"
+                        fieldLabel="FaceBook Url"
+                        name="./facebook"
+                        xtype="textfield"/>
+                    <twitter
+                        jcr:primaryType="nt:unstructured"
+                        fieldDescription="Enter Proper User Id"
+                        fieldLabel="Twitter User Id"
+                        name="./twitter"
+                        xtype="textfield"/>
+                    <google-plus
+                        jcr:primaryType="nt:unstructured"
+                        fieldDescription="Enter Proper User Id Without + Symbol"
+                        fieldLabel="Google Plus User Id"
+                        name="./googleplus"
+                        regex="/^[^+].*$/"
+                        regexText="&lt;b>Please Enter Google Plus user id without + symbol&lt;/b>"
+                        validateOnBlur="true"
+                        xtype="textfield"/>
+                    <pageFollowers
+                        jcr:primaryType="nt:unstructured"
+                        defaultValue="true"
+                        fieldLabel="Page Followers"
+                        name="./pageFollowers"
+                        type="checkbox"
+                        xtype="selection"/>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

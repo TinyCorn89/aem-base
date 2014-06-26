@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    boxMaxWidth="800"
+    height="500"
+    title="Twitter Feed"
+    width="800"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Twitter Account Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <username
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="User Name"
+                        name="./userName"
+                        xtype="textfield"/>
+                    <widgetId
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Widget Id"
+                        name="./widgetId"
+                        xtype="textfield"/>
+                    <theme
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Theme"
+                        name="./theme"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <light
+                                jcr:primaryType="nt:unstructured"
+                                text="Light"
+                                value="light"/>
+                            <dark
+                                jcr:primaryType="nt:unstructured"
+                                text="Dark"
+                                value="dark"/>
+                        </options>
+                    </theme>
+                    <width
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Width"
+                        name="./width"
+                        xtype="textfield"/>
+                    <height
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Height"
+                        name="./height"
+                        xtype="textfield"/>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

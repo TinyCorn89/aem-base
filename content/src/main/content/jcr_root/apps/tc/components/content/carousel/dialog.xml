@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Dialog"
+          height="{Long}100"
+          title="Carousel"
+          width="{Long}200"
+          xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <list
+            jcr:primaryType="cq:Widget"
+            title="List of Banners"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <RadioTabSelection
+                    jcr:primaryType="cq:Widget"
+                    columns="{Long}1"
+                    fieldLabel="Carousel Type:"
+                    name="./selectedTabRadio"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <general
+                            jcr:primaryType="nt:unstructured"
+                            checked="{Boolean}true"
+                            text="General"
+                            value="banners"/>
+                        <advanced
+                            jcr:primaryType="nt:unstructured"
+                            text="Advanced"
+                            value="images"/>
+                    </options>
+                    <listeners
+                        jcr:primaryType="nt:unstructured"
+                        selectionchanged="function(){&#xa;&#x9;&#x9;&#xa;&#x9;var name = this.name;&#xa;&#x9;&#xa;&#x9;var value  = this.getValue();&#xa;&#x9;var str2=&quot;banners&quot;;&#xa;    var str3 =&quot;images&quot;;&#xa;&#x9;&#xa;&#x9;if(value == 'banners'){&#xa;&#x9;var sub=name.lastIndexOf('/');&#xa;&#x9;&#xa; var url=name.substr(sub+1,name.length);&#xa; &#xa; var name2=name.replace(url,str2);&#xa; var name3=name.replace(url,str3)&#xa; &#xa; this.findParentByType('dialog').find('name', name2)[0].show();&#xa; this.findParentByType('dialog').find('name', name3)[0].hide();&#xa;this.findParentByType('dialog').find('name', './timeUnit')[0].hide();&#xa;this.findParentByType('dialog').find('name', './timeInterval')[0].hide();&#xa;this.findParentByType('dialog').find('name', './modifyDate')[0].hide();&#xa;this.findParentByType('dialog').find('name', './lot')[0].hide();&#xa;&#x9;}else if(value == 'images'){&#xa;&#x9;var sub=name.lastIndexOf('/');&#xa;  var url=name.substr(sub+1,name.length);&#xa;  var name2=name.replace(url,str2);&#xa;  var name3=name.replace(url,str3);&#xa;  this.findParentByType('dialog').find('name', name2)[0].hide();&#xa;  this.findParentByType('dialog').find('name', name3)[0].show();&#xa;  this.findParentByType('dialog').find('name', './timeUnit')[0].show();&#xa;this.findParentByType('dialog').find('name', './timeInterval')[0].show();&#xa;this.findParentByType('dialog').find('name', './modifyDate')[0].show();&#xa;this.findParentByType('dialog').find('name', './lot')[0].show();&#xa;}&#xa;}"/>
+                </RadioTabSelection>
+                <images
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Choose images folder path"
+                    hidden="{Boolean}true"
+                    labelSeparator=":"
+                    name="./images"
+                    rootPath="/content/dam"
+                    xtype="pathfield"/>
+                <timeUnit
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Time Unit"
+                    hidden="true"
+                    labelSeparator=":"
+                    maxLength="{Long}50"
+                    name="./timeUnit"
+                    type="select"
+                    width="{Long}300"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <seconds
+                            jcr:primaryType="nt:unstructured"
+                            text="seconds"
+                            value="seconds"/>
+                        <minutes
+                            jcr:primaryType="nt:unstructured"
+                            text="minutes"
+                            value="minutes"/>
+                        <hours
+                            jcr:primaryType="nt:unstructured"
+                            text="hours"
+                            value="hours"/>
+                        <days
+                            jcr:primaryType="nt:unstructured"
+                            text="days"
+                            value="days"/>
+                    </options>
+                </timeUnit>
+                <timeInterval
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Time Interval"
+                    hidden="true"
+                    labelSeparator=":"
+                    maxLength="{Long}50"
+                    name="./timeInterval"
+                    width="{Long}300"
+                    xtype="numberfield">
+                    <listeners
+                        jcr:primaryType="nt:unstructured"
+                        blur="function()&#xa; {&#xa;&#xa; }"/>
+                </timeInterval>
+                <banners
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Please click on + button to add banner "
+                    fieldLabel="List of Banners"
+                    labelSeparator=":"
+                    name="./banners"
+                    xtype="multicompositefield">
+                    <fieldConfigs jcr:primaryType="cq:WidgetCollection">
+                        <sliderImage
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="{Boolean}false"
+                            blankText="Slider Image Path is mandatory"
+                            fieldLabel="Slider Image"
+                            hidden="false"
+                            invalidText="Invalid"
+                            labelSeparator=":"
+                            minLength="{Long}10"
+                            minLengthText="Slider Image Path is Empty"
+                            name="sliderImage"
+                            rootPath="/content/dam"
+                            xtype="pathfield"/>
+                        <category
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Category"
+                            labelSeparator=":"
+                            maxLength="{Long}50"
+                            name="category"
+                            width="{Long}300"
+                            xtype="textfield">
+                            <listeners
+                                jcr:primaryType="nt:unstructured"
+                                blur="function()&#xa; {&#xa;&#xa; }"/>
+                        </category>
+                        <title
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Title"
+                            labelSeparator=":"
+                            maxLength="{Long}50"
+                            name="title"
+                            width="{Long}300"
+                            xtype="textfield"/>
+                        <description
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Description"
+                            labelSeparator=":"
+                            maxLength="{Long}50"
+                            name="description"
+                            width="{Long}300"
+                            xtype="textfield">
+                            <listeners
+                                jcr:primaryType="nt:unstructured"
+                                blur="function()&#xa; {&#xa;&#xa; }"/>
+                        </description>
+                        <imageUrl
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Image Url"
+                            labelSeparator=":"
+                            maxLength="{Long}50"
+                            name="imageUrl"
+                            xtype="pathfield"/>
+                    </fieldConfigs>
+                </banners>
+                <lot
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Number Of Images to Display"
+                    hidden="true"
+                    labelSeparator=":"
+                    maxLength="{Long}50"
+                    name="./lot"
+                    width="{Long}300"
+                    xtype="numberfield">
+                    <listeners
+                        jcr:primaryType="nt:unstructured"
+                        blur="function()&#xa; {&#xa;&#xa; }"/>
+                </lot>
+                <modifyDate
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Modify Date:"
+                    hidden="true"
+                    name="./modifyDate"
+                    type="checkbox"
+                    xtype="selection"/>
+            </items>
+        </list>
+    </items>
+</jcr:root>

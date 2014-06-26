@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+          jcr:primaryType="cq:Dialog"
+          height="600"
+          title="Event Info"
+          width="800"
+          xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <EventInfo
+                jcr:primaryType="cq:Widget"
+                title="Event Info"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title"
+                        maxlength="100"
+                        name="./title"
+                        title="title"
+                        xtype="textfield"/>
+                    <from
+                        jcr:primaryType="nt:unstructured"
+                        allowBlank="false"
+                        fieldLabel="From"
+                        name="./fromDate"
+                        xtype="datetime">
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            change="function(){&#xa;&#xa;var startTimeValue=this.findParentByType('dialog').find('name', this.name)[0].getValue();&#xa;var date = new Date();&#xa;&#x9;&#x9;if(startTimeValue&lt;date){&#x9;&#xa;&#x9;&#x9;alert('PLEASE ENTER DATE GREATER THAN CURRENT DATE');&#xa;&#x9;&#x9;this.findParentByType('dialog').find('name', this.name)[0].setValue(&quot;&quot;);&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;&#x9;&#xa;&#x9;&#x9;}&#xa;&#xa;}"/>
+                    </from>
+                    <to
+                        jcr:primaryType="nt:unstructured"
+                        allowBlank="false"
+                        fieldLabel="To Date"
+                        name="./toDate"
+                        xtype="datetime">
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            blur="function(){&#xa;var date = new Date();&#xa;var startTimeValue=this.findParentByType('dialog').find('name', this.name)[0].getValue();&#xa;var earlierTimeValue=this.findParentByType(&quot;dialog&quot;).getField(&quot;./fromDate&quot;).getValue();&#xa;&#x9;&#x9;if(startTimeValue&lt;date){&#x9;&#xa;&#x9;&#x9;&#x9;alert('PLEASE ENTER DATE GREATER THAN CURRENT DATE');&#xa;&#x9;&#x9;&#x9;this.findParentByType('dialog').find('name', this.name)[0].setValue(&quot;&quot;);&#xa;&#x9;&#x9;}&#xa;&#x9;&#x9;else if(startTimeValue&lt;earlierTimeValue){&#x9;&#xa;&#x9;&#x9;&#x9;alert('PLEASE ENTER DATE GREATER THAN START DATE');&#xa;&#x9;&#x9;&#x9;this.findParentByType('dialog').find('name', this.name)[0].setValue(&quot;&quot;);&#xa;&#x9;&#x9;}&#xa;&#xa;}"/>
+                    </to>
+                    <city
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="City"
+                        name="./city"
+                        xtype="textfield"/>
+                    <state
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="State"
+                        name="./state"
+                        xtype="textfield"/>
+                    <country
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Country"
+                        name="./country"
+                        xtype="textfield"/>
+                    <zipcode
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Zipcode"
+                        name="./zipcode"
+                        xtype="textfield"/>
+                    <showdirections
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Show Google direction link"
+                        name="./showDirections"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <venue
+                        jcr:primaryType="nt:unstructured"
+                        fieldLabel="Venue Name"
+                        name="./venueName"
+                        xtype="textfield"/>
+                    <description
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Description"
+                        name="./description"
+                        width="400"
+                        xtype="richtext"/>
+                </items>
+            </EventInfo>
+            <image
+                jcr:primaryType="cq:Widget"
+                cropParameter="./imageCrop"
+                ddGroups="[media]"
+                fileNameParameter="./fileName"
+                fileReferenceParameter="./fileReference"
+                mapParameter="./imageMap"
+                name="./file"
+                requestSuffix=".img.png"
+                rotateParameter="./imageRotate"
+                title="Image"
+                xtype="html5smartimage"/>
+        </items>
+    </items>
+</jcr:root>
