@@ -1,2 +1,0 @@
-modernizr-2.7.0.js
-ie-resolver.js
