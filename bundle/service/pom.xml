@@ -101,6 +101,36 @@
 			<version>1.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.day.cq.mcm</groupId>
+			<artifactId>cq-mcm-core</artifactId>
+			<version>5.6.8</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.day.cq</groupId>
+			<artifactId>cq-mailer</artifactId>
+			<version>5.6.4</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>com.day.cq</groupId>
+			<artifactId>cq-security</artifactId>
+			<version>5.6.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.day.cq</groupId>
+			<artifactId>cq-security-api</artifactId>
+			<version>5.6.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.day.cq</groupId>
+			<artifactId>cq-retriever</artifactId>
+			<version>5.6.2</version>
+		</dependency>
 	</dependencies>
 
 </project>
