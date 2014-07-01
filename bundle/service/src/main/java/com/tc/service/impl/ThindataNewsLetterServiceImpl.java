@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.tc.model.User;
 import com.tc.service.api.NewsLetterService;
 
 @Component(label = "Thindata News Letter Service", description = "Thindata news letter service for subscribe, unsubscribe and broadcast emails", immediate = true, metatype = true)
@@ -96,18 +95,7 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 
 	}
 
-	public static void main(String a[]) {
-		ThindataNewsLetterServiceImpl service = new ThindataNewsLetterServiceImpl();
-		// service.getSubscriptions("rammohany@virtusa.com");
-		// service.subscribe("rammohany@virtusa.com", "UNIS List 1");
-		// service.unSubscribe("rammohany@virtusa.com", "UNIS List 2");
-		service.broadcast(
-				"Hello world subject...",
-				"<b>Hello world welcome to thindata EMS...and successfully implementated in POC<b/>",
-				"UNIS List 1");
-	}
-
-	public void broadcast(String subject, String htmlContent,
+		public void broadcast(String subject, String htmlContent,
 			String mailListName) {
 
 		try {
@@ -307,21 +295,16 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 	}
 
 	@Override
-	public void getSubscriptions(String emailId) {
+	public void getSubscriptions(String emailId, List<String> mailList) {
 		try {
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory
 					.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory
 					.createConnection();
 
-			User user = new User();
-			List<String> mailList = new ArrayList<String>();
-			mailList.add("UNIS List 1");
-			mailList.add("UNIS List 2");
-			user.setMailList(mailList);
-			user.setEmailId(emailId);
+			
 			SOAPMessage soapResponse = soapConnection.call(
-					createGetEmailSubscriptionsSOAPRequest(user),
+					createGetEmailSubscriptionsSOAPRequest(emailId, mailList),
 					mailListServerURL);
 			logSOAPResponse(soapResponse);
 		} catch (Exception e) {
@@ -428,7 +411,7 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 		return soapMessage;
 	}
 
-	private SOAPMessage createGetEmailSubscriptionsSOAPRequest(User user)
+	private SOAPMessage createGetEmailSubscriptionsSOAPRequest(String emailId, List<String> mailList)
 			throws Exception {
 		MessageFactory messageFactory = MessageFactory.newInstance();
 		SOAPMessage soapMessage = messageFactory.createMessage();
@@ -456,7 +439,7 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 		SOAPElement soapBodyElem = soapBody.addChildElement(bodyName);
 		SOAPElement emailElement = soapBodyElem.addChildElement("EmailAddress",
 				"wsi");
-		emailElement.addTextNode(user.getEmailId());
+		emailElement.addTextNode(emailId);
 		/*
 		 * SOAPElement s2 = soapBodyElem.addChildElement("ListNames", "wsi");
 		 * List<String> mailList = user.getMailList(); for (String mailElement :
