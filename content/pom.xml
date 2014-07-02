@@ -54,7 +54,6 @@
                         </filter>
                         <filter>
                             <root>/etc/designs/tc</root>
-                            <mode>merge</mode>
                         </filter>
                         <filter>
                             <root>/etc/appsconfig/tc</root>
