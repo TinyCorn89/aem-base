@@ -31,28 +31,33 @@ public class FlipbookAction extends BaseAction {
 		LOG.info("Entered getImagesPaths method");
 		FlipbookBean flipbookBean = null;
 		Node currentNode = getCurrentNode();
-		String parentPagePath = null;
+		String pdfPath = null;
 		List<String> imagesPathList = null;
 		if(currentNode != null) {
 			try {
 				if(currentNode.hasProperty("parentPage")) {
-					parentPagePath = currentNode.getProperty("./parentPage").getString();
-					Node imagesParentNode = getSlingRequest().getResourceResolver().getResource(parentPagePath).adaptTo(Node.class);
-					NodeIterator childNodes = imagesParentNode.getNodes();
-					Node imageNode = null;
-					String imageName = null;
-					String imagePath = null;
-					flipbookBean = new FlipbookBean();
-					imagesPathList = new ArrayList<String>();
-					while(childNodes.hasNext()) {
-						imageNode = childNodes.nextNode();
-						imageName = imageNode.getName();
-						if(!imageName.equals("jcr:content")) {
-							imagePath = imageNode.getPath();
-							imagesPathList.add(imagePath);
+					pdfPath = currentNode.getProperty("./parentPage").getString();
+					Node imagesParentNode = getSlingRequest().getResourceResolver().getResource(pdfPath).adaptTo(Node.class);
+					if(imagesParentNode.hasNode("jcr:content") && imagesParentNode.getNode("jcr:content").hasNode("renditions")) {
+						Node renditionsNode = imagesParentNode.getNode("jcr:content").getNode("renditions");
+						if(renditionsNode.hasNodes()) {
+							NodeIterator imageNodes = renditionsNode.getNodes();
+							Node imageNode = null;
+							String imageName = null;
+							String imagePath = null;
+							flipbookBean = new FlipbookBean();
+							imagesPathList = new ArrayList<String>();
+							while(imageNodes.hasNext()) {
+								imageNode = imageNodes.nextNode();
+								imageName = imageNode.getName();
+								if(imageName.endsWith(".jpg")) {
+									imagePath = imageNode.getPath();
+									imagesPathList.add(imagePath);
+								}
+							}
+							flipbookBean.setImagesPathList(imagesPathList);
 						}
 					}
-					flipbookBean.setImagesPathList(imagesPathList);
 				}
 			} catch (ValueFormatException e) {
 				e.printStackTrace();
