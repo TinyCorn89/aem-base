@@ -65,6 +65,9 @@
                         <filter>
                             <root>/etc/cloudservices/facebookconnect/tcfbconnect</root>
                         </filter>
+                        <filter>
+                            <root>/content/campaigns/tc</root>
+                        </filter>
                     </filters>
                 </configuration>
                 <executions>

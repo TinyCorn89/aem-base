@@ -5,4 +5,5 @@
     <filter root="/etc/designs/tc" mode="merge"/>
     <filter root="/etc/scaffolding"/>
     <filter root="/etc/tags/tc"/>
+    <filter root="/content/campaigns/tc"/>
 </workspaceFilter>

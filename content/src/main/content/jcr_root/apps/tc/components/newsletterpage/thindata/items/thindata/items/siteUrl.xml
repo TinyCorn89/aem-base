@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Widget"
+    allowBlank="{Boolean}false"
+    fieldDescription="Publish server URL used for prefixing the relative URLs in the news letter"
+    fieldLabel="Publish server URL"
+    name="siteUrl"
+    xtype="textfield">
+    <listeners
+        jcr:primaryType="nt:unstructured"
+        loadcontent="function(){var profile = CQ.mcm.utils.Newsletter.loadProfile(CQ.User.getCurrentUser()); if(profile &amp;&amp; profile.email) {this.setValue(profile.email);}}"/>
+</jcr:root>

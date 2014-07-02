@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    formUrl="/bin/services/thindataservlet"
+    height="450"
+    title="Thindata Send Newsletter">
+    <listeners
+        jcr:primaryType="nt:unstructured"
+        loadcontent="function(dialog, recs, opts, success){if(dialog.path) {dialog.addParams({'newsletter':dialog.path});}}"/>
+    <items
+        jcr:primaryType="nt:unstructured"
+        path="/apps/tc/components/newsletterpage/thindata/items/thindata.items.infinity.json"
+        xtype="cqinclude"/>
+    <buttons jcr:primaryType="cq:WidgetCollection">
+        <send
+            jcr:primaryType="cq:Widget"
+            handler="function(button){var dialog = button.findParentByType('dialog'); var box=dialog.findByType('displayfield');if (dialog &amp;&amp; box){CQ.mcm.utils.Newsletter.thindatasend(dialog, box[0])}}"
+            text="Send"/>
+        <close
+            jcr:primaryType="cq:Widget"
+            handler="function(button){this.hide();}"
+            text="Close"/>
+    </buttons>
+</jcr:root>

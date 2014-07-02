@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:WidgetCollection">
+    <thindata
+        jcr:primaryType="nt:unstructured"
+        nextHandler="function(dialog) {var res = dialog.findByType('displayfield');  if (res &amp;&amp; res[0]){CQ.mcm.utils.Newsletter.flighttest(dialog, res[0], function(dialog){dialog.nextButton.setHandler(dialog.nextHandler, dialog);}, function(dialog){dialog.nextButton.setHandler(dialog.nextHandler, dialog);dialog.nextButton.setText(CQ.I18n.getMessage('Ignore &amp; Proceed'));});}}"
+        xtype="panel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <mailListName/>
+            <siteUrl/>
+            <action/>
+            <url/>
+        </items>
+    </thindata>
+</jcr:root>

@@ -45,6 +45,8 @@ import com.tc.service.api.NewsLetterService;
 @Service({ NewsLetterService.class })
 public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 
+	private static final String WEB_SERVICE_NAMESPACE = "wsi";
+
 	@Property(name = "listQName", description = "Maillist webservice namespace", value = "https://login.thindata.com/ws/transcontinental/listrecipientadmin")
 	private String listQName = "https://login.thindata.com/ws/transcontinental/listrecipientadmin";
 
@@ -151,20 +153,20 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 
 		SOAPFactory soapFactory = SOAPFactory.newInstance();
 		Name headerName = soapFactory.createName("WebServiceCredentials",
-				"wsi", broadcastQName);
+				WEB_SERVICE_NAMESPACE, broadcastQName);
 		SOAPHeaderElement cred = soaph.addHeaderElement(headerName);
 
 		addHeader(cred, "CompanyName", companyName);
 		addHeader(cred, "Username", userName);
 		addHeader(cred, "Password", password);
 
-		Name bodyName = soapFactory.createName("SendBroadcast ", "wsi",
+		Name bodyName = soapFactory.createName("SendBroadcast ", WEB_SERVICE_NAMESPACE,
 				broadcastQName);
 
 		SOAPBody soapBody = envelope.getBody();
 		SOAPElement soapBodyElem = soapBody.addChildElement(bodyName);
 		SOAPElement broadcastIdElement = soapBodyElem.addChildElement(
-				"BroadcastID", "wsi");
+				"BroadcastID", WEB_SERVICE_NAMESPACE);
 		broadcastIdElement.addTextNode(Integer.toString(broadcastId));
 
 		MimeHeaders headers = soapMessage.getMimeHeaders();
@@ -200,29 +202,37 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 
 		SOAPFactory soapFactory = SOAPFactory.newInstance();
 		Name headerName = soapFactory.createName("WebServiceCredentials",
-				"wsi", broadcastQName);
+				WEB_SERVICE_NAMESPACE, broadcastQName);
 		SOAPHeaderElement cred = soaph.addHeaderElement(headerName);
 
 		addHeader(cred, "CompanyName", companyName);
 		addHeader(cred, "Username", userName);
 		addHeader(cred, "Password", password);
 
-		Name bodyName = soapFactory.createName("CreateBroadcast", "wsi",
+		Name bodyName = soapFactory.createName("CreateBroadcast", WEB_SERVICE_NAMESPACE,
 				broadcastQName);
 
 		SOAPBody soapBody = envelope.getBody();
 		SOAPElement soapBodyElem = soapBody.addChildElement(bodyName);
 		SOAPElement emailAddressSoapElement = soapBodyElem.addChildElement(
-				"CampaignID", "wsi");
+				"CampaignID", WEB_SERVICE_NAMESPACE);
 		emailAddressSoapElement.addTextNode("0");
 
 		SOAPElement listNameSoapElement = soapBodyElem.addChildElement(
-				"ListName", "wsi");
+				"ListName", WEB_SERVICE_NAMESPACE);
 		listNameSoapElement.addTextNode(mailListName);
 
 		SOAPElement mimeTypeSoapElement = soapBodyElem.addChildElement("Type",
-				"wsi");
+				WEB_SERVICE_NAMESPACE);
 		mimeTypeSoapElement.addTextNode("Normal");
+
+		/*
+		 * This parameter must be populated if the SendToSubscribers input parameter 
+		 * has a value of “false”, otherwise this parameter can be omitted. 
+		 * If populated, only one BroadcastRecipient element should be included in the array. 
+		 * Only the DatabaseID and SendToSubscribers (0 = no, 1 = yes) 
+		 * properties of the element should be populated.
+		 */
 
 		/*
 		 * SOAPElement broadcastRecipientsSoapElement =
@@ -233,21 +243,23 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 		 * broadcastRecipientSoapElement.addChildElement("DatabaseName", "wsi");
 		 * databaseElement.addTextNode(database);
 		 */
+		
+		 
 
 		SOAPElement sendToSubscribersElement = soapBodyElem.addChildElement(
-				"SendToSubscribers", "wsi");
+				"SendToSubscribers", WEB_SERVICE_NAMESPACE);
 		sendToSubscribersElement.addTextNode("true");
 
 		SOAPElement subjectElement = soapBodyElem.addChildElement("Subject",
-				"wsi");
+				WEB_SERVICE_NAMESPACE);
 		subjectElement.addTextNode(subject);
 
 		SOAPElement htmlContentElement = soapBodyElem.addChildElement(
-				"HTMLContent", "wsi");
+				"HTMLContent", WEB_SERVICE_NAMESPACE);
 		htmlContentElement.addTextNode(htmlContent);
 
 		SOAPElement sendDateTimeElement = soapBodyElem.addChildElement(
-				"SendDateTime", "wsi");
+				"SendDateTime", WEB_SERVICE_NAMESPACE);
 		sendDateTimeElement.addTextNode("2008-01-31T01:01:01");
 
 		MimeHeaders headers = soapMessage.getMimeHeaders();
@@ -315,7 +327,7 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 
 	private void addHeader(SOAPHeaderElement head, String name, String value)
 			throws SOAPException {
-		SOAPElement element = head.addChildElement(name, "wsi");
+		SOAPElement element = head.addChildElement(name, WEB_SERVICE_NAMESPACE);
 		element.addTextNode(value);
 
 	}
@@ -334,28 +346,28 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 
 		SOAPFactory soapFactory = SOAPFactory.newInstance();
 		Name headerName = soapFactory.createName("WebServiceCredentials",
-				"wsi", listQName);
+				WEB_SERVICE_NAMESPACE, listQName);
 		SOAPHeaderElement cred = soaph.addHeaderElement(headerName);
 
 		addHeader(cred, "CompanyName", companyName);
 		addHeader(cred, "Username", userName);
 		addHeader(cred, "Password", password);
 
-		Name bodyName = soapFactory.createName("SubscribeEmail", "wsi",
+		Name bodyName = soapFactory.createName("SubscribeEmail", WEB_SERVICE_NAMESPACE,
 				listQName);
 
 		SOAPBody soapBody = envelope.getBody();
 		SOAPElement soapBodyElem = soapBody.addChildElement(bodyName);
 		SOAPElement emailAddressSoapElement = soapBodyElem.addChildElement(
-				"EmailAddress", "wsi");
+				"EmailAddress", WEB_SERVICE_NAMESPACE);
 		emailAddressSoapElement.addTextNode(emailId);
 		SOAPElement listNameSoapElement = soapBodyElem.addChildElement(
-				"ListName", "wsi");
+				"ListName", WEB_SERVICE_NAMESPACE);
 		listNameSoapElement.addTextNode(listName);
 		// addBody(listNameSoapElement, "string", listName);
 
 		SOAPElement mimeTypeSoapElement = soapBodyElem.addChildElement(
-				"MimeType", "wsi");
+				"MimeType", WEB_SERVICE_NAMESPACE);
 		mimeTypeSoapElement.addTextNode("Html");
 
 		MimeHeaders headers = soapMessage.getMimeHeaders();
@@ -382,23 +394,23 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 
 		SOAPFactory soapFactory = SOAPFactory.newInstance();
 		Name headerName = soapFactory.createName("WebServiceCredentials",
-				"wsi", listQName);
+				WEB_SERVICE_NAMESPACE, listQName);
 		SOAPHeaderElement cred = soaph.addHeaderElement(headerName);
 
 		addHeader(cred, "CompanyName", companyName);
 		addHeader(cred, "Username", userName);
 		addHeader(cred, "Password", password);
 
-		Name bodyName = soapFactory.createName("UnsubscribeEmail", "wsi",
+		Name bodyName = soapFactory.createName("UnsubscribeEmail", WEB_SERVICE_NAMESPACE,
 				listQName);
 
 		SOAPBody soapBody = envelope.getBody();
 		SOAPElement soapBodyElem = soapBody.addChildElement(bodyName);
 		SOAPElement emailAddressSoapElement = soapBodyElem.addChildElement(
-				"EmailAddress", "wsi");
+				"EmailAddress", WEB_SERVICE_NAMESPACE);
 		emailAddressSoapElement.addTextNode(emailId);
 		SOAPElement listNameSoapElement = soapBodyElem.addChildElement(
-				"ListName", "wsi");
+				"ListName", WEB_SERVICE_NAMESPACE);
 		listNameSoapElement.addTextNode(listName);
 
 		MimeHeaders headers = soapMessage.getMimeHeaders();
@@ -425,20 +437,20 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 
 		SOAPFactory soapFactory = SOAPFactory.newInstance();
 		Name headerName = soapFactory.createName("WebServiceCredentials",
-				"wsi", listQName);
+				WEB_SERVICE_NAMESPACE, listQName);
 		SOAPHeaderElement cred = soaph.addHeaderElement(headerName);
 
 		addHeader(cred, "CompanyName", companyName);
 		addHeader(cred, "Username", userName);
 		addHeader(cred, "Password", password);
 
-		Name bodyName = soapFactory.createName("GetEmailSubscriptions ", "wsi",
+		Name bodyName = soapFactory.createName("GetEmailSubscriptions ", WEB_SERVICE_NAMESPACE,
 				listQName);
 
 		SOAPBody soapBody = envelope.getBody();
 		SOAPElement soapBodyElem = soapBody.addChildElement(bodyName);
 		SOAPElement emailElement = soapBodyElem.addChildElement("EmailAddress",
-				"wsi");
+				WEB_SERVICE_NAMESPACE);
 		emailElement.addTextNode(emailId);
 		/*
 		 * SOAPElement s2 = soapBodyElem.addChildElement("ListNames", "wsi");
@@ -476,13 +488,13 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 				.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		Source sourceContent = soapResponse.getSOAPPart().getContent();
-		LOG.info("\nResponse SOAP Message = ");
+		LOG.debug("\nResponse SOAP Message = ");
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		StreamResult result = new StreamResult(os);
 
 		transformer.transform(sourceContent, result);
 		String resultStr = os.toString("UTF-8");
-		LOG.info(resultStr);
+		LOG.debug(resultStr);
 	}
 
 }

@@ -79,7 +79,7 @@ public class ThindataNewsLetterServlet extends BaseSlingServlet {
 
 		LOG.info("newsLetterPageUrl=" + newsLetterPageUrl);
 		LOG.info("mailListName=" + mailListName);
-		LOG.info("siteUrl=" + siteUrl);
+		
 
 		Resource resource = request.getResourceResolver().resolve(
 				newsLetterPageUrl);
@@ -93,7 +93,11 @@ public class ThindataNewsLetterServlet extends BaseSlingServlet {
 			news = aemNewsLetterService.buildNewsletter(page);
 			String subject = news.getSubject();
 			LOG.info(subject);
-
+			if (siteUrl.endsWith("/")) {
+				siteUrl = siteUrl.substring(0, siteUrl.length()-1);
+			}
+			LOG.info("siteUrl=" + siteUrl);
+			
 			URI uri = new URI(siteUrl + newsLetterPageUrl);
 			String baseUri = uri.resolve("/").toString();
 			ThindataEmailRetrieverStorage thindataRetriever = new ThindataEmailRetrieverStorage();
