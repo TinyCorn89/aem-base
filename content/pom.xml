@@ -68,6 +68,16 @@
                         <filter>
                             <root>/content/campaigns/tc</root>
                         </filter>
+                        <filter>
+                            <root>/content/tc</root>
+                        </filter>
+                        <filter>
+                            <root>/etc/workflow/models/tc_pdf2images</root>
+                        </filter>
+                        <filter>
+                            <root>/etc/workflow/launcher/config/-1941376282</root>
+                        </filter>
+                            
                     </filters>
                 </configuration>
                 <executions>

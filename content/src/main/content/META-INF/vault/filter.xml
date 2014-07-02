@@ -6,4 +6,7 @@
     <filter root="/etc/scaffolding"/>
     <filter root="/etc/tags/tc"/>
     <filter root="/content/campaigns/tc"/>
+    <filter root="/content/tc"/>
+    <filter root="/etc/workflow/models/tc_pdf2images"/>
+    <filter root="/etc/workflow/launcher/config/-1941376282"/>
 </workspaceFilter>
