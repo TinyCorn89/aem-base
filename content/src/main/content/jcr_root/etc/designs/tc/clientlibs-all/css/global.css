@@ -50,4 +50,18 @@ body {
     float: right;
     width: 50%;
 }
+form .form_row {
+display: block;
+font-size: 13px;
+line-height: 24px;
+color: #666;
+clear: both;
+position: relative;
+left: 20px;
+}
+
+#lac {
+width: 490px;
+margin: 0 auto;
+}
 

@@ -7,4 +7,7 @@
 --%>
 <%@include file="/apps/tc/global/global.jsp"%>
 <%@page session="false"%>
+<div id="lac" >
 <cq:include path="content-region" resourceType="foundation/components/parsys" />
+
+</div>
