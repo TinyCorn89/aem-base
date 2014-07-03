@@ -26,7 +26,7 @@
                   org.osgi.framework.ServiceReference,java.util.ArrayList" %><%
 %><%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
-System.out.println("forward ==="+ FormResourceEdit.getPostResourcePath(slingRequest));
+
 BundleContext bundleContext = FrameworkUtil.getBundle(
 			          NewsLetterService.class).getBundleContext();
 			ServiceReference serviceReference = bundleContext
