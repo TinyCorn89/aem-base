@@ -1,0 +1,20 @@
+# Ignore compilation results
+target
+bundle/src/main/resources
+framework/src/main/resources
+gateway/src/main/resources
+pdf2jpg/.settings
+pdf2jpg/.settings
+pdf2jpg/.gitignore
+ 
+# Ignore IDE and Operating System artifacts
+.idea
+.classpath
+.metadata
+.project
+.settings
+maven-eclipse.xml
+*.iml
+*.ipr
+*.iws
+.DS_Store
