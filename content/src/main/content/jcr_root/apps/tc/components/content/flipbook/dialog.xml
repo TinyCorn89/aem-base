@@ -14,12 +14,15 @@
                 jcr:primaryType="cq:Panel"
                 title="Flipbook">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <parentPage
+                    <pdfPath
                         jcr:primaryType="cq:Widget"
-                        emptyText="Select Parent Page of Images"
-                        fieldLabel="Parent Page"
-                        name="./parentPage"
-                        rootPath="/content/dam/"
+                        allowBlank="{Boolean}false"
+                        blankText="Please select a PDF"
+                        emptyText="Select a PDF"
+                        fieldDescription="Select a PDF to convert it into a Flipbook"
+                        fieldLabel="PDF"
+                        name="./pdfPath"
+                        rootPath="/content/dam"
                         xtype="pathfield"/>
                 </items>
             </tab1>
