@@ -8,4 +8,5 @@ public interface NewsLetterService {
 	public void unSubscribe(String emailId, String listName);
 	public void getSubscriptions(String emailId, List<String> mailList);
 	public void broadcast(String subject, String htmlContent, String mailListName);
+	public void schedule(String dateTime, String subject, String htmlContent, String mailListName);
 }

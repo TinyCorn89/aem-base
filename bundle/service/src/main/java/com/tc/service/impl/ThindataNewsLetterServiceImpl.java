@@ -3,7 +3,9 @@ package com.tc.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Dictionary;
 import java.util.List;
 
@@ -68,6 +70,25 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 	@Property(name = "password", description = "Password to be used during authentication", value = "shepard2163")
 	private String password = "shepard2163";
 
+	/*public static void main(String a[]) throws Exception  {
+		ThindataNewsLetterServiceImpl service = new ThindataNewsLetterServiceImpl();
+		Date d1 = new Date();
+		String dStr = new SimpleDateFormat("2014-7-3 4:0:0").format(d1);
+		
+		
+		
+		String dateFormatStr = "yyyy-MM-dd";
+		String timeFormatStr = "HH:mm:ss";
+		
+		Date dateObj = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dStr);
+		String formattedDate = new SimpleDateFormat(dateFormatStr).format(dateObj);
+		String formattedTime = new SimpleDateFormat(timeFormatStr).format(dateObj);
+		String formattedDateTime = formattedDate + "T" + formattedTime;
+		System.out.println(formattedDateTime);
+		//service.schedule(new SimpleDateFormat("2014-07-03 13:15:00").format(d1), "Test schedule1", "Email scheduled at 2014-07-03 13:15:00", "UNIS List 1");
+		
+	}*/
+	
 	/**
 	 * logger object for handling log messages.
 	 */
@@ -494,7 +515,107 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 
 		transformer.transform(sourceContent, result);
 		String resultStr = os.toString("UTF-8");
-		LOG.debug(resultStr);
+		LOG.info(resultStr);
+	}
+
+	@Override
+	public void schedule(String dateTime, String subject, String htmlContent,
+			String mailListName) {
+		
+		try {
+			
+			
+			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory
+					.newInstance();
+			SOAPConnection soapConnection = soapConnectionFactory
+					.createConnection();
+
+			SOAPMessage soapResponse = soapConnection.call(
+					createBroadcastSOAPRequest(subject, htmlContent,
+							mailListName), broadcastServerURL);
+			int broadcastId = getBroadcastId(soapResponse);
+			LOG.info("Scheduled Broadcast id {} ", broadcastId);
+			
+			logSOAPResponse(soapResponse);
+			scheduleBroadcast(broadcastId, dateTime);
+			
+
+		} catch (Exception e) {
+			LOG.error("Error while scheduling" , e);
+		}
+	}
+	
+	private void scheduleBroadcast(int broadcastId, String dateTime) {
+		try {
+			LOG.info("Scheduling broadcastId {} at {}", broadcastId, dateTime);
+			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory
+					.newInstance();
+			SOAPConnection soapConnection = soapConnectionFactory
+					.createConnection();
+
+			SOAPMessage soapResponse = soapConnection.call(
+					createSceduleBroadcastSOAPRequest(broadcastId, dateTime),
+					broadcastServerURL);
+
+			logSOAPResponse(soapResponse);
+
+		} catch (Exception e) {
+			LOG.error("Error while scheduling" , e);
+		}
+	}
+	
+	private SOAPMessage createSceduleBroadcastSOAPRequest(int broadcastId, String dateTime)
+			throws Exception {
+		MessageFactory messageFactory = MessageFactory.newInstance();
+		SOAPMessage soapMessage = messageFactory.createMessage();
+		SOAPPart soapPart = soapMessage.getSOAPPart();
+
+		// SOAP Envelope
+		SOAPEnvelope envelope = soapPart.getEnvelope();
+
+		// soap header
+		SOAPHeader soaph = envelope.getHeader();
+
+		SOAPFactory soapFactory = SOAPFactory.newInstance();
+		Name headerName = soapFactory.createName("WebServiceCredentials",
+				WEB_SERVICE_NAMESPACE, broadcastQName);
+		SOAPHeaderElement cred = soaph.addHeaderElement(headerName);
+
+		addHeader(cred, "CompanyName", companyName);
+		addHeader(cred, "Username", userName);
+		addHeader(cred, "Password", password);
+
+		Name bodyName = soapFactory.createName("ScheduleBroadcast ", WEB_SERVICE_NAMESPACE,
+				broadcastQName);
+
+		SOAPBody soapBody = envelope.getBody();
+		SOAPElement soapBodyElem = soapBody.addChildElement(bodyName);
+		SOAPElement broadcastIdElement = soapBodyElem.addChildElement(
+				"BroadcastID", WEB_SERVICE_NAMESPACE);
+		broadcastIdElement.addTextNode(Integer.toString(broadcastId));
+		
+		SOAPElement dateTimeElement = soapBodyElem.addChildElement(
+				"SendDateTime", WEB_SERVICE_NAMESPACE);
+		//yyyy-mm-ddThh:mm:ss
+		String dateFormatStr = "yyyy-MM-dd";
+		String timeFormatStr = "HH:mm:ss";
+		
+		Date dateObj = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime);
+		String formattedDate = new SimpleDateFormat(dateFormatStr).format(dateObj);
+		String formattedTime = new SimpleDateFormat(timeFormatStr).format(dateObj);
+		String formattedDateTime = formattedDate + "T" + formattedTime;
+		LOG.info("formattedDateTime=" + formattedDateTime);
+		dateTimeElement.addTextNode(formattedDateTime);
+
+		MimeHeaders headers = soapMessage.getMimeHeaders();
+		headers.addHeader("SOAPAction", broadcastQName + "/ScheduleBroadcast");
+
+		soapMessage.saveChanges();
+
+		/* Print the request message */
+		logSoapMessage(soapMessage);
+
+		return soapMessage;
 	}
 
 }
