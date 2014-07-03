@@ -2,7 +2,7 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/tc"/>
     <filter root="/apps/sling"/>
-    <filter root="/etc/designs/tc"/>
+    <filter root="/etc/designs/tc" mode="merge"/>
     <filter root="/etc/scaffolding"/>
     <filter root="/etc/tags/tc"/>
     <filter root="/content/campaigns/tc"/>
