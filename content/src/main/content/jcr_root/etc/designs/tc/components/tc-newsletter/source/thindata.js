@@ -1,6 +1,6 @@
 CQ.mcm.utils.Newsletter.thindatasend = function(dialog, box, successCb, failureCb) {
 
-    console.log(dialog);
+
     var formUrl = dialog.formUrl;
     console.log(dialog.formUrl);
     var mailList = dialog.items.get(0).items.get(0).getValue();
@@ -11,7 +11,10 @@ CQ.mcm.utils.Newsletter.thindatasend = function(dialog, box, successCb, failureC
 
     //formUrl = formUrl + "?action=broadcast&mailListName=" + mailList  + "&url=" + curPageUrl
     console.log(formUrl)
+	var d = dialog.items.get(0).items.get(4).items.get(0).getValue();
 
+    var dateStr = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()  + " " +  d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+    console.log(dateStr);
     var tpl = CQ.mcm.utils.Newsletter.FLIGHT_TEST_RESULT_TMPL;
     var heading = CQ.I18n.getMessage("Result");
 
@@ -19,7 +22,8 @@ CQ.mcm.utils.Newsletter.thindatasend = function(dialog, box, successCb, failureC
         mailListName:mailList,
         url:curPageUrl,
         action:"broadcast",
-        siteUrl:prefixUrl
+        siteUrl:prefixUrl,
+        date:dateStr
     };
 
 	$.ajax({
