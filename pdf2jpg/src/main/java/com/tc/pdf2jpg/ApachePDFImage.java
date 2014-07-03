@@ -14,18 +14,19 @@ import org.apache.pdfbox.pdmodel.PDPage;
 
 public class ApachePDFImage {
 	public static void main(String[] args) throws Exception {
+		//ar[0] -filename
 
-		selectPdf(args[0]);
+		convertPDF(args[0]);
 
 	}
 
 	// allow images selection for converting
-	public static void selectPdf(String name) throws Exception {
+	public static void convertPDF(String name) throws Exception {
 		File sourceFile = new File(name);
-		convertPDFToJPG(sourceFile.toString());
+		convertPDFToImages(sourceFile.toString());
 	}
 
-	public static void convertPDFToJPG(String src)
+	public static void convertPDFToImages(String src)
 			throws FileNotFoundException, IOException {
 
 
@@ -43,14 +44,16 @@ public class ApachePDFImage {
 		while (i.hasNext()) {
 			PDPage page = i.next();
 			BufferedImage bi = page.convertToImage();
-			ImageIO.write(bi, "jpg", new File("pdfimage" + count + ".jpg"));
+			StringBuilder imageName=new StringBuilder (src.substring(0, src.lastIndexOf('.'))).append("_image").append(count).append(".jpg");
+			ImageIO.write(bi, "jpg", new File(imageName.toString()));
+			 System.out.println("completed..."+count);
 			count++;
-            System.out.println("Please wait..."+count);
+
 		}
-         
+
 		System.out.println("Conversion complete");
 
-		
+
 	}
 
 }
