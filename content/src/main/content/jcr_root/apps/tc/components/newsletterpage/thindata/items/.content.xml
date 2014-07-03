@@ -10,6 +10,7 @@
             <siteUrl/>
             <action/>
             <url/>
+            <ontime/>
         </items>
     </thindata>
 </jcr:root>
