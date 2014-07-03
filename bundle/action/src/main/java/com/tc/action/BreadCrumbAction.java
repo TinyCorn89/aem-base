@@ -76,8 +76,6 @@ public class BreadCrumbAction extends BaseAction{
 	                breadCrumblevelBean.setLevel(level);
 	                listOfBread.add(breadCrumblevelBean);
 	                level++;
-	                System.out.print("cool"+level);
-	            
 	            }
 	            
 	            breadCrumbBean.setLevellist(listOfBread);

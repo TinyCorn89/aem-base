@@ -63,6 +63,7 @@ public class ThindataNewsLetterServlet extends BaseSlingServlet {
 		String newsLetterPageUrl = request.getParameter("url");
 		String mailListName = request.getParameter("mailListName");
 		String siteUrl = request.getParameter("siteUrl");
+		String schedule = request.getParameter("date");
 		
 		if (StringUtils.isEmpty(newsLetterPageUrl)) {
 			LOG.error("newsLetterPageUrl parameter is empty, cannot send news letter");
@@ -76,10 +77,10 @@ public class ThindataNewsLetterServlet extends BaseSlingServlet {
 			LOG.error("siteUrl parameter is empty, cannot send news letter");
 			return;
 		}
-
+		
 		LOG.info("newsLetterPageUrl=" + newsLetterPageUrl);
 		LOG.info("mailListName=" + mailListName);
-		
+		LOG.info("scheduleDate=" + schedule);
 
 		Resource resource = request.getResourceResolver().resolve(
 				newsLetterPageUrl);
@@ -104,7 +105,13 @@ public class ThindataNewsLetterServlet extends BaseSlingServlet {
 			retriever.retrieve(uri.toString(), baseUri, thindataRetriever);
 			String htmlContent = thindataRetriever.getContent();
 
-			newsLetter.broadcast(subject, htmlContent, mailListName);
+			
+			if (StringUtils.isEmpty(schedule)) {
+				newsLetter.broadcast(subject, htmlContent, mailListName);
+			} else {
+				newsLetter.schedule(schedule, subject, htmlContent, mailListName);
+			}
+			
 
 		} catch (Exception e) {
 			LOG.error("Error sending newsletter", e);

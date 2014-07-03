@@ -13,6 +13,12 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 
 public class ApachePDFImage {
+
+    /**
+     *
+     * @param args[0] - pdffilename to be converted into jpeg
+     * @throws Exception
+     */
 	public static void main(String[] args) throws Exception {
 		//ar[0] -filename
 
