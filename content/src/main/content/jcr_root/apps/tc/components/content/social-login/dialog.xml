@@ -10,5 +10,10 @@
             fieldLabel="Success Redirect To"
             name="./redirectTo"
             xtype="pathfield"/>
+        <manageProfile
+            jcr:primaryType="cq:Widget"
+            fieldLabel="Manage Profle Path"
+            name="./unsuscribePath"
+            xtype="pathfield"/>
     </items>
 </jcr:root>

@@ -43,7 +43,9 @@
              <c:if test="${socialLoginBean.disabled == 'false'  && socialLoginBean.anonymous == 'false'}">
                        <personalization:contextProfileProperty propertyName="formattedName" prefix="(" suffix=")"/>
                  <div id="socialLoginId2" isDisabled="${socialLoginBean.disabled}" commerceCookieName="<%= CommerceConstants.COMMERCE_COOKIE_NAME %>" loadURL='<%= resourceResolver.map(request, "/system/sling/logout") %>' style="{display:none}"/>                          
-                      <center><a href="javascript:logout();"><%= i18n.get("Sign Out") %></a></center>
+                      <center><a href="javascript:logout();"><%= i18n.get("Sign Out") %></a>
+                          <a href="${socialLoginBean.unsuscribePath}">Manage Profile</a>
+                 </center>
                 </c:if>
               <a href="#" class="dropdown-toggle cq-cc-profile-anonymous sociallogin-signin-${socialLoginBean.divID}>" data-toggle="dropdown"> <%= i18n.get("Sign In") %> <b class="caret"></b></a>
           </c:otherwise>
