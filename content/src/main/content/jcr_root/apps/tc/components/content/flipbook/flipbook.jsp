@@ -2,7 +2,7 @@
 
   Flipbook component.
 
-  It convert the given images into an HTML5Flipbook.
+  It convert the given PDF into an HTML5Flipbook.
 
 --%><%
 %><%@include file="/apps/tc/global/global.jsp"%>
