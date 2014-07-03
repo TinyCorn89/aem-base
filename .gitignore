@@ -1,8 +1,10 @@
 # Ignore compilation results
 target
-bundle/src/main/resources
-framework/src/main/resources
-gateway/src/main/resources
+bundle/action/src/main/resources
+bundle/framework/src/main/resources
+bundle/gateway/src/main/resources
+bundle/service/src/main/resources
+bundle/taglib/src/main/resources
 pdf2jpg/.settings
 pdf2jpg/.settings
 pdf2jpg/.gitignore
