@@ -16,7 +16,7 @@
             "id": "cfTab-Flipbook-QueryBox",
             /*"height": 95,*/
             "items": [
-                CQ.wcm.ContentFinderTab.getSuggestFieldConfig({"url": "/bin/wcm/contentfinder/suggestions.json/content/dam/tc"})
+                CQ.wcm.ContentFinderTab.getSuggestFieldConfig({"url": "/bin/wcm/contentfinder/suggestions.json/content/dam/projects/tc"})
                  /*
                 ,
                 {
@@ -103,7 +103,7 @@
                 }
             ]
         },{
-            "url": "/bin/wcm/contentfinder/asset/view.json/content/dam/tc"
+            "url": "/bin/wcm/contentfinder/asset/view.json/content/dam/projects/tc"
         }, {
             "baseParams": {
                 /*"defaultMimeType": "image"*/
