@@ -24,7 +24,7 @@
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                COMMANDS="C:\\projects\\tc\\aem-base\\pdf2jpg\\pdf2jpg.bat ${filename}"
+                COMMANDS="C:\\projects\\TCPdfConverter\\pdf2jpg\\pdf2jpg.bat ${filename}"
                 MIME_TYPES="application/pdf"
                 PROCESS="com.day.cq.dam.core.process.CommandLineProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
