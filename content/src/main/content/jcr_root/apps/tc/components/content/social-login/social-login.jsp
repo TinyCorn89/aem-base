@@ -33,12 +33,7 @@
 <li class="dropdown dropdown-color-white">
      <c:choose>
         <c:when test="${socialLoginBean.disabled == 'true'}">
-             <!--only in publish mode, display 'Sign in' if anonymous -->
-             <c:if test="${socialLoginBean.anonymous == 'true'}">
-                 <a href="#" class="dropdown-toggle sociallogin-signin-${socialLoginBean.userID}" data-toggle="dropdown"> <%= i18n.get("Sign In") %> <b class="caret"></b></a>
-             </c:if>
-
-
+             
              <c:if test="${ socialLoginBean.anonymous == 'false'}">
                        <personalization:contextProfileProperty propertyName="formattedName" prefix="(" suffix=")"/>
                  <div id="socialLoginId2" isDisabled="${socialLoginBean.disabled}" commerceCookieName="<%= CommerceConstants.COMMERCE_COOKIE_NAME %>" loadURL='<%= resourceResolver.map(request, "/system/sling/logout") %>' style="{display:none}"/>                          
