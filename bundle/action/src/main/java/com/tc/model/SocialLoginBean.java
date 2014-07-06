@@ -7,6 +7,7 @@
 package com.tc.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.webservicesupport.Configuration;
@@ -30,6 +31,7 @@ public class SocialLoginBean implements Serializable {
 	private String  twitterConfigurationPath;
 	private String facebookConfigID;
 	private String twitterConfigID;
+	private String unsuscribePath;
 	public String getUserID() {
 		return userID;
 	}
@@ -120,55 +122,14 @@ public class SocialLoginBean implements Serializable {
 	public void setTwitterConfigID(String twitterConfigID) {
 		this.twitterConfigID = twitterConfigID;
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (anonymous ? 1231 : 1237);
-		result = prime * result
-				+ ((dialogConfig == null) ? 0 : dialogConfig.hashCode());
-		result = prime * result + (disabled ? 1231 : 1237);
-		result = prime * result + ((divID == null) ? 0 : divID.hashCode());
-		result = prime * result
-				+ ((redirectTo == null) ? 0 : redirectTo.hashCode());
-		result = prime * result + ((userID == null) ? 0 : userID.hashCode());
-		return result;
+	public String getUnsuscribePath() {
+		return unsuscribePath;
 	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SocialLoginBean other = (SocialLoginBean) obj;
-		if (anonymous != other.anonymous)
-			return false;
-		if (dialogConfig == null) {
-			if (other.dialogConfig != null)
-				return false;
-		} else if (!dialogConfig.equals(other.dialogConfig))
-			return false;
-		if (disabled != other.disabled)
-			return false;
-		if (divID == null) {
-			if (other.divID != null)
-				return false;
-		} else if (!divID.equals(other.divID))
-			return false;
-		if (redirectTo == null) {
-			if (other.redirectTo != null)
-				return false;
-		} else if (!redirectTo.equals(other.redirectTo))
-			return false;
-		if (userID == null) {
-			if (other.userID != null)
-				return false;
-		} else if (!userID.equals(other.userID))
-			return false;
-		return true;
+	public void setUnsuscribePath(String unsuscribePath) {
+		this.unsuscribePath = unsuscribePath;
 	}
+	
+	
 	
 	
 

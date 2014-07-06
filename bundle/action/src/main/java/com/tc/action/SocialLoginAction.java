@@ -46,12 +46,14 @@ public class SocialLoginAction extends BaseAction {
 		String redirectTo = null;
 		String uniqSuffix = null;
 		final JSONObject dialogConfig = new JSONObject();
+		String unsuscribePath ="";
 		try {
 
 			final Node socialLogin = getCurrentNode();
 			final String userId = au.getID().replace("\"", "\\\"")
 					.replace("\r", "\\r").replace("\n", "\\n");
 			getPageContext().setAttribute("userId", userId);
+		
 			socialLoginBean.setUserID(userId);
 			CommerceSession commerceSession = commerceService.login(
 					getSlingRequest(), getSlingResponse());
@@ -104,6 +106,11 @@ public class SocialLoginAction extends BaseAction {
 			socialLoginBean.setDivID(divID);
 			final Profile currentProfile = getSlingRequest().adaptTo(
 					Profile.class);
+			if (socialLogin.hasProperty("unsuscribePath")) {
+			unsuscribePath=currentProfile.getPath()+".form.html"+socialLogin.getProperty("unsuscribePath").getString();
+			socialLoginBean.setUnsuscribePath(unsuscribePath);
+			}
+			
 			final boolean isAnonymous = ProfileUtil.isAnonymous(currentProfile);
 			final boolean isDisabled = WCMMode.DISABLED.equals(WCMMode
 					.fromRequest(getSlingRequest()));

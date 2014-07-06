@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-07-02T15:58:12.808+05:30"
+        cq:lastModified="{Date}2014-07-03T18:18:25.836+05:30"
         cq:lastModifiedBy="admin"
         cq:template="/apps/tc/templates/base-page"
         jcr:primaryType="cq:PageContent"
@@ -22,7 +22,7 @@
             <start
                 jcr:created="{Date}2014-07-02T14:50:29.802+05:30"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2014-07-02T14:51:37.830+05:30"
+                jcr:lastModified="{Date}2014-07-03T17:06:13.879+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/form/start"
@@ -32,7 +32,7 @@
                 home="/content/tc1/en/registration"
                 intermediatePath="TC"
                 memberOf="TC"
-                thankyouPage="/content/tc1/en/success"/>
+                thankyouPage="/content/tc/en/success"/>
             <text
                 jcr:created="{Date}2014-07-02T14:52:20.324+05:30"
                 jcr:createdBy="admin"
@@ -92,5 +92,12 @@
                 resetTitle="Cansel"
                 submit="true"/>
         </content-region>
+        <login
+            jcr:lastModified="{Date}2014-07-03T18:18:25.833+05:30"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="tc/components/content/social-login"
+            redirectTo="/content/tc/en/registration"
+            unsuscribePath="/content/tc/en/unsubscribe"/>
     </jcr:content>
 </jcr:root>
