@@ -39,10 +39,12 @@ BundleContext bundleContext = FrameworkUtil.getBundle(
       final String []  tempmailList = request.getParameterValues("mailList");
         String [] mailList = {"UNIS List 1","UNIS List 2"};
 final String   emailId = request.getParameter("email");
+        if(null != tempmailList){
         for (int i = 0; i < mailList.length; i++){
 
                   for(String listName1 :tempmailList){
                       if(listName1.equals(mailList[i])){
+
                        mailList[i] =null;
                       }
 
@@ -51,12 +53,23 @@ final String   emailId = request.getParameter("email");
                   //System.out.println("listName==="+listName);
                   // service.unSubscribe(emailId,listName);
         }
-          for(String listName :mailList ){
+             for(String listName :tempmailList ){
               if(null!=listName){
-                  
-                service.unSubscribe(emailId,listName);
+                  //System.out.println("listName=="+listName);
+                  // subscribing the news letter
+                   service.subscribe(emailId,listName);
               }
         }
+        }
+
+
+          for(String listName :mailList ){
+              if(null!=listName){
+                  //System.out.println("unSubscribe==listName==="+listName);
+                   service.unSubscribe(emailId,listName);
+              }
+        }
+      
 
 
       FormsHelper.setForwardPath(slingRequest, FormResourceEdit.getPostResourcePath(slingRequest), true);

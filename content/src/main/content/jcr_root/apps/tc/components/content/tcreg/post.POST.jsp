@@ -192,10 +192,12 @@
                     userProps.put("rep:intermediatePath", new RequestParameter[] {new IntermediatePathParam(intermediatePath)});
                 }
                 try {
-
+                    if(null != mailList){
                     for(String listName :mailList ){
                          service.subscribe(auth,listName);
+                        //System.out.println("listName==="+listName);
 
+                    }
                     }
                     // may fail when email cannot be send
 
