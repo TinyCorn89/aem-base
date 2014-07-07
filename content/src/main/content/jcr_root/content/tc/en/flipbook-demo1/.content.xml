@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-07-04T13:45:08.156+05:30"
+        cq:lastModified="{Date}2014-07-07T11:17:19.783+05:30"
         cq:lastModifiedBy="admin"
         cq:template="/apps/tc/templates/base-page"
         jcr:primaryType="cq:PageContent"
@@ -14,11 +14,11 @@
             <flipbook
                 jcr:created="{Date}2014-07-04T13:44:54.422+05:30"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2014-07-04T13:45:08.154+05:30"
+                jcr:lastModified="{Date}2014-07-07T11:17:19.761+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="tc/components/content/flipbook"
-                pdfPath="/content/dam/tc/pdfs/13318.pdf"/>
+                pdfPath="/content/dam/projects/tc/13318.pdf"/>
         </content-region>
     </jcr:content>
 </jcr:root>
