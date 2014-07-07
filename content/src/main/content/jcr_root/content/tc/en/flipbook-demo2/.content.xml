@@ -2,26 +2,29 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-07-07T11:21:08.922+05:30"
+        cq:lastModified="{Date}2014-07-07T14:14:01.012+05:30"
         cq:lastModifiedBy="admin"
-        cq:template="/apps/tc/templates/base-page"
+        cq:template="/apps/tc/templates/flipbook-page"
         jcr:primaryType="cq:PageContent"
         jcr:title="flipbook-demo2"
-        sling:resourceType="/apps/tc/components/page/base-page">
+        sling:resourceType="/apps/tc/components/page/flipbook-page">
+        <logo
+            jcr:lastModified="{Date}2014-07-07T14:13:43.286+05:30"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/image"
+            fileReference="/content/dam/projects/tc/176_Laction.jpg"/>
         <content-region
             jcr:primaryType="nt:unstructured"
             sling:resourceType="foundation/components/parsys">
             <flipbook
-                jcr:created="{Date}2014-07-04T13:46:28.079+05:30"
+                jcr:created="{Date}2014-07-07T14:13:50.731+05:30"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2014-07-07T11:21:08.922+05:30"
+                jcr:lastModified="{Date}2014-07-07T14:14:01.009+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="tc/components/content/flipbook"
                 pdfPath="/content/dam/projects/tc/9952.pdf"/>
         </content-region>
-        <footer
-            jcr:primaryType="nt:unstructured"
-            sling:resourceType="foundation/components/iparsys"/>
     </jcr:content>
 </jcr:root>
