@@ -54,10 +54,10 @@ final String   emailId = request.getParameter("email");
                   // service.unSubscribe(emailId,listName);
         }
              for(String listName :tempmailList ){
-              if(null!=listName){
+              if(null!=listName && listName.length() > 0  ){
                   //System.out.println("listName=="+listName);
                   // subscribing the news letter
-                   service.subscribe(emailId,listName);
+                  service.subscribe(emailId,listName);
               }
         }
         }
@@ -66,7 +66,7 @@ final String   emailId = request.getParameter("email");
           for(String listName :mailList ){
               if(null!=listName){
                   //System.out.println("unSubscribe==listName==="+listName);
-                   service.unSubscribe(emailId,listName);
+                  service.unSubscribe(emailId,listName);
               }
         }
       
