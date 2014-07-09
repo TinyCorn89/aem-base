@@ -597,10 +597,10 @@ public class ThindataNewsLetterServiceImpl implements NewsLetterService {
 		SOAPElement dateTimeElement = soapBodyElem.addChildElement(
 				"SendDateTime", WEB_SERVICE_NAMESPACE);
 		//yyyy-mm-ddThh:mm:ss
-		String dateFormatStr = "yyyy-MM-dd";
-		String timeFormatStr = "HH:mm:ss";
-		
-		Date dateObj = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime);
+		String dateFormatStr = "yyyy:MM:dd";
+		String timeFormatStr = "HH:mm:ss:SSS";
+
+        Date dateObj = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime);
 		String formattedDate = new SimpleDateFormat(dateFormatStr).format(dateObj);
 		String formattedTime = new SimpleDateFormat(timeFormatStr).format(dateObj);
 		String formattedDateTime = formattedDate + "T" + formattedTime;
