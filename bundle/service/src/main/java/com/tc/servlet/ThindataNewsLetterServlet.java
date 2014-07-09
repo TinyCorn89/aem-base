@@ -17,12 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import com.day.cq.mcm.api.newsletter.NewsLetter;
 import com.day.cq.mcm.api.newsletter.NewsletterService;
-import com.tc.service.api.NewsLetterService;
-
 import com.day.cq.retriever.RetrieverService;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
-
+import com.tc.service.api.NewsLetterService;
 import com.tc.service.impl.ThindataEmailRetrieverStorage;
 
 @SlingServlet(paths = { "/bin/services/thindataservlet" }, methods = { "GET",
@@ -32,11 +30,11 @@ public class ThindataNewsLetterServlet extends BaseSlingServlet {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(ThindataNewsLetterServlet.class);
 
-	@Reference(referenceInterface = com.tc.service.api.NewsLetterService.class, bind = "setNewsLetter", unbind = "unSetNewsLetter", cardinality = ReferenceCardinality.MANDATORY_UNARY)
-	private com.tc.service.api.NewsLetterService newsLetter;
+	@Reference(referenceInterface = NewsLetterService.class, bind = "setNewsLetter", unbind = "unSetNewsLetter", cardinality = ReferenceCardinality.MANDATORY_UNARY)
+	private NewsLetterService newsLetter;
 
-	@Reference(referenceInterface = com.day.cq.mcm.api.newsletter.NewsletterService.class, bind = "setAemNewsLetter", unbind = "unSetAemNewsLetter", cardinality = ReferenceCardinality.MANDATORY_UNARY)
-	private com.day.cq.mcm.api.newsletter.NewsLetterService aemNewsLetterService;
+	@Reference(referenceInterface = NewsletterService.class, bind = "setAemNewsLetter", unbind = "unSetAemNewsLetter", cardinality = ReferenceCardinality.MANDATORY_UNARY)
+	private NewsletterService aemNewsLetterService;
 
 	@Reference(referenceInterface = RetrieverService.class, bind = "setRetrieverService", unbind = "unSetRetrieverService", cardinality = ReferenceCardinality.MANDATORY_UNARY)
 	private RetrieverService retriever;
