@@ -18,7 +18,7 @@
 	<body class="flipbook">
         <div id="magazine">    
             <c:forEach items="${flipbookBean.imagesPathList}" var="imagePath">
-                <div style="background-image:url(${imagePath});"></div>            
+                <div style="background-image:url('${imagePath}');"></div>            
             </c:forEach>
         </div>
     </body>
