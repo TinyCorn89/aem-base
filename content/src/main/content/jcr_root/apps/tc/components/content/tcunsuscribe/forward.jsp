@@ -23,10 +23,11 @@
                   com.tc.service.api.NewsLetterService,
                     org.osgi.framework.BundleContext,
                    org.osgi.framework.FrameworkUtil,
-                  org.osgi.framework.ServiceReference,java.util.ArrayList" %><%
+                  org.osgi.framework.ServiceReference,java.util.ArrayList,
+                      com.day.cq.security.profile.Profile" %><%
 %><%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
-
+ final Profile currentProfile = slingRequest.adaptTo(Profile.class);
 BundleContext bundleContext = FrameworkUtil.getBundle(
 			          NewsLetterService.class).getBundleContext();
 			ServiceReference serviceReference = bundleContext
@@ -38,7 +39,11 @@ BundleContext bundleContext = FrameworkUtil.getBundle(
         // simply use form forwarding here
       final String []  tempmailList = request.getParameterValues("mailList");
         String [] mailList = {"UNIS List 1","UNIS List 2"};
-final String   emailId = request.getParameter("email");
+        //final String   emailId =request.getParameter("email");
+    final String   emailId = currentProfile.getPrimaryMail();
+        // System.out.println("emailId=="+emailId);
+        //System.out.println("currentProfile==="+currentProfile.getPrimaryMail());
+
         if(null != tempmailList){
         for (int i = 0; i < mailList.length; i++){
 
@@ -53,23 +58,25 @@ final String   emailId = request.getParameter("email");
                   //System.out.println("listName==="+listName);
                   // service.unSubscribe(emailId,listName);
         }
+            if(null != emailId){
              for(String listName :tempmailList ){
               if(null!=listName && listName.length() > 0  ){
                   //System.out.println("listName=="+listName);
                   // subscribing the news letter
                   service.subscribe(emailId,listName);
               }
+             }
         }
         }
 
-
+if(null != emailId){
           for(String listName :mailList ){
               if(null!=listName){
                   //System.out.println("unSubscribe==listName==="+listName);
                   service.unSubscribe(emailId,listName);
               }
         }
-      
+}
 
 
       FormsHelper.setForwardPath(slingRequest, FormResourceEdit.getPostResourcePath(slingRequest), true);
