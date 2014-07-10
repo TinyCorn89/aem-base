@@ -26,12 +26,14 @@ import com.tc.action.BreadCrumbAction;
 import com.tc.action.CarouselAction;
 import com.tc.action.CategoryAction;
 import com.tc.action.ChartAction;
+import com.tc.action.DynamicFlipbookAction;
 import com.tc.action.EventAgendaAction;
 import com.tc.action.EventInformationAction;
 import com.tc.action.EventPreviewAction;
 import com.tc.action.FacebookFeedAction;
 import com.tc.action.FeaturedAction;
 import com.tc.action.FlipbookAction;
+import com.tc.action.FlipbooksListAction;
 import com.tc.action.FreeHTMLAction;
 import com.tc.action.FreeJavaScriptAction;
 import com.tc.action.GalleryAction;
@@ -80,7 +82,7 @@ public class LaunchpadActionFactory implements ActionFactory {
 		CarouselAction.class.getName(),ChartAction.class.getName(),NewsAction.class.getName(),TopNavigationAction.class.getName(),
 		MapAction.class.getName(),SectionNavigationAction.class.getName(),HeroBannerAction.class.getName(),
 		GalleryAction.class.getName(),SiteNavigationAction.class.getName(),SocialFollowAction.class.getName(),
-		EventPreviewAction.class.getName(),BreadCrumbAction.class.getName(),SearchAction.class.getName(),CategoryAction.class.getName(),ArticleAction.class.getName(),SocialLoginAction.class.getName(),LongArticlePropertiesAction.class.getName(),TwitterFeedAction.class.getName(),MostViewedAticleAction.class.getName(),FacebookFeedAction.class.getName(),FeaturedAction.class.getName(),LatestArticlesAction.class.getName(),MostCommentedArticleAction.class.getName(),FreeHTMLAction.class.getName(),FreeJavaScriptAction.class.getName(),IframeAction.class.getName(),ImageAction.class.getName(),TableAction.class.getName(),VideoAction.class.getName(),FlipbookAction.class.getName()};
+		EventPreviewAction.class.getName(),BreadCrumbAction.class.getName(),SearchAction.class.getName(),CategoryAction.class.getName(),ArticleAction.class.getName(),SocialLoginAction.class.getName(),LongArticlePropertiesAction.class.getName(),TwitterFeedAction.class.getName(),MostViewedAticleAction.class.getName(),FacebookFeedAction.class.getName(),FeaturedAction.class.getName(),LatestArticlesAction.class.getName(),MostCommentedArticleAction.class.getName(),FreeHTMLAction.class.getName(),FreeJavaScriptAction.class.getName(),IframeAction.class.getName(),ImageAction.class.getName(),TableAction.class.getName(),VideoAction.class.getName(),FlipbookAction.class.getName(),DynamicFlipbookAction.class.getName(),FlipbooksListAction.class.getName()};
 
 
 
