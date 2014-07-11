@@ -59,7 +59,7 @@ public class DamAssetUploadHandler {
 		// End of multipart/form-data.
 		writer.append("--" + boundary + "--").append(CRLF);
 
-
+             writer.close();output.close();
 		BufferedReader in = new BufferedReader(new InputStreamReader(
 				connection.getInputStream()));
 
@@ -74,6 +74,7 @@ public class DamAssetUploadHandler {
         
 		LOG.info("Zip deployed sucessfully on AEM.. respose from AEM.."+content.toString());
         }catch (Exception e){
+        e.printStackTrace();
         LOG.error ("error in AEM asset upload"+e);
            throw e;
         }
