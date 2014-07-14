@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="500"
+    title="News-Article"
+    width="500"
+    xtype="dialog">
+    <items jcr:primaryType="cq:TabPanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Widget"
+                anchor="100%"
+                title="Properties"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <headLine
+                        jcr:primaryType="nt:unstructured"
+                        allowBlank="false"
+                        fieldLabel="Head Line"
+                        name="./title"
+                        xtype="textarea"/>
+                    <publicationDate
+                        jcr:primaryType="nt:unstructured"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Publication Date"
+                        hideTime="{Boolean}false"
+                        name="./publicationDate"
+                        validateOnBlur="{Boolean}true"
+                        xtype="datetime"/>
+                    <expirationDate
+                        jcr:primaryType="nt:unstructured"
+                        allowBlank="{Boolean}true"
+                        fieldLabel="Expiration Date"
+                        hideTime="{Boolean}false"
+                        name="./publicationDate"
+                        validateOnBlur="{Boolean}true"
+                        xtype="datetime"/>
+                    <sections
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="true"
+                        fieldLabel="Sections"
+                        name="./tagSections"
+                        namespaces="[sections]"
+                        xtype="tags"/>
+                    <categories
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="true"
+                        fieldLabel="Categories"
+                        name="./tagCategories"
+                        namespaces="[categories]"
+                        xtype="tags"/>
+                    <shareTo
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="true"
+                        fieldLabel="Share on multiple websites"
+                        name="./tagShare"
+                        namespaces="[share]"
+                        xtype="tags"/>
+                </items>
+            </tab1>
+            <tab2
+                jcr:primaryType="cq:Widget"
+                title="Settings"
+                xtype="panel"/>
+        </items>
+    </items>
+</jcr:root>

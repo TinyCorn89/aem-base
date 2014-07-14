@@ -708,6 +708,11 @@ public interface Constants {
     public interface ARTICLE {
         public static final String TITLE = "title";
         public static final String DESCRIPTION = "description";
+        public static final String SECTIONS = "tagSections";
+        public static final String CATEGORIES = "tagCategories";
+        public static final String SHARE = "tagShare";
+        public static final String PUBLICATION_DATE = "publicationDate";
+        public static final String EXPIRATION_DATE = "expirationDate";
     }
 
 }

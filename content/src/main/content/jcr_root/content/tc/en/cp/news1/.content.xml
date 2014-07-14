@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-07-09T13:38:31.225-04:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/apps/tc/templates/news"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="news1"
+        sling:resourceType="/apps/tc/components/page/news">
+        <footer
+            jcr:lastModified="{Date}2014-07-08T11:10:34.350-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/iparsys">
+            <iparsys_fake_par
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/iparsys/par"/>
+        </footer>
+        <top-nav
+            jcr:lastModified="{Date}2014-07-08T11:10:49.426-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/iparsys">
+            <iparsys_fake_par
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/iparsys/par"
+                inheritance="cancel"/>
+            <carousel
+                jcr:created="{Date}2014-07-08T11:11:44.305-04:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2014-07-08T11:12:10.781-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="tc/components/content/carousel"
+                selectedTabRadio="banners">
+                <banners jcr:primaryType="nt:unstructured">
+                    <item_1
+                        jcr:primaryType="nt:unstructured"
+                        sliderImage="/content/dam/LaunchPad/Images/slider/1.jpg"/>
+                </banners>
+            </carousel>
+        </top-nav>
+        <news_component
+            jcr:lastModified="{Date}2014-07-09T13:38:31.218-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="tc/components/content/cp/news-article"
+            fileReference="/content/dam/tmp/laction/cp/article-1.jpg"
+            imageRotate="0"
+            publicationDate="{Date}2014-07-09T00:30:00.000-04:00"
+            tagCategories="[properties:orientation,properties:orientation/landscape,properties:orientation/portrait]"
+            text="&lt;p>Bacon ipsum dolor sit amet spare ribs brisket ribeye, andouille sirloin bresaola frankfurter corned beef capicola bacon. Salami beef ribs sirloin, short loin hamburger shoulder t-bone cow turkey. Drumstick hamburger ham hock kielbasa biltong ham, short ribs shank t-bone filet mignon ribeye capicola chuck. Ground round filet mignon fatback, pig jowl tri-tip leberkas. Shankle andouille tri-tip salami corned beef swine turducken spare ribs sirloin leberkas.&lt;/p>&#xa;&lt;p>Beef ribs frankfurter ground round swine tail salami jowl cow. Cow short loin capicola swine sausage ribeye. Filet mignon hamburger prosciutto tenderloin. Sirloin tenderloin swine frankfurter pork loin pork capicola ham hock strip steak ribeye beef ribs. Hamburger t-bone ribeye ham prosciutto bresaola.&lt;/p>&#xa;&lt;p>Flank short loin swine ground round turducken landjaeger jerky sausage kielbasa shankle ham. Tenderloin pancetta pastrami turducken tongue. Pig chuck swine, salami bresaola drumstick jowl boudin ground round ribeye. Doner spare ribs brisket jerky andouille meatball. Strip steak swine kielbasa chicken, pastrami meatloaf kevin tail ham hock. Swine porchetta cow frankfurter chicken kielbasa, turkey jowl pastrami andouille hamburger salami.&lt;/p>&#xa;&lt;p>Pancetta flank sirloin pork short ribs shankle prosciutto landjaeger. Beef ribs turkey shoulder drumstick. Leberkas pork belly ribeye, bresaola jerky strip steak tenderloin bacon landjaeger short ribs beef ribs. Flank pork chop fatback tail kielbasa filet mignon jowl landjaeger bresaola tongue corned beef biltong. Landjaeger spare ribs fatback corned beef tenderloin drumstick, swine chicken beef turkey biltong doner tri-tip filet mignon. Jerky tri-tip hamburger ham shoulder, landjaeger tenderloin pork loin. Turducken capicola biltong pastrami landjaeger pork chop bacon filet mignon beef kielbasa t-bone salami pig pork.&lt;/p>&#xa;&lt;p>Beef ribs jowl swine porchetta, spare ribs meatloaf pig frankfurter pork loin. Corned beef cow rump t-bone, sausage chicken strip steak. Tri-tip porchetta hamburger biltong. Salami bacon sausage turkey kielbasa turducken shankle meatball boudin. Swine turkey pancetta tail hamburger short loin venison t-bone.&lt;/p>&#xa;"
+            textIsRich="true"
+            title="Bacon ipsum dolor sit amet spare ribs brisket ribeye"/>
+    </jcr:content>
+</jcr:root>

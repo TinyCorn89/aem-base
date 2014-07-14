@@ -21,6 +21,7 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceUtil;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 import org.apache.sling.scripting.jsp.util.JspSlingHttpServletResponseWrapper;
@@ -245,7 +246,16 @@ public abstract class BaseAction {
     public Component getComponent() {
         return (Component) pageContext.getAttribute("component");
     }
-
+ 
+    /**
+     * Gets the ResourceResolver.
+     *
+     * @return the ResourceResolver
+     */
+    public ResourceResolver getResourceResolver(){
+    	return getSlingRequest().getResourceResolver();
+    }
+    
     /**
      * to get the propertyValues.
      *
@@ -310,6 +320,7 @@ public abstract class BaseAction {
         return url;
     }
 
+    
     public String getPropertyValue(Node node, String property)
             throws RepositoryException {
         ValueMap valMap = getSlingRequest().getResourceResolver()

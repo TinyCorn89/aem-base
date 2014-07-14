@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="News List"
+    width="{Long}600"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="News Options">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <titleLabel
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="false"
+                        fieldLabel="Title Label"
+                        name="./label"
+                        xtype="textfield"/>
+                    <titleUrl
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="false"
+                        fieldDescription="This field should be a URL in the format : http://www.mysite.com or link to internal page"
+                        fieldLabel="Title URL"
+                        name="./titleurl"
+                        rootPath="/content"
+                        suffix=".html"
+                        xtype="pathfield"/>
+                    <target
+                        jcr:primaryType="nt:unstructured"
+                        fieldLabel="Title link target"
+                        name="./target"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <self
+                                jcr:primaryType="nt:unstructured"
+                                text="Open in the same page"
+                                value="_self"/>
+                            <blank
+                                jcr:primaryType="nt:unstructured"
+                                text="Open in new window"
+                                value="_blank"/>
+                            <new
+                                jcr:primaryType="nt:unstructured"
+                                text="Open in new tab"
+                                value="new"/>
+                        </options>
+                    </target>
+                    <provider
+                        jcr:primaryType="nt:unstructured"
+                        allowBlank="true"
+                        fieldLabel="Provider"
+                        name="./provider"
+                        optionsProvider="function(path, record){return CQ.Util.formatData(CQ.HTTP.eval(CQ.HTTP.noCaching('/apps/tc/components/content/tags.list.json?'+ &quot;path=/etc/tags/share&quot;)));}"
+                        type="select"
+                        xtype="selection"/>
+                    <sections
+                        jcr:primaryType="nt:unstructured"
+                        allowBlank="true"
+                        fieldLabel="Section"
+                        name="./sections"
+                        optionsProvider="function(path, record){return CQ.Util.formatData(CQ.HTTP.eval(CQ.HTTP.noCaching('/apps/tc/components/content/tags.list.json?'+ &quot;path=/etc/tags/sections&quot;)));}"
+                        type="select"
+                        xtype="selection"/>
+                    <itemsParPage
+                        jcr:primaryType="cq:Widget"
+                        allowNegative="{Boolean}false"
+                        fieldLabel="Number of news displayed"
+                        maxValue="{Long}6"
+                        minValue="{Long}1"
+                        name="./itemsPerPage"
+                        xtype="numberfield"/>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

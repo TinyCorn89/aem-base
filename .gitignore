@@ -20,3 +20,4 @@ maven-eclipse.xml
 *.ipr
 *.iws
 .DS_Store
+.vlt
