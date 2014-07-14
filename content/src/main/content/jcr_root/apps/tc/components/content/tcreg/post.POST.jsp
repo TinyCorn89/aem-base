@@ -194,8 +194,10 @@
                 try {
                     if(null != mailList){
                     for(String listName :mailList ){
-                         service.subscribe(auth,listName);
-                        //System.out.println("listName==="+listName);
+                        if(listName.length() > 0){
+                        service.subscribe(auth,listName);
+                            // System.out.println("listName11==="+listName);
+                        }
 
                     }
                     }

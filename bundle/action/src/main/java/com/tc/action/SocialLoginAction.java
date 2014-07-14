@@ -106,7 +106,7 @@ public class SocialLoginAction extends BaseAction {
 			socialLoginBean.setDivID(divID);
 			final Profile currentProfile = getSlingRequest().adaptTo(
 					Profile.class);
-			if (socialLogin.hasProperty("unsuscribePath")) {
+			if (null !=socialLogin && socialLogin.hasProperty("unsuscribePath")) {
 			unsuscribePath=currentProfile.getPath()+".form.html"+socialLogin.getProperty("unsuscribePath").getString();
 			socialLoginBean.setUnsuscribePath(unsuscribePath);
 			}

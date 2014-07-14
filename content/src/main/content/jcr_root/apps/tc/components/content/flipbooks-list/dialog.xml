@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}100"
+    title="Flipbooks List"
+    width="{Long}200"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <list
+            jcr:primaryType="cq:Widget"
+            title="List of Flipbooks"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <categoryName
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Category Name"
+                    name="./categoryName"
+                    xtype="textfield"/>
+                <flipbooks
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Please click on + button to add flipbook"
+                    fieldLabel="List of Flipbooks"
+                    labelSeparator=":"
+                    name="./flipbooks"
+                    xtype="multicompositefield">
+                    <fieldConfigs jcr:primaryType="cq:WidgetCollection">
+                        <title
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Title"
+                            labelSeparator=":"
+                            maxLength="{Long}50"
+                            name="title"
+                            width="{Long}300"
+                            xtype="textfield"/>
+                        <subTitle
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Sub - Title"
+                            labelSeparator=":"
+                            maxLength="{Long}50"
+                            name="subTitle"
+                            width="{Long}300"
+                            xtype="textfield"/>
+                        <pdfPath
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="{Boolean}false"
+                            blankText="PDF Path is mandatory"
+                            fieldLabel="PDF"
+                            labelSeparator=":"
+                            name="pdfPath"
+                            rootPath="/content/dam"
+                            width="{Long}300"
+                            xtype="pathfield"/>
+                    </fieldConfigs>
+                </flipbooks>
+                <flipbookPath
+                    jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
+                    blankText="Flipbook Path is mandatory"
+                    fieldLabel="Flipbook Page"
+                    labelSeparator=":"
+                    name="./flipbookPath"
+                    rootPath="/content/tc"
+                    width="{Long}300"
+                    xtype="pathfield"/>
+            </items>
+        </list>
+    </items>
+</jcr:root>

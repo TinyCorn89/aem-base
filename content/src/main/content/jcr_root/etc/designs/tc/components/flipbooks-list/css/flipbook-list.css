@@ -1,0 +1,57 @@
+*{
+    margin:0;
+    padding:0;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+    display: block;
+}
+html, body{
+    margin:0;
+    padding:0;
+}
+#wrapper{
+    width:650px;
+    margin:0 auto;
+}
+.content{
+    width:100%;
+    margin:0;
+    padding:0;
+    float:left;
+}
+.content h1{
+    border-top:4px solid #0361b0;
+    border-bottom:4px solid #0361b0;
+    padding:10px 0;
+    margin:10px 0;
+}
+
+.content article {
+    width: 100%;
+}
+
+.content article .inner {
+    width: 542px;
+}
+.content article .inner {
+    float: right;
+}
+.single figure, .single figure img {
+    height: auto;
+    width: 90px;
+}
+article figure, article figure img {
+    display: inline;
+    position: relative;
+    width:90px;
+}
+
+.content article .inner h2, .content article .inner h2 a {
+    border: 0 none;
+    color: #333333;
+    margin: 0 0 6px;
+    padding: 0;
+    width: 100%;
+    text-decoration:none;
+}
+

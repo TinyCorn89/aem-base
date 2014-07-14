@@ -1,9 +1,12 @@
 package com.tc.service.impl;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.commons.lang.StringUtils;
@@ -37,6 +40,7 @@ public class TCFileImportServiceImpl extends BaseService implements TCFileImport
 	public void importFile(String parentPath, String filePath) {
 		LOG.info("Importing file {}", filePath);
 		Session session;
+		InputStream content = null;
 		try {
 			session = getSession();
 			Node parentNode = null;
@@ -52,7 +56,8 @@ public class TCFileImportServiceImpl extends BaseService implements TCFileImport
 			String fileName = fileNode.getName(); 
 			
 			LOG.info("fileName {}", fileName);
-			InputStream content = null;
+			boolean isZipFileImport = false;
+			
 			
 			/*
 			 * There are two possibilities where the stream of the file 
@@ -64,17 +69,81 @@ public class TCFileImportServiceImpl extends BaseService implements TCFileImport
 			 * 2. it could be directly under jcr:content node
 			 */
 			try {
-				content = jcrContent.getNode("renditions").getNode("original").getNode("jcr:content").getProperty("jcr:data").getStream();	
+				content = jcrContent.getNode("renditions").getNode("original").getNode("jcr:content").getProperty("jcr:data").getStream();
+				if (StringUtils.contains(filePath, ".zip")) {
+					isZipFileImport = true;
+				}
 			} catch (PathNotFoundException pnfe) {
 				LOG.info("jcr:data node does not exist under /jcr:content/renditions/original/jcr:content node, it might be under jcr:content directly, checking for it");
 				content = jcrContent.getProperty("jcr:data").getStream();
 			} 
 			LOG.info("Importing file {} at parent {}", fileName, parentNode.getPath()); 
 			contentImporter.importContent(parentNode, fileName, content, getImportOptions(), null);
+			
+			/*
+			 * if the file that got imported is a zip file then get all XML files 
+			 * from that folder and import individual XML files using content importer
+			 * 
+			 * this approach will eliminate workflow trigger for each xml file
+			 */
+			
+			if (isZipFileImport) {
+				String contentParentPath = parentPath.replaceAll("/content/dam/", "/content/");
+				LOG.info("contentParentPath =" + contentParentPath);
+				Node contentParentNode = session.getNode(contentParentPath);
+				importAllXMLFiles(parentNode, contentParentNode, fileName, session);
+			}
+			
 		} catch (Exception e) {
 			LOG.error("Error while importing" ,e);
+		} finally {
+			if (content != null) {
+				try {
+					content.close();
+				} catch (IOException e) {
+					LOG.error("Error while closing the content stream", e);
+				}
+			}
 		}
 
+	}
+	
+	private void importAllXMLFiles(Node parentNode, Node contentParentNode, String zipFile, Session session) {
+		// all xml files might got imported in parentPath + zipFile (without .zip)
+		String zipFolder = zipFile.substring(0,  zipFile.indexOf(".zip"));
+		Node zipFolderNode = null;
+		LOG.info("ZipFolder is {}", zipFolder);
+		try {
+			zipFolderNode = session.getNode(parentNode.getPath() + "/" + zipFolder);
+			NodeIterator iterator = zipFolderNode.getNodes();
+			if (iterator != null) {
+				while (iterator.hasNext()) {
+					Node node = iterator.nextNode(); 
+					LOG.info("Importing " + node.getPath());
+					InputStream jcrData = node.getNode("jcr:content").getProperty("jcr:data").getStream();
+					try {
+						contentImporter.importContent(contentParentNode, node.getName(), jcrData, getImportOptions(), null);
+					} catch (Exception e) {
+						LOG.error("Error in importing " + node.getPath(), e);
+					} finally {
+						if (jcrData != null) {
+							try { 
+								jcrData.close();
+							} catch (IOException e) {
+								LOG.error("Error closing stream", e);
+							}
+						}
+					}
+					LOG.info("Importing " + node.getPath() + " complete");
+				}
+			}
+		} catch (PathNotFoundException e) {
+			LOG.error("Unable to get zipFolder " + zipFolder, e);
+		} catch (RepositoryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private ImportOptions getImportOptions() {

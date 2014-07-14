@@ -1,17 +1,17 @@
 <%--
 
-  Flipbook component.
+  Dynamic Flipbook component.
 
-  It convert the given PDF into an HTML5Flipbook.
+  It gets the PDF location from the requested URL and converts the PDF into an HTML5Flipbook.
 
 --%><%
 %><%@include file="/apps/tc/global/global.jsp"%>
 <%@page session="false" %>
-<action:action actionClassName="com.tc.action.FlipbookAction" bean="flipbookBean" actionName="getImagesPaths" />
+<action:action actionClassName="com.tc.action.DynamicFlipbookAction" bean="flipbookBean" actionName="getImagesPaths" />
 
 <cq:includeClientLib categories="tc.components.flipbook" />
 <c:if test="${empty flipbookBean}">
-    <p align="center"><font color="red" size="+1">Please Configure The Component</font> <p>
+    <p align="center"><font color="red" size="+1">No PDF is requested</font> <p>
 </c:if>
 
 <c:if test="${not empty flipbookBean}">

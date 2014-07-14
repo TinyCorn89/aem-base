@@ -22,10 +22,23 @@
 <%@taglib prefix="personalization" uri="http://www.day.com/taglibs/cq/personalization/1.0" %>
 
 
+
 <cq:includeClientLib categories="cq.social.connect"/>
 <cq:includeClientLib categories="tc.components.social-login"/>
 
 <action:action actionClassName="com.tc.action.SocialLoginAction" bean="socialLoginBean" actionName="getSocialLoginInfo"  />
+
+<c:set var="path" value="${socialLoginBean.unsuscribePath}"/>
+<% String url = request.getRequestURL().toString();
+   String rediredtPath= (String)pageContext.getAttribute("path");
+if(!rediredtPath.contains("anonymous")){
+if(url.contains("newsletterunsubscribe")){
+    // String rediredtPath= (String)pageContext.getAttribute("path");
+    //System.out.println("path is"+<c:out ="${socialLoginBean.unsuscribePath}"/>);
+    response.sendRedirect(rediredtPath);
+}
+}
+%>
 
 
 <div id="socialLoginId" redirectTo="${socialLoginBean.redirectTo}" divID="${socialLoginBean.divID}"  config="${socialLoginBean.dialogConfig}" style="{display:none}">

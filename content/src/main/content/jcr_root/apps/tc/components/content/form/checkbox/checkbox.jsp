@@ -53,12 +53,14 @@
     for (String v : displayValues.keySet()) {
         final String t = displayValues.get(v);
         final String currentId = id + "-" + i;
+   
 
     %><div class="form_row"><%
         LayoutHelper.printTitle(currentId, t, false, true, out);
         %><div class="form_rightcol"><%
 
                 String checked = "";
+             
                 if (values.contains(v)) {
                     checked = " checked=\"checked\"";
                 }
@@ -70,6 +72,10 @@
 
         i++;
     }
+%><div class="form_row" id="cq-gen136"><div class="form_leftcol" style="display: none;"><div class="form_leftcollabel"><label for="unsuscribe_mailList-1">Subscribe to news letter UNIS List2</label></div><div class="form_leftcolmark"></div></div>
+<div class="form_rightcol"><input class="form_field form_field_checkbox" type="hidden" id="unsuscribe_mailList-1" name="mailList" value="">
+        </div>
+    </div><%
 
     LayoutHelper.printDescription(FormsHelper.getDescription(resource, ""), out);
     LayoutHelper.printErrors(slingRequest, name, hideTitle, out);

@@ -26,7 +26,7 @@
         <cq:include path="top-nav" resourceType="foundation/components/iparsys" /> 
         <ul class="nav navbar-nav navbar-right">
             <!-- <li><a href="#">Sign Up</a></li> -->
-            <li><cq:include path="login" resourceType="/apps/tc/components/content/social-login" /></li>
+            <li></li>
         </ul>
       </div><!-- /.navbar-collapse -->
    </div><!-- /.container-fluid -->
