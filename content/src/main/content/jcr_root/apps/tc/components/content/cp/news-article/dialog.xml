@@ -32,7 +32,7 @@
                         allowBlank="{Boolean}true"
                         fieldLabel="Expiration Date"
                         hideTime="{Boolean}false"
-                        name="./publicationDate"
+                        name="./expirationDate"
                         validateOnBlur="{Boolean}true"
                         xtype="datetime"/>
                     <sections
