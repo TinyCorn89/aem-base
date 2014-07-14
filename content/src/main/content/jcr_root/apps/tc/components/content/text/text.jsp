@@ -7,5 +7,5 @@
 --%>
 <%@page session="false"%>
 <%@include file="/apps/tc/global/global.jsp"%>
-<%@include file="/apps/tc/components/content/text/tracking-js.jsp"%>
+
 <cq:text property="text" escapeXml="true" placeholder="Placeholder"/>
