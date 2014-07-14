@@ -6,10 +6,31 @@
 
 --%>
 <%@include file="/apps/tc/global/global.jsp"%>
-<%@page import="java.util.Random"%>
+<%@page session="false" %>
 <cq:setContentBundle source="page"/>
+<action:action actionClassName="com.tc.action.ArticleAction" bean="articleBean" actionName="getCPArticleInfo" />
+<h2>${articleBean.title}</h2>
 
-<h2>${properties.title}</h2>
+<p>Publication Date: ${articleBean.publicationDate}</p>
 
-${properties.text}
+<p><strong>Sections:</strong></p>
+<ul>
+    <c:forEach items="${articleBean.sections}" var="sections">
+        <li>${sections}</li>
+    </c:forEach>
+</ul>
+<p><strong>Share:</strong></p>
+<ul>
+    <c:forEach items="${articleBean.share}" var="share">
+        <li>${share}</li>
+    </c:forEach>
+</ul>
+
+
+</div>
+
+
+ 
+                   
+
 
