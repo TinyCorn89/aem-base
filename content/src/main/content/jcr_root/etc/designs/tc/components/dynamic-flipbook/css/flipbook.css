@@ -1,0 +1,20 @@
+body .flipbook{
+	background:#fff;
+}
+#magazine{
+	width:1152px;
+	height:752px;
+}
+#magazine .turn-page{
+	background-color:#ccc;
+	background-size:100% 100%;
+}
+/*
+#magazine .turn-page img {
+
+    width:580px;
+    height:760px;  
+    position:relative;
+    float:right;
+}
+*/
