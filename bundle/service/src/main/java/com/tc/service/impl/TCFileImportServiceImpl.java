@@ -118,23 +118,26 @@ public class TCFileImportServiceImpl extends BaseService implements TCFileImport
 			NodeIterator iterator = zipFolderNode.getNodes();
 			if (iterator != null) {
 				while (iterator.hasNext()) {
-					Node node = iterator.nextNode(); 
-					LOG.info("Importing " + node.getPath());
-					InputStream jcrData = node.getNode("jcr:content").getProperty("jcr:data").getStream();
-					try {
-						contentImporter.importContent(contentParentNode, node.getName(), jcrData, getImportOptions(), null);
-					} catch (Exception e) {
-						LOG.error("Error in importing " + node.getPath(), e);
-					} finally {
-						if (jcrData != null) {
-							try { 
-								jcrData.close();
-							} catch (IOException e) {
-								LOG.error("Error closing stream", e);
+					Node node = iterator.nextNode();
+					String nodePath = node.getPath();
+					if (StringUtils.contains(nodePath, ".xml")) {
+						LOG.info("Importing " + nodePath);
+						InputStream jcrData = node.getNode("jcr:content").getProperty("jcr:data").getStream();
+						try {
+							contentImporter.importContent(contentParentNode, node.getName(), jcrData, getImportOptions(), null);
+						} catch (Exception e) {
+							LOG.error("Error in importing " + node.getPath(), e);
+						} finally {
+							if (jcrData != null) {
+								try { 
+									jcrData.close();
+								} catch (IOException e) {
+									LOG.error("Error closing stream", e);
+								}
 							}
 						}
+						LOG.info("Importing " + node.getPath() + " complete");
 					}
-					LOG.info("Importing " + node.getPath() + " complete");
 				}
 			}
 		} catch (PathNotFoundException e) {
