@@ -32,32 +32,29 @@
 				</xsl:if>
 				
 
-				<!--  add content region -->
-				<xsl:element name="content-region">
+				<!--  add article component -->
+				<xsl:element name="article">
 					<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
-					<xsl:attribute name="sling:resourceType">foundation/components/parsys</xsl:attribute>
-					
-					<!--  add article component -->
-					<xsl:element name="article">
-						<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
-						<xsl:attribute name="sling:resourceType">tc/components/content/article</xsl:attribute>
-						<xsl:attribute name="description"><xsl:value-of select="./NewsComponent/NewsLines/HeadLine" /></xsl:attribute>
-						<xsl:attribute name="textIsRich">{Boolean}true</xsl:attribute>
-						<xsl:attribute name="title"><xsl:value-of select="./NewsComponent/NewsLines/HeadLineShort" /></xsl:attribute>
-						
-						<!-- create headline component node -->
-						<xsl:apply-templates select="./NewsComponent/NewsLines" />
-						
-						<!-- create image component-->
-						<xsl:apply-templates
-							select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink" />
-					</xsl:element>
-					
-					<!-- create text components for all paras-->	
-						<xsl:apply-templates
-							select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPStory" />
-					
+					<xsl:attribute name="sling:resourceType">tc/components/content/cp/news-article</xsl:attribute>
+					<xsl:attribute name="description"><xsl:value-of select="./NewsComponent/NewsLines/HeadLine" /></xsl:attribute>
+					<xsl:attribute name="articleId"><xsl:value-of select="./Identification/NewsIdentifier/NewsItemId" /></xsl:attribute>
+					<xsl:attribute name="title"><xsl:value-of select="./NewsComponent/NewsLines/HeadLineShort" /></xsl:attribute>
+					<xsl:attribute name="publicationDate"><xsl:value-of select="./NewsManagement/FirstCreated" /></xsl:attribute>
+					<xsl:attribute name="expirationDate"></xsl:attribute>
+				    <xsl:attribute name="SlugLine"><xsl:value-of select="./NewsComponent/NewsLines/HeadLine" /></xsl:attribute>
+					<xsl:attribute name="tagSections"></xsl:attribute>
+					<xsl:attribute name="tagShare"></xsl:attribute>
+				
+					<!-- create image component-->
+					<xsl:apply-templates
+						select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink" />
 				</xsl:element>
+				
+				<!-- create text components for all paras-->	
+					<xsl:apply-templates
+						select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPStory" />
+				
+			
 			</xsl:element>
 		</xsl:element>
 		
@@ -86,19 +83,6 @@
 				<xsl:attribute name="text"><xsl:value-of select="." /></xsl:attribute>
 			</xsl:element>
 		</xsl:for-each>
-	</xsl:template>
-
-	<!-- headline component template for mapping NewsLines -->
-	<xsl:template match="NewsComponent/NewsLines">
-		<xsl:element name="headlineTitle">
-			<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
-			<xsl:attribute name="sling:resourceType">/apps/tc/components/headlineTitle</xsl:attribute>
-			<xsl:attribute name="byLine"><xsl:value-of select="./ByLine" /></xsl:attribute>
-			<xsl:attribute name="copyrightLine"><xsl:value-of select="./CopyrightLine" /></xsl:attribute>
-			<xsl:attribute name="dateLine"><xsl:value-of select="./DateLine" /></xsl:attribute>
-			<xsl:attribute name="headline"><xsl:value-of select="./HeadLine" /></xsl:attribute>
-			<xsl:attribute name="headlineShort"><xsl:value-of select="./HeadLineShort" /></xsl:attribute>
-		</xsl:element>
 	</xsl:template>
 
 </xsl:stylesheet>
