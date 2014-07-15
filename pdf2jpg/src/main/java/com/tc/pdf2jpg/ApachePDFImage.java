@@ -1,9 +1,11 @@
 package com.tc.pdf2jpg;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.util.PDFTextStripper;
 
 public class ApachePDFImage {
 
@@ -52,14 +55,27 @@ public class ApachePDFImage {
 			BufferedImage bi = page.convertToImage();
 			StringBuilder imageName=new StringBuilder (src.substring(0, src.lastIndexOf('.'))).append("_image").append(count).append(".jpg");
 			ImageIO.write(bi, "jpg", new File(imageName.toString()));
+
+			PDFTextStripper stripper = new PDFTextStripper();
+			stripper.setStartPage(count);
+			stripper.setEndPage(count);
+
+			PrintWriter writer = new PrintWriter(imageName.toString().replace(".jpg",".txt"), "UTF-8");
+			
+			writer.write(stripper.getText(doc));
+			writer.close();
+
+			//String plainText = stripper.writeText(arg0, arg1);
 			 System.out.println("completed..."+count);
 			count++;
 
 		}
 
-		System.out.println("Conversion complete");
+
+				System.out.println("Conversion complete");
 
 
 	}
 
 }
+
