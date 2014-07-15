@@ -26,6 +26,7 @@ public class DamAssetUploadHandler {
 		String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
 		String CRLF = "\r\n"; // Line separator required by multipart/form-data.
 		String url=props.getProperty("aem.url");
+		url = url + "/content/dam/.createasset.html";
 
 		URLConnection connection = new URL(url).openConnection();
 		connection.setDoOutput(true);

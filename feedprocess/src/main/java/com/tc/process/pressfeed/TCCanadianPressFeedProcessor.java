@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+import com.tc.aem.importer.AEMPackageImporter;
 import com.tc.process.handler.DamAssetUploadHandler;
 import com.tc.process.handler.TCFTPNewsLetterProcessHandler;
 import com.tc.process.handler.TCNewLetterTransformerHandler;
@@ -44,6 +45,7 @@ public class TCCanadianPressFeedProcessor {
 				DamAssetUploadHandler uploader = new DamAssetUploadHandler();
 				Properties aemProps = new Properties();
 				aemProps.load(aemPropsStr);
+				// upload image zip file
 				if (uploader.uploadToAEM(
 						pressProps.getProperty("ftp.localDirectory")
 								+ File.separator + "output" + File.separator
@@ -52,6 +54,16 @@ public class TCCanadianPressFeedProcessor {
 				} else {
 					LOG.error("uploaded to cq failed");
 				}
+				
+				// upload package
+				AEMPackageImporter importer = new AEMPackageImporter();
+				String repoURL = aemProps.getProperty("aem.url") + "/crx/server";
+				String userName = aemProps.getProperty("aem.userid");
+				String password = aemProps.getProperty("aem.password");
+				String packagePath = pressProps.getProperty("ftp.localDirectory") + File.separator + "output" + File.separator + "output.zip";
+				
+				importer.importPackage(repoURL, userName, password, packagePath);
+				
 			} else {
 				LOG.error("tranform failed");
 			}

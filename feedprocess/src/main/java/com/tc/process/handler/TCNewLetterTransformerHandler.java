@@ -219,48 +219,50 @@ public class TCNewLetterTransformerHandler {
 					FileUtils
 							.copyDirectoryToDirectory(metaInfDir, OutDirectory);
 				}
-				
-				// move /content/dam folder and zip up only the images
-				File contentDamFolder = new File(jcrRootDir.getAbsolutePath() + File.separator + "content" + File.separator + "dam");
-				File imagesFolder = new File(OutDirectory.getAbsolutePath() + File.separator + "images");
-				contentDamFolder.renameTo(imagesFolder);
-				
-				/*
-				 * This needs to be refactored, the objective here is to 
-				 * determine the zip file name and also the folder to be zipped
-				 */
-				String folders[] = imagesFolder.list(new FilenameFilter() {
+				if (jcrRootDir.exists()) {
+					// move /content/dam folder and zip up only the images
+					File contentDamFolder = new File(jcrRootDir.getAbsolutePath() + File.separator + "content" + File.separator + "dam");
+					File imagesFolder = new File(OutDirectory.getAbsolutePath() + File.separator + "images");
+					contentDamFolder.renameTo(imagesFolder);
 					
-					@Override
-					public boolean accept(File dir, String name) {
-						return dir.isDirectory();
+					/*
+					 * This needs to be refactored, the objective here is to 
+					 * determine the zip file name and also the folder to be zipped
+					 */
+					String folders[] = imagesFolder.list(new FilenameFilter() {
+						
+						@Override
+						public boolean accept(File dir, String name) {
+							return dir.isDirectory();
+						}
+					});
+					String zipFileName = "images.zip";
+					if (folders != null) {
+						zipFileName = folders[0];
+						imagesFolder = new File(imagesFolder.getAbsolutePath() + File.separator + folders[0]);
 					}
-				});
-				String zipFileName = "images.zip";
-				if (folders != null) {
-					zipFileName = folders[0];
-					imagesFolder = new File(imagesFolder.getAbsolutePath() + File.separator + folders[0]);
-				}
-				
-				folders = imagesFolder.list(new FilenameFilter() {
 					
-					@Override
-					public boolean accept(File dir, String name) {
-						return dir.isDirectory();
+					folders = imagesFolder.list(new FilenameFilter() {
+						
+						@Override
+						public boolean accept(File dir, String name) {
+							return dir.isDirectory();
+						}
+					});
+					if (folders != null) {
+						imagesFolder = new File(imagesFolder.getAbsolutePath() + File.separator + folders[0]);
 					}
-				});
-				if (folders != null) {
-					imagesFolder = new File(imagesFolder.getAbsolutePath() + File.separator + folders[0]);
+					
+					FileOutputStream imagesOs = new FileOutputStream(
+							OutDirectory.getAbsolutePath() + File.separator
+									 + zipFileName + ".zip");
+					ZipOutputStream imagesZos = new ZipOutputStream(imagesOs);
+					addDirToZipArchive(imagesZos, imagesFolder, null, false);
+					
+					imagesZos.close();
+					imagesOs.close();					
 				}
-				
-				FileOutputStream imagesOs = new FileOutputStream(
-						OutDirectory.getAbsolutePath() + File.separator
-								 + zipFileName + ".zip");
-				ZipOutputStream imagesZos = new ZipOutputStream(imagesOs);
-				addDirToZipArchive(imagesZos, imagesFolder, null, false);
-				
-				imagesZos.close();
-				imagesOs.close();
+
 				
 
 			} else {
