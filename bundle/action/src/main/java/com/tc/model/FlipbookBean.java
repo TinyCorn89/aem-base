@@ -19,6 +19,9 @@ public class FlipbookBean implements Serializable {
 	/** The images path list. */
 	private List<String> imagesPathList;
 
+	/** The images meta data list. */
+	private List<String> imagesMetaDataList;
+
 	/**
 	 * @return the imagesPathList
 	 */
@@ -34,6 +37,21 @@ public class FlipbookBean implements Serializable {
 		this.imagesPathList = imagesPathList;
 	}
 
+	/**
+	 * @return the imagesMetaDataList
+	 */
+	public List<String> getImagesMetaDataList() {
+		return imagesMetaDataList;
+	}
+
+	/**
+	 * @param imagesMetaDataList
+	 *            the imagesMetaDataList to set
+	 */
+	public void setImagesMetaDataList(List<String> imagesMetaDataList) {
+		this.imagesMetaDataList = imagesMetaDataList;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -41,7 +59,8 @@ public class FlipbookBean implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "FlipbookBean [imagesPathList=" + imagesPathList + "]";
+		return "FlipbookBean [imagesPathList=" + imagesPathList
+				+ ", imagesMetaDataList=" + imagesMetaDataList + "]";
 	}
 
 	/*
@@ -53,6 +72,10 @@ public class FlipbookBean implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime
+				* result
+				+ ((imagesMetaDataList == null) ? 0 : imagesMetaDataList
+						.hashCode());
 		result = prime * result
 				+ ((imagesPathList == null) ? 0 : imagesPathList.hashCode());
 		return result;
@@ -75,6 +98,13 @@ public class FlipbookBean implements Serializable {
 			return false;
 		}
 		FlipbookBean other = (FlipbookBean) obj;
+		if (imagesMetaDataList == null) {
+			if (other.imagesMetaDataList != null) {
+				return false;
+			}
+		} else if (!imagesMetaDataList.equals(other.imagesMetaDataList)) {
+			return false;
+		}
 		if (imagesPathList == null) {
 			if (other.imagesPathList != null) {
 				return false;
