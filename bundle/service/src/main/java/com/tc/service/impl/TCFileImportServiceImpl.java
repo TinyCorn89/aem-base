@@ -3,6 +3,7 @@ package com.tc.service.impl;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.jcr.ImportUUIDBehavior;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
@@ -49,7 +50,8 @@ public class TCFileImportServiceImpl extends BaseService implements TCFileImport
 				LOG.info("File path ends with .xml so importing the xml in " + parentPath);
 				parentNode = session.getNode(parentPath); 
 			} else if (StringUtils.contains(filePath, ".zip")){
-				parentPath = parentPath.replaceAll("/content/", "/content/dam/");
+				//parentPath = parentPath.replaceAll("/content/", "/content/dam/");
+				parentPath = "/content/dam";
 				parentNode = session.getNode(parentPath);
 			}
 			Node jcrContent = fileNode.getNode("jcr:content");
@@ -87,12 +89,12 @@ public class TCFileImportServiceImpl extends BaseService implements TCFileImport
 			 * this approach will eliminate workflow trigger for each xml file
 			 */
 			
-			if (isZipFileImport) {
+			/*if (isZipFileImport) {
 				String contentParentPath = parentPath.replaceAll("/content/dam/", "/content/");
 				LOG.info("contentParentPath =" + contentParentPath);
 				Node contentParentNode = session.getNode(contentParentPath);
 				importAllXMLFiles(parentNode, contentParentNode, fileName, session);
-			}
+			}*/
 			
 		} catch (Exception e) {
 			LOG.error("Error while importing" ,e);
@@ -125,6 +127,9 @@ public class TCFileImportServiceImpl extends BaseService implements TCFileImport
 						InputStream jcrData = node.getNode("jcr:content").getProperty("jcr:data").getStream();
 						try {
 							contentImporter.importContent(contentParentNode, node.getName(), jcrData, getImportOptions(), null);
+							/*session.importXML(parentNode.getPath(), jcrData, ImportUUIDBehavior.IMPORT_UUID_CREATE_NEW);
+							session.save();*/
+
 						} catch (Exception e) {
 							LOG.error("Error in importing " + node.getPath(), e);
 						} finally {
