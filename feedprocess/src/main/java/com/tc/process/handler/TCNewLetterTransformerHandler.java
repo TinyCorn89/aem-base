@@ -124,6 +124,7 @@ public class TCNewLetterTransformerHandler {
 					InputSource inputSource = new InputSource(new FileInputStream(child));
 					SAXSource saxSource = new SAXSource(xmlReader, inputSource);
 					StreamResult result = new StreamResult(fos);
+					transformer.setParameter("tags", "[geometrixx-media:entertainment/movies,geometrixx-media:events/concerts]");
 					transformer.transform(saxSource, result);
 					fos.close();
 

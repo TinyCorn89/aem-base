@@ -4,6 +4,7 @@
 	xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0">
 
 	<xsl:output indent="yes" />
+	<xsl:param name="tags" />
 
 	<xsl:template match="/">
 		<xsl:copy>
@@ -26,6 +27,10 @@
 				<xsl:attribute name="sling:resourceType">/apps/tc/components/page/article</xsl:attribute>
 				<xsl:attribute name="newsId"><xsl:value-of select="./Identification/NewsIdentifier/NewsItemId" /></xsl:attribute>
 				<xsl:attribute name="createdDate"><xsl:value-of select="./NewsManagement/FirstCreated" /></xsl:attribute>
+				<xsl:if test="$tags">
+    				<xsl:attribute name="cq:tags"><xsl:value-of select="$tags" /></xsl:attribute>
+				</xsl:if>
+				
 
 				<!--  add content region -->
 				<xsl:element name="content-region">
