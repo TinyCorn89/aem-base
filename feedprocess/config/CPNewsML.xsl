@@ -45,18 +45,18 @@
 					<xsl:attribute name="tagShare"></xsl:attribute>
 				
 				</xsl:element>
-				
-				<!-- create image component-->
-					<xsl:apply-templates
-						select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink" />
-				<!-- create text components for all paras-->	
-					<xsl:apply-templates
-						select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPStory" />
-				
-			
+				<xsl:element name="content-multi">
+					<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
+					<xsl:attribute name="sling:resourceType">foundation/components/parsys</xsl:attribute>
+					<!-- create image component-->
+						<xsl:apply-templates
+							select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink" />
+					<!-- create text components for all paras-->	
+						<xsl:apply-templates
+							select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPStory" />
+				</xsl:element>
 			</xsl:element>
 		</xsl:element>
-		
 		
 		
 	</xsl:template>

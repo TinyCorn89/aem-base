@@ -21,3 +21,4 @@ maven-eclipse.xml
 *.iws
 .DS_Store
 .vlt
+feedprocess/feedprocess.jar
