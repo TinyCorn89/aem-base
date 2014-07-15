@@ -31,7 +31,6 @@
     				<xsl:attribute name="cq:tags"><xsl:value-of select="$tags" /></xsl:attribute>
 				</xsl:if>
 				
-
 				<!--  add article component -->
 				<xsl:element name="article">
 					<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
@@ -45,11 +44,11 @@
 					<xsl:attribute name="tagSections"></xsl:attribute>
 					<xsl:attribute name="tagShare"></xsl:attribute>
 				
-					<!-- create image component-->
-					<xsl:apply-templates
-						select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink" />
 				</xsl:element>
 				
+				<!-- create image component-->
+					<xsl:apply-templates
+						select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink" />
 				<!-- create text components for all paras-->	
 					<xsl:apply-templates
 						select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPStory" />
@@ -65,12 +64,13 @@
 	<!-- image component mapping for CPLink -->
 	<xsl:template
 		match="NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink">
-		<xsl:element name="cplink">
+		<xsl:element name="image">
 			<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
 			<xsl:attribute name="caption"><xsl:value-of select="@Caption" /></xsl:attribute>
 			<xsl:attribute name="height"><xsl:value-of select="@SourceHeight" /></xsl:attribute>
 			<xsl:attribute name="width"><xsl:value-of select="@SourceWidth" /></xsl:attribute>
-			<xsl:attribute name="image"><xsl:value-of select="@SourceFilePath" /></xsl:attribute>
+			<xsl:attribute name="fileReference"><xsl:value-of select="@SourceFilePath" /></xsl:attribute>
+			<xsl:attribute name="sling:resourceType">tc/components/content/image</xsl:attribute>
 		</xsl:element>
 	</xsl:template>
 
