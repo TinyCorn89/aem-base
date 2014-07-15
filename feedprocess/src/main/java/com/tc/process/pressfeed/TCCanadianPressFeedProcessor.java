@@ -28,7 +28,7 @@ public class TCCanadianPressFeedProcessor {
 		TCFTPNewsLetterProcessHandler process = new TCFTPNewsLetterProcessHandler(
 				pressProps);
 
-		if (process.process()) {
+		/*if (process.process())*/ {
 			LOG.info("Completed the Ftp files Sucessfully");
 			// run the trasformer
 			// zip
@@ -68,9 +68,9 @@ public class TCCanadianPressFeedProcessor {
 				LOG.error("tranform failed");
 			}
 
-		} else {
+		} /*else {
 			LOG.error("ftp process  failed . check the logs for info . It may be possibe that no files are present for processing ");
-		}
+		}*/
 	}
 
 }

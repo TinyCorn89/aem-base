@@ -43,6 +43,12 @@ public class TCNewLetterTransformerHandler {
 	private XMLReader xmlReader;
 	private EntityResolver entityResolver;
 
+	
+	public void getTagsFromPoolParty(File xmlFile) {
+		
+	}
+	
+	
 	public boolean tranform(String inputdir, String xslFileName)
 			throws Exception {
 		try {
@@ -124,7 +130,10 @@ public class TCNewLetterTransformerHandler {
 					InputSource inputSource = new InputSource(new FileInputStream(child));
 					SAXSource saxSource = new SAXSource(xmlReader, inputSource);
 					StreamResult result = new StreamResult(fos);
-					transformer.setParameter("tags", "[geometrixx-media:entertainment/movies,geometrixx-media:events/concerts]");
+					
+					//String tags = getTagsFromPoolParty(child);
+					
+					//transformer.setParameter("tags", tags);
 					transformer.transform(saxSource, result);
 					fos.close();
 
