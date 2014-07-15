@@ -57,6 +57,7 @@ public abstract class TCFTPProcessHandler {
 			ftp.changeWorkingDirectory(remoteDirectory);
 			LOG.info("Current directory is "
 					+ ftp.printWorkingDirectory());
+			ftp.setFileType(FTPClient.BINARY_FILE_TYPE);
 		} catch (Exception e) {
 			LOG.error("unable to connect"+e);
 		}
