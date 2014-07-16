@@ -45,14 +45,16 @@ public class TCCanadianPressFeedProcessor {
 				DamAssetUploadHandler uploader = new DamAssetUploadHandler();
 				Properties aemProps = new Properties();
 				aemProps.load(aemPropsStr);
-				// upload image zip file
-				if (uploader.uploadToAEM(
-						pressProps.getProperty("ftp.localDirectory")
+				// upload image zip file if exist
+				File imageZip = new File(pressProps.getProperty("ftp.localDirectory")
 								+ File.separator + "output" + File.separator
-								+ "tc.zip", aemProps)) {
-					LOG.info("uploaded to cq sucessfully");
-				} else {
-					LOG.error("uploaded to cq failed");
+								+ "tc.zip");
+				if (imageZip.exists()) {
+					if (uploader.uploadToAEM(imageZip.getAbsolutePath(), aemProps)) {
+						LOG.info("uploaded to cq successfully");
+					} else {
+						LOG.error("uploaded to cq failed");
+					}
 				}
 				
 				// upload package

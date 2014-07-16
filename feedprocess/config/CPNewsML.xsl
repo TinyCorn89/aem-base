@@ -64,14 +64,16 @@
 	<!-- image component mapping for CPLink -->
 	<xsl:template
 		match="NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink">
-		<xsl:element name="image">
-			<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
-			<xsl:attribute name="caption"><xsl:value-of select="@Caption" /></xsl:attribute>
-			<xsl:attribute name="height"><xsl:value-of select="@SourceHeight" /></xsl:attribute>
-			<xsl:attribute name="width"><xsl:value-of select="@SourceWidth" /></xsl:attribute>
-			<xsl:attribute name="fileReference"><xsl:value-of select="@SourceFilePath" /></xsl:attribute>
-			<xsl:attribute name="sling:resourceType">tc/components/content/image</xsl:attribute>
-		</xsl:element>
+		<xsl:if test="contains(@SourceFilePath, '.jpg')"> 
+			<xsl:element name="image">
+				<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
+				<xsl:attribute name="caption"><xsl:value-of select="@Caption" /></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="@SourceHeight" /></xsl:attribute>
+				<xsl:attribute name="width"><xsl:value-of select="@SourceWidth" /></xsl:attribute>
+				<xsl:attribute name="fileReference"><xsl:value-of select="@SourceFilePath" /></xsl:attribute>
+				<xsl:attribute name="sling:resourceType">tc/components/content/image</xsl:attribute>
+			</xsl:element>
+		</xsl:if>
 	</xsl:template>
 
 	<!-- text component template for mapping CPStory -->

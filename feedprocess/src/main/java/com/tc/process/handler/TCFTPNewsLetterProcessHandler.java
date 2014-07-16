@@ -7,14 +7,11 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;
 import org.apache.log4j.Logger;
@@ -121,7 +118,7 @@ public class TCFTPNewsLetterProcessHandler extends TCFTPProcessHandler {
 				ftp.retrieveFile(ftpFileName, output);
 				// close output stream
 				output.close();
-				ftp.deleteFile(ftpFileName);
+				//ftp.deleteFile(ftpFileName);
 				// increment the counter
 				filesDownloded++;
 				String fileContents = readFile(localDirectory + File.separator
