@@ -2,12 +2,13 @@ package com.tc.process.handler;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
+import java.util.List;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -31,6 +32,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import com.tc.poolparty.PoolPartyManager;
+import com.tc.poolparty.impl.PoolPartyManagerImpl;
 import com.tc.process.pressfeed.CanadianFeedEntityResolver;
 
 
@@ -42,12 +45,68 @@ public class TCNewLetterTransformerHandler {
 	private Transformer transformer;
 	private XMLReader xmlReader;
 	private EntityResolver entityResolver;
-
+	private PoolPartyManager poolPartyManager; 
 	
-	public void getTagsFromPoolParty(File xmlFile) {
+	public String getTagsFromPoolParty(File xmlFile) {
+		List<String> tags = null;
+		StringBuffer tagsSb = new StringBuffer("[");
+		InputStream poolPartyPropsStream = this.getClass().getClassLoader()
+				.getResourceAsStream("poolparty.properties");
 		
+		Properties poolPartyProps = new Properties();
+		try {
+			poolPartyProps.load(poolPartyPropsStream);
+		} catch (IOException ioe) {
+			LOG.error("Unable to load poolparty.properties", ioe);
+			return null;
+		}
+		
+		if (poolPartyManager == null) {
+			poolPartyManager = new PoolPartyManagerImpl(poolPartyProps);
+		}
+		String text;
+		try {
+			
+			String xslFile = poolPartyProps.getProperty("poolparty.extractTextXml");
+			text = extractTextFields(xslFile, xmlFile.getAbsolutePath());
+			tags = poolPartyManager.crawlText(text);
+			if (tags != null) {
+				for (int i = 0; i < tags.size(); i++) {
+					String tag = tags.get(i);
+					tagsSb.append(tag);
+					if ((i + 1) < tags.size()) {
+						tagsSb.append(",");
+					}
+				}
+			}
+		} catch (Exception e) {
+			LOG.error("Error while extracting text ", e);
+		}
+		
+		
+		tagsSb.append("]");
+		return tagsSb.toString();
 	}
 	
+	
+	public String extractTextFields(String xslFile, String xmlFile) throws Exception {
+		LOG.info("Extract text from " + xmlFile);
+		XMLReader srcXmlReader = XMLReaderFactory.createXMLReader();
+		EntityResolver lclEntityResolver = new CanadianFeedEntityResolver();
+		srcXmlReader.setEntityResolver(lclEntityResolver);
+		
+		FileInputStream xslFileAsStream = new FileInputStream(xslFile);
+		StreamSource styleSource = new StreamSource(xslFileAsStream);
+		Transformer lclTransformer = factory
+				.newTransformer(styleSource);
+		InputSource inputSource = new InputSource(new FileInputStream(xmlFile));
+		SAXSource saxSource = new SAXSource(srcXmlReader, inputSource);
+		StringWriter sw = new StringWriter();
+		StreamResult result = new StreamResult(sw);
+		lclTransformer.transform(saxSource, result);
+		return sw.getBuffer().toString();
+		
+	}
 	
 	public boolean tranform(String inputdir, String xslFileName)
 			throws Exception {
@@ -117,6 +176,7 @@ public class TCNewLetterTransformerHandler {
 			transformer = factory
 					.newTransformer(stylesource);
 			if (directoryListing != null) {
+				boolean imageFlag = false;
 				for (File child : directoryListing) {
 					if (!child.getName().contains(".xml")) {
 						continue;
@@ -130,10 +190,12 @@ public class TCNewLetterTransformerHandler {
 					InputSource inputSource = new InputSource(new FileInputStream(child));
 					SAXSource saxSource = new SAXSource(xmlReader, inputSource);
 					StreamResult result = new StreamResult(fos);
+					String tags = getTagsFromPoolParty(child);
 					
-					//String tags = getTagsFromPoolParty(child);
-					
-					//transformer.setParameter("tags", tags);
+					transformer.setParameter("tags", tags);
+					String damFolder = contentFolder.replaceAll("\\\\", "/");
+					damFolder = damFolder.replaceAll("/content/", "/content/dam/");
+					transformer.setParameter("damFolder", damFolder);
 					transformer.transform(saxSource, result);
 					fos.close();
 
@@ -152,14 +214,20 @@ public class TCNewLetterTransformerHandler {
 					String createdDate = jcrContentElement
 							.getAttribute("createdDate");
 					
-					Node cpLinkNode = doc.getElementsByTagName("cplink").item(0);
+					Node imageNode = doc.getElementsByTagName("image").item(0);
 					String imageName = null;
-					if (cpLinkNode != null) {
-						Element cpLinkElement = (Element) cpLinkNode;
-						imageName = cpLinkElement.getAttribute("image");
-						if (imageName.contains("/")) {
-							imageName = imageName.substring(imageName.indexOf("/") + 1);	
+					if (imageNode != null) {
+						Element imageElement = (Element) imageNode;
+						imageName = imageElement.getAttribute("fileReference");
+						
+						if (!StringUtils.isEmpty(imageName) && imageName.contains("/")) {
+							imageName = imageName.substring(imageName.lastIndexOf("/") + 1);	
 						}
+						
+						if(!StringUtils.isEmpty(imageName)) {
+							imageFlag = true;	
+						}
+						
 					}
 
 					String year = createdDate.substring(0, 4);
@@ -214,11 +282,12 @@ public class TCNewLetterTransformerHandler {
 					createContentStructure(jcrRootDir, contentDamFolder);
 					
 					// copy the image file from the output folder to the corresponding news folder in dam
-					if (imageName != null) {
+					if (imageFlag) {
 						File srcImage = new File(OutDirectory.getAbsolutePath() + File.separator + imageName);
 						File dstImage = new File(jcrRootDir.getAbsolutePath() + File.separator + contentDamFolder + File.separator + imageName);
-						LOG.info("moving "+ srcImage.getAbsolutePath() + " to " + dstImage.getAbsolutePath());
+						
 						if (srcImage.exists()) {
+							LOG.info("moving "+ srcImage.getAbsolutePath() + " to " + dstImage.getAbsolutePath());
 							srcImage.renameTo(dstImage);
 						}
 					}
@@ -230,50 +299,51 @@ public class TCNewLetterTransformerHandler {
 							.copyDirectoryToDirectory(metaInfDir, OutDirectory);
 				}
 				if (jcrRootDir.exists()) {
-					// move /content/dam folder and zip up only the images
-					File contentDamFolder = new File(jcrRootDir.getAbsolutePath() + File.separator + "content" + File.separator + "dam");
-					File imagesFolder = new File(OutDirectory.getAbsolutePath() + File.separator + "images");
-					contentDamFolder.renameTo(imagesFolder);
-					
-					/*
-					 * This needs to be refactored, the objective here is to 
-					 * determine the zip file name and also the folder to be zipped
-					 */
-					String folders[] = imagesFolder.list(new FilenameFilter() {
+					if (imageFlag) {
+						// move /content/dam folder and zip up only the images
+						File contentDamFolder = new File(jcrRootDir.getAbsolutePath() + File.separator + "content" + File.separator + "dam");
+						File imagesFolder = new File(OutDirectory.getAbsolutePath() + File.separator + "images");
+						contentDamFolder.renameTo(imagesFolder);
 						
-						@Override
-						public boolean accept(File dir, String name) {
-							return dir.isDirectory();
+						/*
+						 * This needs to be refactored, the objective here is to 
+						 * determine the zip file name and also the folder to be zipped
+						 */
+						String folders[] = imagesFolder.list(new FilenameFilter() {
+							
+							@Override
+							public boolean accept(File dir, String name) {
+								return dir.isDirectory();
+							}
+						});
+						String zipFileName = "images.zip";
+						if (folders != null) {
+							zipFileName = folders[0];
+							imagesFolder = new File(imagesFolder.getAbsolutePath() + File.separator + folders[0]);
 						}
-					});
-					String zipFileName = "images.zip";
-					if (folders != null) {
-						zipFileName = folders[0];
-						imagesFolder = new File(imagesFolder.getAbsolutePath() + File.separator + folders[0]);
-					}
-					
-					folders = imagesFolder.list(new FilenameFilter() {
 						
-						@Override
-						public boolean accept(File dir, String name) {
-							return dir.isDirectory();
+						folders = imagesFolder.list(new FilenameFilter() {
+							
+							@Override
+							public boolean accept(File dir, String name) {
+								return dir.isDirectory();
+							}
+						});
+						if (folders != null) {
+							imagesFolder = new File(imagesFolder.getAbsolutePath() + File.separator + folders[0]);
 						}
-					});
-					if (folders != null) {
-						imagesFolder = new File(imagesFolder.getAbsolutePath() + File.separator + folders[0]);
+						
+						FileOutputStream imagesOs = new FileOutputStream(
+								OutDirectory.getAbsolutePath() + File.separator
+										 + zipFileName + ".zip");
+						ZipOutputStream imagesZos = new ZipOutputStream(imagesOs);
+						addDirToZipArchive(imagesZos, imagesFolder, null, false);
+						
+						imagesZos.close();
+						imagesOs.close();					
+						
 					}
-					
-					FileOutputStream imagesOs = new FileOutputStream(
-							OutDirectory.getAbsolutePath() + File.separator
-									 + zipFileName + ".zip");
-					ZipOutputStream imagesZos = new ZipOutputStream(imagesOs);
-					addDirToZipArchive(imagesZos, imagesFolder, null, false);
-					
-					imagesZos.close();
-					imagesOs.close();					
 				}
-
-				
 
 			} else {
 				LOG.info("no files in the directory");

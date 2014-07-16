@@ -55,7 +55,7 @@ public class LongArticlePropertiesAction extends BaseAction {
 	    	} else {
 	    		image = new Image(getCurrentResource(), "image");
 	    		title = getCurrentNode().getProperty("title").getString();
-	    	    description = getCurrentNode().getProperty("desciption").getString();
+	    	    description = getCurrentNode().getProperty("description").getString();
 	    	}
     	}
 		 /**

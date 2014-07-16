@@ -5,16 +5,21 @@
 
 	<xsl:output indent="yes" />
 	<xsl:param name="tags" />
+	<xsl:param name="damFolder"/>
 
 	<xsl:template match="/">
 		<xsl:copy>
 			<xsl:apply-templates select="NewsML/NewsItem" />
 		</xsl:copy>
 	</xsl:template>
+		<xsl:variable name="year"><xsl:value-of select="substring(NewsML/NewsItem/NewsManagement/FirstCreated,1,4)" /></xsl:variable>
+		<xsl:variable name="month"><xsl:value-of select="substring(NewsML/NewsItem/NewsManagement/FirstCreated,6,2)" /></xsl:variable>
+		<xsl:variable name="day"><xsl:value-of select="substring(NewsML/NewsItem/NewsManagement/FirstCreated,9,2)" /></xsl:variable>
+		<xsl:variable name="newsId"><xsl:value-of select="NewsML/NewsItem/Identification/NewsIdentifier/NewsItemId" /></xsl:variable>
+		<xsl:variable name="fullDamPath"><xsl:value-of select="$damFolder"/>/<xsl:value-of select="$year"/>/<xsl:value-of select="$month"/>/<xsl:value-of select="$day"/>/<xsl:value-of select="$newsId"/></xsl:variable>
 
 	<xsl:template match="NewsItem">
 		<xsl:output method="xml" indent="yes" />
-		
 		<xsl:element name="jcr:root">
 			<xsl:copy-of
 					select="document('')/xsl:stylesheet/namespace::*[name()!='xsl']" />
@@ -45,7 +50,7 @@
 					<xsl:attribute name="tagShare"></xsl:attribute>
 				
 				</xsl:element>
-				<xsl:element name="content-multi">
+				<xsl:element name="content-region">
 					<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
 					<xsl:attribute name="sling:resourceType">foundation/components/parsys</xsl:attribute>
 					<!-- create image component-->
@@ -64,14 +69,24 @@
 	<!-- image component mapping for CPLink -->
 	<xsl:template
 		match="NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink">
-		<xsl:element name="image">
-			<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
-			<xsl:attribute name="caption"><xsl:value-of select="@Caption" /></xsl:attribute>
-			<xsl:attribute name="height"><xsl:value-of select="@SourceHeight" /></xsl:attribute>
-			<xsl:attribute name="width"><xsl:value-of select="@SourceWidth" /></xsl:attribute>
-			<xsl:attribute name="fileReference"><xsl:value-of select="@SourceFilePath" /></xsl:attribute>
-			<xsl:attribute name="sling:resourceType">tc/components/content/image</xsl:attribute>
-		</xsl:element>
+		<xsl:if test="contains(@SourceFilePath, '.jpg')"> 
+			<xsl:element name="image">
+				<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
+				<xsl:attribute name="caption"><xsl:value-of select="@Caption" /></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="@SourceHeight" /></xsl:attribute>
+				<xsl:attribute name="width"><xsl:value-of select="@SourceWidth" /></xsl:attribute>
+				<xsl:variable name="ref"><xsl:value-of select="@SourceFilePath" /></xsl:variable>
+				<xsl:if test="starts-with($ref, './')">
+					<xsl:attribute name="fileReference"><xsl:copy-of select="$fullDamPath" />/<xsl:copy-of select="substring($ref, 3)" /></xsl:attribute>
+				</xsl:if>
+				
+				<xsl:if test="not(starts-with($ref, './'))">
+					<xsl:attribute name="fileReference"><xsl:copy-of select="$fullDamPath" />/<xsl:copy-of select="$ref"/></xsl:attribute>
+				</xsl:if>
+				
+				<xsl:attribute name="sling:resourceType">tc/components/content/image</xsl:attribute>
+			</xsl:element>
+		</xsl:if>
 	</xsl:template>
 
 	<!-- text component template for mapping CPStory -->
