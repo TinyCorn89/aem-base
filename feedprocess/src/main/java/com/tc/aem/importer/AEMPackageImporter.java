@@ -22,7 +22,7 @@ public class AEMPackageImporter {
 	static Logger LOG = Logger.getLogger(AEMPackageImporter.class.getName());
 
 	public boolean importPackage(String repoURL, String username,
-			String password, String packagePath) {
+			String password, String packagePath, boolean merge) {
 		boolean isSuccess = true;
 		// Getting instance of Jcr repository connection
 		Session session = getRepositorySession(repoURL, username, password); 
@@ -40,7 +40,9 @@ public class AEMPackageImporter {
 					// ImportOptions importOptions =
 					// createPackageImportOptions();
 					ImportOptions importOptions = new ImportOptions();
-					importOptions.setImportMode(ImportMode.MERGE);
+					if(merge) {
+						importOptions.setImportMode(ImportMode.MERGE);
+					}
 					jcrPackage.install(importOptions); // package imported to CQ
 														// instance
 				}
@@ -65,6 +67,8 @@ public class AEMPackageImporter {
 		
 		return isSuccess;
 	}
+	
+	
 
 	private Session getRepositorySession(String url, String userName,
 			String password) {

@@ -64,7 +64,7 @@ public class TCCanadianPressFeedProcessor {
 				String password = aemProps.getProperty("aem.password");
 				String packagePath = pressProps.getProperty("ftp.localDirectory") + File.separator + "output" + File.separator + "output.zip";
 				
-				importer.importPackage(repoURL, userName, password, packagePath);
+				importer.importPackage(repoURL, userName, password, packagePath, true);
 				
 			} else {
 				LOG.error("tranform failed");

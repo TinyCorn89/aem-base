@@ -2,22 +2,35 @@ package com.tc.poolparty.impl;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.zip.ZipOutputStream;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.tc.aem.importer.AEMPackageImporter;
 import com.tc.poolparty.PoolPartyManager;
+import com.tc.process.handler.TCNewLetterTransformerHandler;
 
 public class PoolPartyManagerImpl implements PoolPartyManager {
 
@@ -30,13 +43,295 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 
 	@Override
 	public void createTags(List<String> tags) {
-
+		String organizationName = poolPropertyProperties.getProperty("poolparty.organizationName");
+		String destinationMetaInfoDir = poolPropertyProperties.getProperty("poolparty.jcrRootParentDir");
+		File metaInfDir = new File(destinationMetaInfoDir+"\\META-INF");
+		String jcrRootParentDir = poolPropertyProperties.getProperty("poolparty.jcrRootParentDir");
+		File directory = new File(jcrRootParentDir);
+		File jcrRootDir = new File(directory.getAbsolutePath()+ File.separator + "jcr_root");
+		String tagsDirectory = createJCRRootDirStructure(jcrRootDir);
+		String srcMetaInfoDir = poolPropertyProperties.getProperty("poolparty.metainffolder");
+		createMetaInfoDir(srcMetaInfoDir, destinationMetaInfoDir);
+		String destinationFolder = tagsDirectory+"\\"+organizationName;
+		File tagsFolder = new File(destinationFolder);
+		if (!tagsFolder.exists()) {
+			if (tagsFolder.mkdir()) {
+				LOG.info(tagsFolder.getName()+" Folder is created!");
+			} else {
+				LOG.info("Failed to create "+tagsFolder.getName()+" folder!");
+			}
+		} else {
+			LOG.info(tagsFolder.getName()+" is already exists");
+		}
+		createParentTagContentXML(tags, destinationFolder, organizationName);
+		for(String tag:tags) {
+			String xmlContent = createXMLContent(tag);
+			createContentXML(tag, xmlContent, destinationFolder);
+		}
+		File jcrRootParentFolder = new File(jcrRootParentDir);
+		FileOutputStream fos = null;
+		String aemPackagePath = jcrRootParentFolder.getAbsolutePath() + File.separator+ jcrRootParentFolder.getName() + ".zip";
+		try {
+			fos = new FileOutputStream(aemPackagePath);
+			ZipOutputStream zos = new ZipOutputStream(fos);
+			TCNewLetterTransformerHandler tcNewLetterTransformerHandler = new TCNewLetterTransformerHandler();
+			tcNewLetterTransformerHandler.addDirToZipArchive(zos, jcrRootDir, null, false);
+			tcNewLetterTransformerHandler.addDirToZipArchive(zos, metaInfDir, null, false);
+			zos.close();
+		} catch(FileNotFoundException fileNotFoundException) {
+			fileNotFoundException.printStackTrace();
+		} catch(IOException ioException) {
+			ioException.printStackTrace();
+		} catch(Exception exception) {
+			exception.printStackTrace();
+		}
+		LOG.info("AEM Zip File is Created");
+		AEMPackageImporter aemPackageImporter = new AEMPackageImporter();
+		InputStream aemInputStream = this.getClass().getClassLoader().getResourceAsStream("aem.properties");
+		Properties aemProperties =new Properties();
+		try {
+			aemProperties.load(aemInputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String repoURL = aemProperties.getProperty("aem.url")+"/crx/server";
+		String aemUserName = aemProperties.getProperty("aem.userid");
+		String aemPassword = aemProperties.getProperty("aem.password");
+		boolean status = aemPackageImporter.importPackage(repoURL, aemUserName, aemPassword, aemPackagePath, false);
+		if(status) {
+			LOG.info("Package installed successfully...");
+		} else {
+			LOG.info("Failed to install the package...");
+		}
+	}
+	
+	/**
+	 * Creates the jcr root dir structure with .content.xml files.
+	 *
+	 * @param jcrRootDir the jcr root dir
+	 * @return the string
+	 */
+	private String createJCRRootDirStructure(File jcrRootDir) {
+		String tagsDirectory = null;
+		if (!jcrRootDir.exists()) {
+			jcrRootDir.mkdir();
+			String jcrRootXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,rep:RepoAccessControllable]\" jcr:primaryType=\"rep:root\" sling:resourceType=\"sling:redirect\" sling:target=\"/index.html\"/>";
+			createXMLFile(jcrRootXMLContent, jcrRootDir.getAbsolutePath()+"\\.content.xml");
+			File etcDir =new File(jcrRootDir.getAbsolutePath()+File.separator + "etc");
+			etcDir.mkdir();
+			String etcXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable]\" jcr:primaryType=\"sling:Folder\"/>";
+			createXMLFile(etcXMLContent, etcDir.getAbsolutePath()+"\\.content.xml");
+			File tagsDir =new File(etcDir.getAbsolutePath()+File.separator + "tags");
+			tagsDir.mkdir();
+			String tagsXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,sling:Redirect]\" jcr:primaryType=\"sling:Folder\" jcr:title=\"Tags\" sling:resourceType=\"sling:redirect\" sling:target=\"/tagging\" hidden=\"{Boolean}true\" languages=\"[en,de,es,fr,it,pt_br,zh_cn,zh_tw,ja,ko_kr]\"/>";
+			createXMLFile(tagsXMLContent, tagsDir.getAbsolutePath()+"\\.content.xml");
+			tagsDirectory = tagsDir.getAbsolutePath();
+		}
+		return tagsDirectory;
+	}
+	
+	/**
+	 * Creates the xml file with the given xml content under the given path.
+	 *
+	 * @param xmlContent the xml content
+	 * @param path the path
+	 */
+	private void createXMLFile(String xmlContent, String path) {
+		FileWriter fw;
+		try {
+			File xmlFile = new File(path);
+			if (!xmlFile.exists()) {
+				fw = new java.io.FileWriter(path);
+				fw.write(xmlContent);
+			    fw.close();
+			} else {
+				LOG.info(xmlFile.getName()+" is already exists");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * Creates the meta info dir.
+	 *
+	 * @param srcMetaInfoDir the src meta info dir
+	 * @param destinationMetaInfoDir the destination meta info dir
+	 */
+	private void createMetaInfoDir(String srcMetaInfoDir,
+			String destinationMetaInfoDir) {
+		File metaInfoDir = new File(srcMetaInfoDir);
+		if (metaInfoDir.exists()) {
+			try {
+				FileUtils.copyDirectoryToDirectory(metaInfoDir, new File(destinationMetaInfoDir));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	/**
+	 * Creates the parent tag content xml.
+	 *
+	 * @param tags the tags
+	 * @param destinationFolder the destination folder
+	 * @param organizationName the organization name
+	 */
+	private void createParentTagContentXML(List<String> tags,
+			String destinationFolder, String organizationName) {
+		String listOfTags = "";
+		for(String tag:tags) {
+			listOfTags += "<"+tag+"/>\n";
+		}
+		String xmlContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:cq=\"http://www.day.com/jcr/cq/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" jcr:description=\"\" jcr:primaryType=\"cq:Tag\" jcr:title=\""+organizationName+"\" sling:resourceType=\"cq/tagging/components/tag\">\n"+listOfTags+"</jcr:root>";
+		FileWriter fw;
+		try {
+			File tagFolder = new File(destinationFolder);
+			if (tagFolder.exists()) {
+				fw = new java.io.FileWriter(destinationFolder+"\\.content.xml");
+				fw.write(xmlContent);
+			    fw.close();
+			    LOG.info("Created .content.xml file for the organization"+ organizationName);
+			} else {
+				LOG.info(tagFolder.getName()+" folder is not availabe");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * Creates the xml content for the given tag.
+	 *
+	 * @param tag the tag
+	 * @return the string
+	 */
+	private String createXMLContent(String tag) {
+		String xmlContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:cq=\"http://www.day.com/jcr/cq/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" jcr:description=\"\" jcr:primaryType=\"cq:Tag\" jcr:title=\""+tag+"\" sling:resourceType=\"cq/tagging/components/tag\"/>";
+		return xmlContent;
+	}
+	
+	/**
+	 * Creates the content xml file for the given tag under the given folder with the given content.
+	 *
+	 * @param tag the tag
+	 * @param xmlContent the xml content
+	 * @param destinationFolder the destination folder
+	 */
+	private void createContentXML(String tag, String xmlContent, String destinationFolder) {
+		createTagFolder(tag, destinationFolder);
+		FileWriter fw;
+		try {
+			File tagFolder = new File(destinationFolder+"\\"+tag);
+			if (tagFolder.exists()) {
+				fw = new java.io.FileWriter(destinationFolder+"\\"+tag+"\\.content.xml");
+				fw.write(xmlContent);
+			    fw.close();
+			} else {
+				LOG.info(tagFolder.getName()+" folder is not availabe");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Creates the tag folder.
+	 *
+	 * @param tag the tag
+	 * @param destinationFolder the destination folder
+	 */
+	private void createTagFolder(String tag, String destinationFolder) {
+		File tagFolder = new File(destinationFolder+"\\"+tag);
+		if (!tagFolder.exists()) {
+			if (tagFolder.mkdir()) {
+				LOG.info(tagFolder.getName()+" Folder is created!");
+			} else {
+				LOG.info("Failed to create "+tagFolder.getName()+" folder!");
+			}
+		} else {
+			LOG.info(tagFolder.getName()+" is already exists");
+		}
 	}
 
 	@Override
 	public List<String> getTags() {
-		// TODO Auto-generated method stub
-		return null;
+		LOG.info("Entered getTags()");
+		String masterJSON = getJSONFromPoolParty();
+		List<String> tags = null;
+		try {
+			JSONObject masterJSONObject = new JSONObject(masterJSON);
+			JSONObject results = masterJSONObject.getJSONObject("results");
+			JSONArray bindings = results.getJSONArray("bindings");
+			tags = new ArrayList<String>();
+			for (int i = 0; i < bindings.length(); ++i) {
+			    JSONObject binding = bindings.getJSONObject(i);
+			    JSONObject prefLabelObject = (JSONObject) binding.get("prefLabel");
+			    tags.add(prefLabelObject.getString("value"));
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return tags;
+	}
+	
+	/**
+	 * Connects to PoolParty.
+	 * Gets the jSON from pool party.
+	 *
+	 * @return the jSON from pool party
+	 */
+	private String getJSONFromPoolParty() {
+		StringBuilder content = null;
+		String serverAddress = poolPropertyProperties.getProperty("poolparty.serverAddress");
+		String userId = poolPropertyProperties.getProperty("poolparty.userId");
+		String password = poolPropertyProperties.getProperty("poolparty.password");
+		boolean doOutput = Boolean.parseBoolean(poolPropertyProperties.getProperty("poolparty.doOutput"));
+		String contentType = poolPropertyProperties.getProperty("poolparty.contentType");
+		int connectTimeout = Integer.parseInt(poolPropertyProperties.getProperty("poolparty.connectTimeout"));
+		int readTimeout = Integer.parseInt(poolPropertyProperties.getProperty("poolparty.readTimeout"));
+		String encodedContentType = poolPropertyProperties.getProperty("poolparty.content-type");
+		try {
+			URL url = new URL(serverAddress);
+	        HttpURLConnection  connection =(HttpURLConnection ) url.openConnection();
+	        String userpassword = userId + ":" + password;
+	        String encoded = "Basic " +DatatypeConverter.printBase64Binary(userpassword.getBytes());
+	        connection.setRequestProperty ("Authorization", encoded);
+	        connection.setDoOutput(doOutput);
+	        connection.setRequestProperty("Content-Type", contentType);
+	        connection.setConnectTimeout(connectTimeout);
+	        connection.setReadTimeout(readTimeout);
+	        String query="PREFIX+skos%3A%3Chttp%3A%2F%2Fwww.w3.org%2F2004%2F02%2Fskos%2Fcore%23%3E%0A%0ASELECT++%3Furi+%3FprefLabel+%3FaltLabel%0AWHERE%0A%7B%0A%3Furi+%3Fx+skos%3AConcept+.+%0A%3Furi+skos%3AprefLabel+%3FprefLabel+.%0AOPTIONAL+%7B%3Furi+skos%3AaltLabel+%3FaltLabel+.%7D%0A%0A+%7D+LIMIT+50+OFFSET+0";
+	        connection.setRequestProperty("content-type",encodedContentType);
+	        OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+	        out.write("query="+query);
+	        out.write("&format="+URLEncoder.encode("application/json","utf-8"));
+	        out.flush();
+	        out.close();
+	        BufferedReader in = new BufferedReader(new InputStreamReader(
+	                connection.getInputStream()));
+	        String line;
+	        content=new StringBuilder();
+
+	        // read from the urlconnection via the bufferedreader
+	        while ((line = in.readLine()) != null)
+	        {
+	          content.append(line + "\n");
+	        }
+	        LOG.info("\nREST Service Invoked Successfully.."+content.toString());
+	        in.close();
+		} catch (MalformedURLException malformedURLException) {
+			malformedURLException.printStackTrace();
+	    } catch (UnsupportedEncodingException unsupportedEncodingException) {
+	    	unsupportedEncodingException.printStackTrace();
+	    } catch (IOException ioException) {
+	    	ioException.printStackTrace();
+	    }
+		return content.toString();
+
 	}
 
 	@Override
