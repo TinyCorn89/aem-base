@@ -30,7 +30,7 @@ public class TCFTPNewsLetterProcessHandler extends TCFTPProcessHandler {
 	}
 
 	@Override
-	public boolean process() throws Exception {
+	public boolean process() throws Exception {/*
 		LOG.info("Staring the FTP process");
 
 		try {
@@ -69,7 +69,7 @@ public class TCFTPNewsLetterProcessHandler extends TCFTPProcessHandler {
 
 		}
 		return true;
-	}
+	*/return true;}
 
 	protected void download(String parentDir, String remoteDirectory) throws IOException,
 			FileNotFoundException {
