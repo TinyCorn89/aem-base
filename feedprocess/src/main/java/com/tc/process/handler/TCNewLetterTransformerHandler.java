@@ -2,7 +2,6 @@ package com.tc.process.handler;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -194,6 +193,9 @@ public class TCNewLetterTransformerHandler {
 					String tags = getTagsFromPoolParty(child);
 					
 					transformer.setParameter("tags", tags);
+					String damFolder = contentFolder.replaceAll("\\\\", "/");
+					damFolder = damFolder.replaceAll("/content/", "/content/dam/");
+					transformer.setParameter("damFolder", damFolder);
 					transformer.transform(saxSource, result);
 					fos.close();
 
@@ -219,7 +221,7 @@ public class TCNewLetterTransformerHandler {
 						imageName = imageElement.getAttribute("fileReference");
 						
 						if (!StringUtils.isEmpty(imageName) && imageName.contains("/")) {
-							imageName = imageName.substring(imageName.indexOf("/") + 1);	
+							imageName = imageName.substring(imageName.lastIndexOf("/") + 1);	
 						}
 						
 						if(!StringUtils.isEmpty(imageName)) {
