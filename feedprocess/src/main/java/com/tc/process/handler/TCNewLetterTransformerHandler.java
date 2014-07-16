@@ -388,7 +388,13 @@ public class TCNewLetterTransformerHandler {
 				
 				if (srcImage.exists()) {
 					LOG.info("moving "+ srcImage.getAbsolutePath() + " to " + dstImage.getAbsolutePath());
-					srcImage.renameTo(dstImage);
+					//srcImage.renameTo(dstImage);
+					try {
+						FileUtils.copyFile(srcImage, dstImage);
+					} catch (IOException e) {
+						LOG.info("Error copy a file"+e);
+					}
+					
 				}
 			}
 			
