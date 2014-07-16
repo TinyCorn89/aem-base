@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
@@ -24,9 +25,12 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
@@ -214,21 +218,10 @@ public class TCNewLetterTransformerHandler {
 					String createdDate = jcrContentElement
 							.getAttribute("createdDate");
 					
-					Node imageNode = doc.getElementsByTagName("image").item(0);
-					String imageName = null;
-					if (imageNode != null) {
-						Element imageElement = (Element) imageNode;
-						imageName = imageElement.getAttribute("fileReference");
+					
+					
+					
 						
-						if (!StringUtils.isEmpty(imageName) && imageName.contains("/")) {
-							imageName = imageName.substring(imageName.lastIndexOf("/") + 1);	
-						}
-						
-						if(!StringUtils.isEmpty(imageName)) {
-							imageFlag = true;	
-						}
-						
-					}
 
 					String year = createdDate.substring(0, 4);
 					
@@ -274,23 +267,12 @@ public class TCNewLetterTransformerHandler {
 					File newfile = new File(newsIdDir + File.separator + ".content.xml");
 					xmlFile.renameTo(newfile);
 					
-					// create newsIdDir in /content/dam
-					String contentDamFolder = newsIdDir.getPath();
-					contentDamFolder = contentDamFolder.replaceAll("\\\\", "/");
-					contentDamFolder = contentDamFolder.substring(contentDamFolder.indexOf("/jcr_root/") + 9);
-					contentDamFolder = contentDamFolder.replaceAll("/content/", "/content/dam/");
-					createContentStructure(jcrRootDir, contentDamFolder);
+					List<Element> elements = new ArrayList<Element>();
+					getElementByAttributeValue(elements, "sling:resourceType", jcrContentNode, "tc/components/content/image");
+					boolean imageResultFlag = processImageNodes(elements, newsIdDir, OutDirectory, jcrRootDir); 
+					imageFlag = imageFlag || imageResultFlag;
 					
-					// copy the image file from the output folder to the corresponding news folder in dam
-					if (imageFlag) {
-						File srcImage = new File(OutDirectory.getAbsolutePath() + File.separator + imageName);
-						File dstImage = new File(jcrRootDir.getAbsolutePath() + File.separator + contentDamFolder + File.separator + imageName);
-						
-						if (srcImage.exists()) {
-							LOG.info("moving "+ srcImage.getAbsolutePath() + " to " + dstImage.getAbsolutePath());
-							srcImage.renameTo(dstImage);
-						}
-					}
+					
 				}
 				// copy META-INF folder to outputdir
 				metaInfDir = new File(metaInfFolder);
@@ -372,7 +354,82 @@ public class TCNewLetterTransformerHandler {
 		}
 		return true;
 	}
+	
+	protected boolean processImageNodes(List<Element> images, File leafFolder, File workingDirectory, File jcrRootDir) {
+		boolean returnImageFlag = false;
+		for (Element imageElement : images) {
+			boolean imageFlag = false;
+			String imageName = null;
+			
+			imageName = imageElement.getAttribute("fileReference");
+			
+			if (!StringUtils.isEmpty(imageName) && imageName.contains("/")) {
+				imageName = imageName.substring(imageName.lastIndexOf("/") + 1);	
+			}
+			
+			if(!StringUtils.isEmpty(imageName)) {
+				imageFlag = true;
+				returnImageFlag = true;
+			}
+			
+			
+			// create newsIdDir in /content/dam
+			
+			// copy the image file from the output folder to the corresponding news folder in dam
+			if (imageFlag) {
+				String contentDamFolder = leafFolder.getPath();
+				contentDamFolder = contentDamFolder.replaceAll("\\\\", "/");
+				contentDamFolder = contentDamFolder.substring(contentDamFolder.indexOf("/jcr_root/") + 9);
+				contentDamFolder = contentDamFolder.replaceAll("/content/", "/content/dam/");
+				createContentStructure(jcrRootDir, contentDamFolder);
 
+				File srcImage = new File(workingDirectory.getAbsolutePath() + File.separator + imageName);
+				File dstImage = new File(jcrRootDir.getAbsolutePath() + File.separator + contentDamFolder + File.separator + imageName);
+				
+				if (srcImage.exists()) {
+					LOG.info("moving "+ srcImage.getAbsolutePath() + " to " + dstImage.getAbsolutePath());
+					srcImage.renameTo(dstImage);
+				}
+			}
+			
+			
+		}
+		return returnImageFlag;
+		
+	}
+	public void getElementByAttributeValue(List<Element> elements, String attributeName, Node rootElement, String attributeValue) {
+
+	    if (rootElement != null && rootElement.hasChildNodes()) {
+	        NodeList nodeList = rootElement.getChildNodes();
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	            Node subNode = nodeList.item(i);
+
+	            if (subNode.hasAttributes()) {
+	                NamedNodeMap nnm = subNode.getAttributes();
+
+	                for (int j = 0; j < nnm.getLength(); j++) {
+	                    Node attrNode = nnm.item(j);
+
+	                    if (attrNode.getNodeType() == Node.ATTRIBUTE_NODE) {
+	                        Attr attribute = (Attr) attrNode;
+	                        if (StringUtils.equalsIgnoreCase(attribute.getName(), attributeName) ) {
+		                        if (attributeValue.equals(attribute.getValue())) {
+		                        	elements.add((Element)subNode);
+		                            
+		                        } else {
+		                            getElementByAttributeValue(elements, attributeName, subNode, attributeValue);
+		                        }
+	                        	
+	                        }
+	                    }
+	                }               
+	            }
+	        }
+	    }
+
+	    
+	}
 	/**
 	 * This method creates whole contentFolder path under jcrRoot folder
 	 * 

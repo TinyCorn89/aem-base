@@ -53,24 +53,36 @@
 				<xsl:element name="content-region">
 					<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
 					<xsl:attribute name="sling:resourceType">foundation/components/parsys</xsl:attribute>
-					<!-- create image component-->
+					<!--  there can be multiple ContentItem -->					
 						<xsl:apply-templates
-							select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink" />
-					<!-- create text components for all paras-->	
-						<xsl:apply-templates
-							select="./NewsComponent/ContentItem/DataContent/CPOnlineFile/CPStory" />
+							select="./NewsComponent" />
 				</xsl:element>
 			</xsl:element>
 		</xsl:element>
 		
 		
 	</xsl:template>
-
+	
+	<xsl:template match="NewsItem/NewsComponent">
+		<xsl:for-each select="./ContentItem/DataContent/CPOnlineFile/CPLink">
+			<xsl:apply-templates select="." >
+				<xsl:with-param name="imageId" select="position()"/>
+			</xsl:apply-templates>
+		</xsl:for-each>
+		
+		<xsl:for-each select="./ContentItem/DataContent/CPOnlineFile/CPStory">
+			<xsl:apply-templates select="." >
+				<xsl:with-param name="storyId" select="position()"/>
+			</xsl:apply-templates>
+		</xsl:for-each>
+	</xsl:template>
+	
 	<!-- image component mapping for CPLink -->
 	<xsl:template
 		match="NewsComponent/ContentItem/DataContent/CPOnlineFile/CPLink">
+		<xsl:param name="imageId"/>
 		<xsl:if test="contains(@SourceFilePath, '.jpg')"> 
-			<xsl:element name="image">
+			<xsl:element name="image{$imageId}">
 				<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
 				<xsl:attribute name="caption"><xsl:value-of select="@Caption" /></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="@SourceHeight" /></xsl:attribute>
@@ -91,8 +103,9 @@
 
 	<!-- text component template for mapping CPStory -->
 	<xsl:template match="NewsComponent/ContentItem/DataContent/CPOnlineFile/CPStory">
+		<xsl:param name="storyId"/>
 		<xsl:for-each select="CPStoryPara">
-			<xsl:element name="text{position()}">
+			<xsl:element name="text{$storyId}{position()}">
 				<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
 				<xsl:attribute name="sling:resourceType">tc/components/content/text</xsl:attribute>
 				<xsl:attribute name="text"><xsl:value-of select="." /></xsl:attribute>
