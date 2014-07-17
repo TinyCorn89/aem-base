@@ -129,41 +129,8 @@ public class TCNewLetterTransformerHandler {
 			if (!OutDirectory.exists()) {
 				OutDirectory.mkdir();
 			}
-			// TODO below is a hack to avoid dtd errors .need to find a solution
-			InputStream in = this.getClass().getClassLoader()
-					.getResourceAsStream("CPNewsML.dtd");
-
-			OutputStream os = new FileOutputStream(directory.getAbsolutePath()
-					+ File.separator + File.separator + "CPNewsML.dtd");
-
-			byte[] buffer = new byte[1024];
-			int bytesRead;
-			// read from is to buffer
-			while ((bytesRead = in.read(buffer)) != -1) {
-				os.write(buffer, 0, bytesRead);
-			}
-			in.close();
-			os.close();
-			
-			// do the same thing for .xsl file as well .Some reason it is not
-			// working if the file is not present in the processed dir.
-			InputStream inXsl = this.getClass().getClassLoader()
-					.getResourceAsStream("CPNewsML.xsl");
-
-			OutputStream outXsl = new FileOutputStream(directory.getAbsolutePath()
-					+ File.separator + File.separator + "CPNewsML.xsl");
-
-			byte[] bufferXsl = new byte[1024];
-			int bytesReadXsl;
-			// read from is to buffer
-			while ((bytesReadXsl = inXsl.read(bufferXsl)) != -1) {
-				outXsl.write(bufferXsl, 0, bytesReadXsl);
-			}
-			inXsl.close();
-			outXsl.close();
-			
-			FileInputStream xslFileAsStream = new FileInputStream(directory.getAbsolutePath()
-					+ File.separator + File.separator + "CPNewsML.xsl");
+						
+			FileInputStream xslFileAsStream = new FileInputStream(xslFileName);
 			StreamSource stylesource = new StreamSource(xslFileAsStream);
 			
 			File[] directoryListing = directory.listFiles();
