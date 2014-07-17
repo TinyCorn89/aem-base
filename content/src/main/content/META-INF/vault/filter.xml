@@ -9,6 +9,8 @@
     <filter root="/content/tc"/>
     <filter root="/etc/workflow/models/tc_pdf2images"/>
     <filter root="/etc/workflow/launcher/config/-1941376282"/>
+    <filter root="/etc/workflow/models/ImportTCXml"/>
+    <filter root="/etc/workflow/launcher/config/-1119877330"/>
     <filter root="/apps/cq"/>
     <filter root="/apps/wcm"/>
 </workspaceFilter>

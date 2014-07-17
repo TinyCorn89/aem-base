@@ -124,7 +124,7 @@ public class ArticleAction extends BaseAction {
    
     private String convert(String dateAndTime) {
         String date = dateAndTime.substring(0, dateAndTime.indexOf("T"));
-        String time = dateAndTime.substring(dateAndTime.indexOf("T") + 1, dateAndTime.indexOf("."));
+        String time = dateAndTime.substring(dateAndTime.indexOf("T") + 1, dateAndTime.length());
         String fromDate = date.concat(" ").concat(time);
         return fromDate;
     }
