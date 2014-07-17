@@ -77,6 +77,12 @@
                         <filter>
                             <root>/etc/workflow/launcher/config/-1941376282</root>
                         </filter>
+                         <filter>
+                            <root>/etc/workflow/models/ImportTCXml</root>
+                        </filter>
+                        <filter>
+                            <root>/etc/workflow/launcher/config/-1119877330</root>
+                        </filter>
                         <filter>
                             <root>/apps/cq</root>
                         </filter>

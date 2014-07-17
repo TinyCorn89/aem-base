@@ -60,9 +60,7 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 			} else {
 				LOG.info("Failed to create "+tagsFolder.getName()+" folder!");
 			}
-		} else {
-			LOG.info(tagsFolder.getName()+" is already exists");
-		}
+		} 
 		createParentTagContentXML(tags, destinationFolder, organizationName);
 		for(String tag:tags) {
 			String xmlContent = createXMLContent(tag);
@@ -97,8 +95,15 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 		String repoURL = aemProperties.getProperty("aem.url")+"/crx/server";
 		String aemUserName = aemProperties.getProperty("aem.userid");
 		String aemPassword = aemProperties.getProperty("aem.password");
-		boolean status = aemPackageImporter.importPackage(repoURL, aemUserName, aemPassword, aemPackagePath, false);
-		if(status) {
+		
+		boolean uninstallationStatus = aemPackageImporter.uninstallPackage(repoURL, aemUserName, aemPassword, aemPackagePath);
+		if(uninstallationStatus) {
+			LOG.info("Package uninstalled successfully...");
+		} else {
+			LOG.info("Failed to uninstall the Package...");
+		}
+		boolean installationStatus = aemPackageImporter.importPackage(repoURL, aemUserName, aemPassword, aemPackagePath, false);
+		if(installationStatus) {
 			LOG.info("Package installed successfully...");
 		} else {
 			LOG.info("Failed to install the package...");
@@ -126,6 +131,26 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 			String tagsXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,sling:Redirect]\" jcr:primaryType=\"sling:Folder\" jcr:title=\"Tags\" sling:resourceType=\"sling:redirect\" sling:target=\"/tagging\" hidden=\"{Boolean}true\" languages=\"[en,de,es,fr,it,pt_br,zh_cn,zh_tw,ja,ko_kr]\"/>";
 			createXMLFile(tagsXMLContent, tagsDir.getAbsolutePath()+"\\.content.xml");
 			tagsDirectory = tagsDir.getAbsolutePath();
+		} else {
+			LOG.info(jcrRootDir.getName()+" is already exists");
+			try {
+				FileUtils.deleteDirectory(jcrRootDir);
+				LOG.info("So deleted "+jcrRootDir.getName());
+				jcrRootDir.mkdir();
+				String jcrRootXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,rep:RepoAccessControllable]\" jcr:primaryType=\"rep:root\" sling:resourceType=\"sling:redirect\" sling:target=\"/index.html\"/>";
+				createXMLFile(jcrRootXMLContent, jcrRootDir.getAbsolutePath()+"\\.content.xml");
+				File etcDir =new File(jcrRootDir.getAbsolutePath()+File.separator + "etc");
+				etcDir.mkdir();
+				String etcXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable]\" jcr:primaryType=\"sling:Folder\"/>";
+				createXMLFile(etcXMLContent, etcDir.getAbsolutePath()+"\\.content.xml");
+				File tagsDir =new File(etcDir.getAbsolutePath()+File.separator + "tags");
+				tagsDir.mkdir();
+				String tagsXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+"<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,sling:Redirect]\" jcr:primaryType=\"sling:Folder\" jcr:title=\"Tags\" sling:resourceType=\"sling:redirect\" sling:target=\"/tagging\" hidden=\"{Boolean}true\" languages=\"[en,de,es,fr,it,pt_br,zh_cn,zh_tw,ja,ko_kr]\"/>";
+				createXMLFile(tagsXMLContent, tagsDir.getAbsolutePath()+"\\.content.xml");
+				tagsDirectory = tagsDir.getAbsolutePath();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return tagsDirectory;
 	}
@@ -162,12 +187,27 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 	private void createMetaInfoDir(String srcMetaInfoDir,
 			String destinationMetaInfoDir) {
 		File metaInfoDir = new File(srcMetaInfoDir);
+		File destinationMetaInfoDirectory = new File(destinationMetaInfoDir+"\\META-INF");
 		if (metaInfoDir.exists()) {
-			try {
-				FileUtils.copyDirectoryToDirectory(metaInfoDir, new File(destinationMetaInfoDir));
-			} catch (IOException e) {
-				e.printStackTrace();
+			LOG.info(metaInfoDir.getName()+" is exists");
+			if(!destinationMetaInfoDirectory.exists()){
+				try {
+					FileUtils.copyDirectoryToDirectory(metaInfoDir, new File(destinationMetaInfoDir));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				LOG.info(destinationMetaInfoDirectory.getName()+" is already exists");
+				try {
+					FileUtils.deleteDirectory(destinationMetaInfoDirectory);
+					LOG.info("So deleted "+destinationMetaInfoDirectory.getName());
+					FileUtils.copyDirectoryToDirectory(metaInfoDir, new File(destinationMetaInfoDir));
+					LOG.info("Again copied "+destinationMetaInfoDirectory.getName());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
+			
 		}
 		
 	}
