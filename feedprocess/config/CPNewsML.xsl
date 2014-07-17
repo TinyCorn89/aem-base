@@ -111,6 +111,7 @@
 				<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
 				<xsl:attribute name="sling:resourceType">tc/components/content/text</xsl:attribute>
 				<xsl:attribute name="text"><xsl:value-of select="." /></xsl:attribute>
+				<xsl:attribute name="textIsRich">true</xsl:attribute>
 			</xsl:element>
 		</xsl:for-each>
 	</xsl:template>

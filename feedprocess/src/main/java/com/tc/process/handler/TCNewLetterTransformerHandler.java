@@ -112,7 +112,7 @@ public class TCNewLetterTransformerHandler {
 		
 	}
 	
-	public boolean tranform(String inputdir, String xslFileName)
+	public boolean tranform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName)
 			throws Exception {
 		try {
 
@@ -136,13 +136,8 @@ public class TCNewLetterTransformerHandler {
 			File[] directoryListing = directory.listFiles();
 			File jcrRootDir = null;
 			File metaInfDir = null;
-			InputStream aemInputSt = this.getClass().getClassLoader()
-					.getResourceAsStream("aem.properties");
-			Properties aemProps = new Properties();
-			aemProps.load(aemInputSt);
 
-			String metaInfFolder = aemProps.getProperty("aem.metainffolder");
-			String contentFolder = aemProps.getProperty("aem.contentfolder");
+			
 			
 			transformer = factory
 					.newTransformer(stylesource);
@@ -181,14 +176,9 @@ public class TCNewLetterTransformerHandler {
 
 					Node jcrContentNode = doc.getElementsByTagName("jcr:content").item(0);
 					Element jcrContentElement = (Element) jcrContentNode;
-					String newsId = jcrContentElement.getAttribute("newsId");
+					String uniqueId = jcrContentElement.getAttribute(idName);
 					String createdDate = jcrContentElement
 							.getAttribute("createdDate");
-					
-					
-					
-					
-						
 
 					String year = createdDate.substring(0, 4);
 					
@@ -226,7 +216,7 @@ public class TCNewLetterTransformerHandler {
 					}
 
 					File newsIdDir = new File(dayDir.getAbsoluteFile()
-							+ File.separator + newsId);
+							+ File.separator + uniqueId);
 					if (!newsIdDir.exists()) {
 						newsIdDir.mkdir();
 					}

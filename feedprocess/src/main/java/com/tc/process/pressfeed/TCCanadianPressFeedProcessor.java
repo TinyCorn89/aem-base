@@ -30,23 +30,29 @@ public class TCCanadianPressFeedProcessor {
 
 		if (process.process()) {
 			LOG.info("Completed the Ftp files Sucessfully");
+			InputStream aemInputSt = TCCanadianPressFeedProcessor.class.getClassLoader()
+					.getResourceAsStream("aem.properties");
+			Properties aemProps = new Properties();
+			aemProps.load(aemInputSt);
+
 			// run the trasformer
 			// zip
 			TCNewLetterTransformerHandler transformer = new TCNewLetterTransformerHandler();
-
+			String metaInfFolder = aemProps.getProperty("aem.metainffolder");
+			String contentFolder = aemProps.getProperty("aem.contentfolder");
+			String localDir = pressProps.getProperty("ftp.localDirectory");
+			String xslFile = pressProps.getProperty("canadianpressfeed.xslfile");
+			String uniqueId = pressProps.getProperty("canadianpressfeed.uniqueid");
 			if (transformer.tranform(
-					pressProps.getProperty("ftp.localDirectory"),
-					pressProps.getProperty("canadianpressfeed.xslfile"))) {
+					localDir,
+					xslFile, contentFolder, metaInfFolder, uniqueId)) {
 				LOG.info("Completed the transformations Sucessfully");
-				// upload the file to Dam
-				InputStream aemPropsStr = tc.getClass().getClassLoader()
-						.getResourceAsStream("aem.properties");
+				
 
 				DamAssetUploadHandler uploader = new DamAssetUploadHandler();
-				Properties aemProps = new Properties();
-				aemProps.load(aemPropsStr);
+				
 				// upload image zip file if exist
-				File imageZip = new File(pressProps.getProperty("ftp.localDirectory")
+				File imageZip = new File(localDir
 								+ File.separator + "output" + File.separator
 								+ "tc.zip");
 				if (imageZip.exists()) {
@@ -62,7 +68,7 @@ public class TCCanadianPressFeedProcessor {
 				String repoURL = aemProps.getProperty("aem.url") + "/crx/server";
 				String userName = aemProps.getProperty("aem.userid");
 				String password = aemProps.getProperty("aem.password");
-				String packagePath = pressProps.getProperty("ftp.localDirectory") + File.separator + "output" + File.separator + "output.zip";
+				String packagePath = localDir + File.separator + "output" + File.separator + "output.zip";
 				
 				importer.importPackage(repoURL, userName, password, packagePath, true);
 				
