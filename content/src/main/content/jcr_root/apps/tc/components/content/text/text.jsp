@@ -8,4 +8,4 @@
 <%@page session="false"%>
 <%@include file="/apps/tc/global/global.jsp"%>
 
-<cq:text property="text" escapeXml="true" placeholder="Placeholder"/>
+<cq:text property="text" escapeXml="false" placeholder="Placeholder"/>
