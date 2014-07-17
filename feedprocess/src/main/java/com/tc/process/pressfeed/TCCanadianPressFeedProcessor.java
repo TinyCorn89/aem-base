@@ -20,7 +20,7 @@ public class TCCanadianPressFeedProcessor {
 		LOG.info("Starting the Canadian feed process");
 		TCCanadianPressFeedProcessor tc = new TCCanadianPressFeedProcessor();
 		InputStream pressInputst = tc.getClass().getClassLoader()
-				.getResourceAsStream("canadianftp.properties");
+				.getResourceAsStream("canadianpressfeed.properties");
 
 		Properties pressProps = new Properties();
 		pressProps.load(pressInputst);
@@ -36,7 +36,7 @@ public class TCCanadianPressFeedProcessor {
 
 			if (transformer.tranform(
 					pressProps.getProperty("ftp.localDirectory"),
-					"CPNewsML.xsl")) {
+					pressProps.getProperty("canadianpressfeed.xslfile"))) {
 				LOG.info("Completed the transformations Sucessfully");
 				// upload the file to Dam
 				InputStream aemPropsStr = tc.getClass().getClassLoader()
