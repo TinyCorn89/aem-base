@@ -1,0 +1,10 @@
+PREFIX skos:<http://www.w3.org/2004/02/skos/core#>
+
+SELECT  ?uri ?prefLabel ?altLabel
+WHERE
+{
+?uri ?x skos:Concept . 
+?uri skos:prefLabel ?prefLabel .
+OPTIONAL {?uri skos:altLabel ?altLabel .}
+
+ } LIMIT 50 OFFSET 0

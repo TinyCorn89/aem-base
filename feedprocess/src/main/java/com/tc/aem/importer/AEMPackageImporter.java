@@ -58,7 +58,9 @@ public class AEMPackageImporter {
 			if (isSuccess) {
 				// logging out
 				LOG.info("Session ends");
-				session.logout();
+				if(session != null) {
+					session.logout();
+				}
 			}
 			// no need of explicitly closing the input streams here.
 			// they were automatically closed by the jcr package manager
@@ -110,7 +112,9 @@ public class AEMPackageImporter {
 			if (isSuccess) {
 				// logging out
 				LOG.info("Session ends");
-				session.logout();
+				if(session != null) {
+					session.logout();
+				}
 			}
 			// no need of explicitly closing the input streams here.
 			// they were automatically closed by the jcr package manager
