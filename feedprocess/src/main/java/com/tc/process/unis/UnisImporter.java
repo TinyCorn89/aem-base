@@ -30,8 +30,10 @@ public class UnisImporter {
 		String contentDir = properties.getProperty("article.contentdir");
 		String metaInfDir = properties.getProperty("article.metainfdir");
 		String uniqueId = properties.getProperty("article.uniqueid");
+		String workingDir = properties.getProperty("article.workingdir");
+		String packageName = properties.getProperty("article.packagename");
 		
-		transformer.tranform(sourceDir, xslFile, contentDir, metaInfDir, uniqueId);
+		transformer.tranform(sourceDir, xslFile, contentDir, metaInfDir, uniqueId, workingDir, packageName);
 		InputStream aemInputSt = TCCanadianPressFeedProcessor.class.getClassLoader()
 				.getResourceAsStream("aem.properties");
 		Properties aemProps = new Properties();
@@ -42,7 +44,7 @@ public class UnisImporter {
 		String repoURL = aemProps.getProperty("aem.url") + "/crx/server";
 		String userName = aemProps.getProperty("aem.userid");
 		String password = aemProps.getProperty("aem.password");
-		String packagePath = sourceDir + File.separator + "output" + File.separator + "output.zip";
+		String packagePath = workingDir + File.separator + packageName;
 		
 		importer.importPackage(repoURL, userName, password, packagePath, true);
 

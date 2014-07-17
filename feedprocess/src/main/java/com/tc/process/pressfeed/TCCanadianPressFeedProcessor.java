@@ -43,17 +43,20 @@ public class TCCanadianPressFeedProcessor {
 			String localDir = pressProps.getProperty("ftp.localDirectory");
 			String xslFile = pressProps.getProperty("canadianpressfeed.xslfile");
 			String uniqueId = pressProps.getProperty("canadianpressfeed.uniqueid");
+			String workingDir = pressProps.getProperty("canadianpressfeed.workingdir");
+			String packageName = pressProps.getProperty("canadianpressfeed.packagename");
+			
 			if (transformer.tranform(
 					localDir,
-					xslFile, contentFolder, metaInfFolder, uniqueId)) {
+					xslFile, contentFolder, metaInfFolder, uniqueId, workingDir, packageName)) {
 				LOG.info("Completed the transformations Sucessfully");
 				
 
 				DamAssetUploadHandler uploader = new DamAssetUploadHandler();
 				
 				// upload image zip file if exist
-				File imageZip = new File(localDir
-								+ File.separator + "output" + File.separator
+				File imageZip = new File(workingDir
+								+ File.separator 
 								+ "tc.zip");
 				if (imageZip.exists()) {
 					if (uploader.uploadToAEM(imageZip.getAbsolutePath(), aemProps)) {
@@ -68,7 +71,7 @@ public class TCCanadianPressFeedProcessor {
 				String repoURL = aemProps.getProperty("aem.url") + "/crx/server";
 				String userName = aemProps.getProperty("aem.userid");
 				String password = aemProps.getProperty("aem.password");
-				String packagePath = localDir + File.separator + "output" + File.separator + "output.zip";
+				String packagePath = workingDir + File.separator + packageName;
 				
 				importer.importPackage(repoURL, userName, password, packagePath, true);
 				

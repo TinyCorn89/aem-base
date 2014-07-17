@@ -112,7 +112,7 @@ public class TCNewLetterTransformerHandler {
 		
 	}
 	
-	public boolean tranform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName)
+	public boolean tranform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName, String workingDir, String packageName)
 			throws Exception {
 		try {
 
@@ -124,10 +124,9 @@ public class TCNewLetterTransformerHandler {
 			
 			
 			File directory = new File(inputdir);
-			File OutDirectory = new File(directory.getAbsolutePath()
-					+ File.separator + "output");
-			if (!OutDirectory.exists()) {
-				OutDirectory.mkdir();
+			File workingDirectory = new File(workingDir);
+			if (!workingDirectory.exists()) {
+				workingDirectory.mkdirs();
 			}
 						
 			FileInputStream xslFileAsStream = new FileInputStream(xslFileName);
@@ -149,7 +148,7 @@ public class TCNewLetterTransformerHandler {
 					}
 					
 					LOG.info(" in the directory" + child.getName());
-					String fileName = OutDirectory.getAbsolutePath()
+					String fileName = workingDirectory.getAbsolutePath()
 							+ File.separator
 							+ child.getName().replace(".xml", ".jcr.xml");
 					FileOutputStream fos = new FileOutputStream(fileName);
@@ -182,7 +181,7 @@ public class TCNewLetterTransformerHandler {
 
 					String year = createdDate.substring(0, 4);
 					
-					jcrRootDir = new File(OutDirectory.getAbsolutePath()
+					jcrRootDir = new File(workingDirectory.getAbsolutePath()
 							+ File.separator + "jcr_root");
 					if (!jcrRootDir.exists()) {
 						jcrRootDir.mkdir();
@@ -226,7 +225,7 @@ public class TCNewLetterTransformerHandler {
 					
 					List<Element> elements = new ArrayList<Element>();
 					getElementByAttributeValue(elements, "sling:resourceType", jcrContentNode, "tc/components/content/image");
-					boolean imageResultFlag = processImageNodes(elements, newsIdDir, OutDirectory, jcrRootDir); 
+					boolean imageResultFlag = processImageNodes(elements, newsIdDir, directory, jcrRootDir); 
 					imageFlag = imageFlag || imageResultFlag;
 					
 					
@@ -235,13 +234,13 @@ public class TCNewLetterTransformerHandler {
 				metaInfDir = new File(metaInfFolder);
 				if (metaInfDir.exists()) {
 					FileUtils
-							.copyDirectoryToDirectory(metaInfDir, OutDirectory);
+							.copyDirectoryToDirectory(metaInfDir, workingDirectory);
 				}
 				if (jcrRootDir.exists()) {
 					if (imageFlag) {
 						// move /content/dam folder and zip up only the images
 						File contentDamFolder = new File(jcrRootDir.getAbsolutePath() + File.separator + "content" + File.separator + "dam");
-						File imagesFolder = new File(OutDirectory.getAbsolutePath() + File.separator + "images");
+						File imagesFolder = new File(workingDirectory.getAbsolutePath() + File.separator + "images");
 						contentDamFolder.renameTo(imagesFolder);
 						
 						/*
@@ -273,7 +272,7 @@ public class TCNewLetterTransformerHandler {
 						}
 						
 						FileOutputStream imagesOs = new FileOutputStream(
-								OutDirectory.getAbsolutePath() + File.separator
+								workingDirectory.getAbsolutePath() + File.separator
 										 + zipFileName + ".zip");
 						ZipOutputStream imagesZos = new ZipOutputStream(imagesOs);
 						addDirToZipArchive(imagesZos, imagesFolder, null, false);
@@ -290,8 +289,8 @@ public class TCNewLetterTransformerHandler {
 			try {
 
 				FileOutputStream fos = new FileOutputStream(
-						OutDirectory.getAbsolutePath() + File.separator
-								+ OutDirectory.getName() + ".zip");
+						workingDirectory.getAbsolutePath() + File.separator
+								+ packageName);
 
 				ZipOutputStream zos = new ZipOutputStream(fos);
 
@@ -312,7 +311,7 @@ public class TCNewLetterTransformerHandler {
 		return true;
 	}
 	
-	protected boolean processImageNodes(List<Element> images, File leafFolder, File workingDirectory, File jcrRootDir) {
+	protected boolean processImageNodes(List<Element> images, File leafFolder, File inputDir, File jcrRootDir) {
 		boolean returnImageFlag = false;
 		for (Element imageElement : images) {
 			boolean imageFlag = false;
@@ -340,7 +339,7 @@ public class TCNewLetterTransformerHandler {
 				contentDamFolder = contentDamFolder.replaceAll("/content/", "/content/dam/");
 				createContentStructure(jcrRootDir, contentDamFolder);
 
-				File srcImage = new File(workingDirectory.getAbsolutePath() + File.separator + imageName);
+				File srcImage = new File(inputDir.getAbsolutePath() + File.separator + imageName);
 				File dstImage = new File(jcrRootDir.getAbsolutePath() + File.separator + contentDamFolder + File.separator + imageName);
 				
 				if (srcImage.exists()) {

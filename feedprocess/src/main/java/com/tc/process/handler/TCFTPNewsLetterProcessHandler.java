@@ -47,7 +47,7 @@ public class TCFTPNewsLetterProcessHandler extends TCFTPProcessHandler {
 			LOG.info("LOCAL directory" + localDirectory);
 			
 			// will copy images directly to output folder
-			File OutDirectory = new File(localDirectory + File.separator + "output");
+			File OutDirectory = new File(localDirectory);
 			if (!OutDirectory.exists()) {
 				OutDirectory.mkdirs();
 
@@ -130,8 +130,7 @@ public class TCFTPNewsLetterProcessHandler extends TCFTPProcessHandler {
 				while (matcher.find()) {
 					String imageName = parentDir + "/" + remoteDirectory + "/" + matcher.group();
 					LOG.info("Images in the file" + imageName);
-					OutputStream imageOutput = new FileOutputStream(
-							localDirectory + File.separator + "output"
+					OutputStream imageOutput = new FileOutputStream(localDirectory
 									+ File.separator + matcher.group());
 					// get the file from the remote system
 					ftp.retrieveFile(imageName, imageOutput);
