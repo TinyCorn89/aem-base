@@ -26,10 +26,10 @@
 			<xsl:attribute name="jcr:primaryType">cq:Page</xsl:attribute>
 
 			<xsl:element name="jcr:content">
-				<xsl:attribute name="cq:template">/apps/tc/templates/article</xsl:attribute>
+				<xsl:attribute name="cq:template">/apps/tc/templates/news</xsl:attribute>
 				<xsl:attribute name="jcr:primaryType">cq:PageContent</xsl:attribute>
 				<xsl:attribute name="jcr:title"><xsl:value-of select="./NewsComponent/NewsLines/HeadLineShort" /></xsl:attribute>
-				<xsl:attribute name="sling:resourceType">/apps/tc/components/page/article</xsl:attribute>
+				<xsl:attribute name="sling:resourceType">/apps/tc/components/page/news</xsl:attribute>
 				<xsl:attribute name="newsId"><xsl:value-of select="./Identification/NewsIdentifier/NewsItemId" /></xsl:attribute>
 				<xsl:attribute name="createdDate"><xsl:value-of select="./NewsManagement/FirstCreated" /></xsl:attribute>
 				<xsl:if test="$tags">
@@ -39,7 +39,7 @@
 				<!--  add article component -->
 				<xsl:element name="article">
 					<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
-					<xsl:attribute name="sling:resourceType">tc/components/content/cp/news-article</xsl:attribute>
+					<xsl:attribute name="sling:resourceType">/apps/tc/components/content/cp/news-article</xsl:attribute>
 					<xsl:attribute name="description"><xsl:value-of select="./NewsComponent/NewsLines/HeadLine" /></xsl:attribute>
 					<xsl:attribute name="articleId"><xsl:value-of select="./Identification/NewsIdentifier/NewsItemId" /></xsl:attribute>
 					<xsl:attribute name="title"><xsl:value-of select="./NewsComponent/NewsLines/HeadLineShort" /></xsl:attribute>
@@ -50,7 +50,7 @@
 					<xsl:attribute name="tagShare"></xsl:attribute>
 				
 				</xsl:element>
-				<xsl:element name="content-region">
+				<xsl:element name="content-multi">
 					<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
 					<xsl:attribute name="sling:resourceType">foundation/components/parsys</xsl:attribute>
 					<!--  there can be multiple ContentItem -->					
@@ -66,7 +66,9 @@
 	<xsl:template match="NewsItem/NewsComponent">
 		<xsl:for-each select="./ContentItem/DataContent/CPOnlineFile/CPLink">
 			<xsl:apply-templates select="." >
-				<xsl:with-param name="imageId" select="position()"/>
+			<!-- For multiple CPLinks -->
+				<!-- <xsl:with-param name="imageId" select="position()"/> -->
+				<xsl:with-param name="imageId" select="1"/>
 			</xsl:apply-templates>
 		</xsl:for-each>
 		
