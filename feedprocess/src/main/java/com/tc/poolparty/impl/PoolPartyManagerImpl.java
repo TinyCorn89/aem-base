@@ -390,7 +390,7 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 				JSONObject binding = bindings.getJSONObject(i);
 				JSONObject prefLabelObject = (JSONObject) binding
 						.get("prefLabel");
-				tags.add(prefLabelObject.getString("value"));
+				tags.add(prefLabelObject.getString("value").trim());
 			}
 		} catch (JSONException e) {
 			LOG.error(e);
