@@ -6,6 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -253,6 +258,19 @@ public class TCTransformerHandler {
 				if (metaInfDir.exists()) {
 					FileUtils
 							.copyDirectoryToDirectory(metaInfDir, workingDirectory);
+					metaInfDir = new File(workingDirectory + File.separator + "META-INF");
+					// replace package name place holder in meta-inf/properties.xml
+					Path path = Paths.get(workingDirectory + File.separator + "META-INF" + File.separator + "vault" + File.separator + "properties.xml");
+					Charset charset = StandardCharsets.UTF_8;
+					String content = new String(Files.readAllBytes(path), charset);
+					String propPackageName = packageName;
+					if (packageName.indexOf(".zip") != -1) {
+						propPackageName = packageName.substring(0, packageName.indexOf(".zip"));	
+					}
+					
+					content = content.replaceAll("@packageName@", propPackageName);
+					Files.write(path, content.getBytes(charset));
+					
 				}
 				/*if (jcrRootDir.exists()) {
 					if (imageFlag) {
