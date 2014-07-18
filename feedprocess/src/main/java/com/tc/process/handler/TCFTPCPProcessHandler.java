@@ -16,15 +16,15 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;
 import org.apache.log4j.Logger;
 
-public class TCFTPNewsLetterProcessHandler extends TCFTPProcessHandler {
+public class TCFTPCPProcessHandler extends TCFTPProcessHandler {
 
-	static Logger LOG = Logger.getLogger(TCFTPNewsLetterProcessHandler.class
+	static Logger LOG = Logger.getLogger(TCFTPCPProcessHandler.class
 			.getName());
 	Properties props;
 	
 	
 
-	public TCFTPNewsLetterProcessHandler(Properties props) {
+	public TCFTPCPProcessHandler(Properties props) {
 		super(props);
 		this.props = props;
 	}

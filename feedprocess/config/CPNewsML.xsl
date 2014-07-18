@@ -86,7 +86,7 @@
 		<xsl:if test="contains(@SourceFilePath, '.jpg')"> 
 			<xsl:element name="image{$imageId}">
 				<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
-				<xsl:attribute name="caption"><xsl:value-of select="@Caption" /></xsl:attribute>
+				<xsl:attribute name="jcr:title"><xsl:value-of select="@Caption" /></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="@SourceHeight" /></xsl:attribute>
 				<xsl:attribute name="width"><xsl:value-of select="@SourceWidth" /></xsl:attribute>
 				<xsl:variable name="ref"><xsl:value-of select="@SourceFilePath" /></xsl:variable>

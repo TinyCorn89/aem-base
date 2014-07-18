@@ -30,7 +30,7 @@ import org.json.JSONObject;
 
 import com.tc.aem.importer.AEMPackageImporter;
 import com.tc.poolparty.PoolPartyManager;
-import com.tc.process.handler.TCNewLetterTransformerHandler;
+import com.tc.process.handler.TCTransformerHandler;
 
 public class PoolPartyManagerImpl implements PoolPartyManager {
 
@@ -101,7 +101,7 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 		try {
 			fos = new FileOutputStream(aemPackagePath);
 			zos = new ZipOutputStream(fos);
-			TCNewLetterTransformerHandler tcNewLetterTransformerHandler = new TCNewLetterTransformerHandler();
+			TCTransformerHandler tcNewLetterTransformerHandler = new TCTransformerHandler();
 			tcNewLetterTransformerHandler.addDirToZipArchive(zos, jcrRootDir,
 					null, false);
 			tcNewLetterTransformerHandler.addDirToZipArchive(zos, metaInfDir,
@@ -564,16 +564,21 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 	private List<String> getTagsFromJson(String content) {
 		List<String> tags = new ArrayList<String>();
 		JSONObject root = new JSONObject(content);
-		JSONArray jsonArray = root.getJSONArray("categories");
-		if (jsonArray != null) {
-			for (int i = 0; i < jsonArray.length(); i++) {
-				JSONObject obj = jsonArray.getJSONObject(i);
+		try {
+			JSONArray jsonArray = root.getJSONArray("categories");
+			if (jsonArray != null) {
+				for (int i = 0; i < jsonArray.length(); i++) {
+					JSONObject obj = jsonArray.getJSONObject(i);
 
-				String tag = obj.getString("prefLabel");
+					String tag = obj.getString("prefLabel");
 
-				tags.add(tag);
+					tags.add(tag);
+				}
 			}
+		} catch (JSONException e) {
+			LOG.info("Did not get any categories [tags]");
 		}
+		
 
 		return tags;
 	}
