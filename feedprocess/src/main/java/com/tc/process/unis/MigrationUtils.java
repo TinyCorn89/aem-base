@@ -1,5 +1,6 @@
 package com.tc.process.unis;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -11,6 +12,15 @@ import org.apache.log4j.Logger;
 public class MigrationUtils {
 	static Logger LOG = Logger.getLogger(MigrationUtils.class);
 	static Properties props = null; 
+	
+	public static void clearDirectory(File dir) {
+		for (File file : dir.listFiles()) {
+			if (file.isDirectory())
+				clearDirectory(file);
+			file.delete();
+		}
+	}
+
 	public static Properties loadProperties(String propertiesFileName) {
 		if (props != null) {
 			return props;

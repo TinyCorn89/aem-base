@@ -146,7 +146,7 @@ public class TCTransformerHandler {
 						continue;
 					}
 					
-					LOG.info(" in the directory" + child.getName());
+					LOG.debug(" in the directory" + child.getName());
 					String fileName = workingDirectory.getAbsolutePath()
 							+ File.separator
 							+ child.getName().replace(".xml", ".jcr.xml");
@@ -369,12 +369,12 @@ public class TCTransformerHandler {
 				File dstImage = new File(jcrRootDir.getAbsolutePath() + File.separator + contentDamFolder + File.separator + imageName);
 				
 				if (srcImage.exists()) {
-					LOG.info("moving "+ srcImage.getAbsolutePath() + " to " + dstImage.getAbsolutePath());
+					LOG.debug("moving "+ srcImage.getAbsolutePath() + " to " + dstImage.getAbsolutePath());
 					//srcImage.renameTo(dstImage);
 					try {
 						FileUtils.copyFile(srcImage, dstImage);
 					} catch (IOException e) {
-						LOG.info("Error copy a file"+e);
+						LOG.error("Error copy a file"+e);
 					}
 					
 				}

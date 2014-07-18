@@ -83,7 +83,7 @@ public class UnisImporter {
 	protected static void cleanDir(String workingDir) {
 		File workingDirFile = new File(workingDir);
 		if (workingDirFile.exists()) {
-			workingDirFile.delete();
+			MigrationUtils.clearDirectory(workingDirFile);
 		}
 	}
 }

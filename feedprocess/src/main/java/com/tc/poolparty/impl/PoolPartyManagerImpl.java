@@ -570,7 +570,7 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 				for (int i = 0; i < jsonArray.length(); i++) {
 					JSONObject obj = jsonArray.getJSONObject(i);
 
-					String tag = obj.getString("prefLabel");
+					String tag = "tc:" + obj.getString("prefLabel");
 
 					tags.add(tag);
 				}
