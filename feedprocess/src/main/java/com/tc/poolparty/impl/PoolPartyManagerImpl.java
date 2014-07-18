@@ -58,9 +58,22 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 			directory.mkdirs();
 			LOG.info("creatred parent folder, " + directory.getName());
 		}
+		String tagsDirectory = null;
 		File jcrRootDir = new File(directory.getAbsolutePath() + File.separator
 				+ "jcr_root");
-		String tagsDirectory = createJCRRootDirStructure(jcrRootDir);
+		if (jcrRootDir.exists()) {
+			LOG.info(jcrRootDir.getName() + " is already exists");
+			try {
+				FileUtils.deleteDirectory(jcrRootDir);
+				LOG.info("So deleted " + jcrRootDir.getName());
+			} catch (IOException e) {
+				LOG.error(e);
+			}
+			tagsDirectory = createJCRRootDirStructure(jcrRootDir);
+		} else {
+			tagsDirectory = createJCRRootDirStructure(jcrRootDir);
+		}
+
 		String srcMetaInfoDir = poolPropertyProperties
 				.getProperty("poolparty.metainffolder");
 		createMetaInfoDir(srcMetaInfoDir, destinationMetaInfoDir);
@@ -145,69 +158,32 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 	 */
 	private String createJCRRootDirStructure(File jcrRootDir) {
 		String tagsDirectory = null;
-		if (!jcrRootDir.exists()) {
-			LOG.info(jcrRootDir.getName() + " does not exists");
-			if (jcrRootDir.mkdir()) {
-				LOG.info(jcrRootDir.getName() + " is created");
-			}
-			String jcrRootXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-					+ "<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,rep:RepoAccessControllable]\" jcr:primaryType=\"rep:root\" sling:resourceType=\"sling:redirect\" sling:target=\"/index.html\"/>";
-			createXMLFile(jcrRootXMLContent, jcrRootDir.getAbsolutePath()
-					+ File.separator + ".content.xml");
-			File etcDir = new File(jcrRootDir.getAbsolutePath()
-					+ File.separator + "etc");
-			if (etcDir.mkdir()) {
-				LOG.info(etcDir.getName() + " is created");
-			}
-			String etcXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-					+ "<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable]\" jcr:primaryType=\"sling:Folder\"/>";
-			createXMLFile(etcXMLContent, etcDir.getAbsolutePath()
-					+ File.separator + ".content.xml");
-			File tagsDir = new File(etcDir.getAbsolutePath() + File.separator
-					+ "tags");
-			if (tagsDir.mkdir()) {
-				LOG.info(tagsDir.getName() + " is created");
-			}
-			String tagsXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-					+ "<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,sling:Redirect]\" jcr:primaryType=\"sling:Folder\" jcr:title=\"Tags\" sling:resourceType=\"sling:redirect\" sling:target=\"/tagging\" hidden=\"{Boolean}true\" languages=\"[en,de,es,fr,it,pt_br,zh_cn,zh_tw,ja,ko_kr]\"/>";
-			createXMLFile(tagsXMLContent, tagsDir.getAbsolutePath()
-					+ File.separator + ".content.xml");
-			tagsDirectory = tagsDir.getAbsolutePath();
-		} else {
-			LOG.info(jcrRootDir.getName() + " is already exists");
-			try {
-				FileUtils.deleteDirectory(jcrRootDir);
-				LOG.info("So deleted " + jcrRootDir.getName());
-				if (jcrRootDir.mkdir()) {
-					LOG.info(jcrRootDir.getName() + " is created");
-				}
-				String jcrRootXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-						+ "<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,rep:RepoAccessControllable]\" jcr:primaryType=\"rep:root\" sling:resourceType=\"sling:redirect\" sling:target=\"/index.html\"/>";
-				createXMLFile(jcrRootXMLContent, jcrRootDir.getAbsolutePath()
-						+ File.separator + ".content.xml");
-				File etcDir = new File(jcrRootDir.getAbsolutePath()
-						+ File.separator + "etc");
-				if (etcDir.mkdir()) {
-					LOG.info(etcDir.getName() + " is created");
-				}
-				String etcXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-						+ "<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable]\" jcr:primaryType=\"sling:Folder\"/>";
-				createXMLFile(etcXMLContent, etcDir.getAbsolutePath()
-						+ File.separator + ".content.xml");
-				File tagsDir = new File(etcDir.getAbsolutePath()
-						+ File.separator + "tags");
-				if (tagsDir.mkdir()) {
-					LOG.info(tagsDir.getName() + " is created");
-				}
-				String tagsXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-						+ "<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,sling:Redirect]\" jcr:primaryType=\"sling:Folder\" jcr:title=\"Tags\" sling:resourceType=\"sling:redirect\" sling:target=\"/tagging\" hidden=\"{Boolean}true\" languages=\"[en,de,es,fr,it,pt_br,zh_cn,zh_tw,ja,ko_kr]\"/>";
-				createXMLFile(tagsXMLContent, tagsDir.getAbsolutePath()
-						+ File.separator + ".content.xml");
-				tagsDirectory = tagsDir.getAbsolutePath();
-			} catch (IOException e) {
-				LOG.error(e);
-			}
+		if (jcrRootDir.mkdir()) {
+			LOG.info(jcrRootDir.getName() + " is created");
 		}
+		String jcrRootXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+				+ "<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,rep:RepoAccessControllable]\" jcr:primaryType=\"rep:root\" sling:resourceType=\"sling:redirect\" sling:target=\"/index.html\"/>";
+		createXMLFile(jcrRootXMLContent, jcrRootDir.getAbsolutePath()
+				+ File.separator + ".content.xml");
+		File etcDir = new File(jcrRootDir.getAbsolutePath() + File.separator
+				+ "etc");
+		if (etcDir.mkdir()) {
+			LOG.info(etcDir.getName() + " is created");
+		}
+		String etcXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+				+ "<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable]\" jcr:primaryType=\"sling:Folder\"/>";
+		createXMLFile(etcXMLContent, etcDir.getAbsolutePath() + File.separator
+				+ ".content.xml");
+		File tagsDir = new File(etcDir.getAbsolutePath() + File.separator
+				+ "tags");
+		if (tagsDir.mkdir()) {
+			LOG.info(tagsDir.getName() + " is created");
+		}
+		String tagsXMLContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+				+ "<jcr:root xmlns:sling=\"http://sling.apache.org/jcr/sling/1.0\" xmlns:jcr=\"http://www.jcp.org/jcr/1.0\" xmlns:rep=\"internal\" jcr:mixinTypes=\"[rep:AccessControllable,sling:Redirect]\" jcr:primaryType=\"sling:Folder\" jcr:title=\"Tags\" sling:resourceType=\"sling:redirect\" sling:target=\"/tagging\" hidden=\"{Boolean}true\" languages=\"[en,de,es,fr,it,pt_br,zh_cn,zh_tw,ja,ko_kr]\"/>";
+		createXMLFile(tagsXMLContent, tagsDir.getAbsolutePath()
+				+ File.separator + ".content.xml");
+		tagsDirectory = tagsDir.getAbsolutePath();
 		return tagsDirectory;
 	}
 
@@ -220,18 +196,23 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 	 *            the path
 	 */
 	private void createXMLFile(String xmlContent, String path) {
-		FileWriter fw;
+		FileWriter fw = null;
 		try {
 			File xmlFile = new File(path);
 			if (!xmlFile.exists()) {
 				fw = new java.io.FileWriter(path);
 				fw.write(xmlContent);
-				fw.close();
 			} else {
 				LOG.info(xmlFile.getName() + " is already exists");
 			}
 		} catch (IOException e) {
 			LOG.error(e);
+		} finally {
+			try {
+				fw.close();
+			} catch (IOException e) {
+				LOG.error(e);
+			}
 		}
 
 	}
@@ -265,14 +246,6 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 					FileUtils.deleteDirectory(destinationMetaInfoDirectory);
 					LOG.info("So deleted "
 							+ destinationMetaInfoDirectory.getName());
-					/*
-					 * if(new File(destinationMetaInfoDir).exists()) {
-					 * LOG.info(new
-					 * File(destinationMetaInfoDir).getName()+" exists"); } else
-					 * { LOG.info(new
-					 * File(destinationMetaInfoDir).getName()+" does not exists"
-					 * ); }
-					 */
 					FileUtils.copyDirectoryToDirectory(metaInfoDir, new File(
 							destinationMetaInfoDir));
 					LOG.info("Again copied "
@@ -309,14 +282,13 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 				+ organizationName
 				+ "\" sling:resourceType=\"cq/tagging/components/tag\">\n"
 				+ listOfTags + "</jcr:root>";
-		FileWriter fw;
+		FileWriter fw = null;
 		try {
 			File tagFolder = new File(destinationFolder);
 			if (tagFolder.exists()) {
 				fw = new java.io.FileWriter(destinationFolder + File.separator
 						+ ".content.xml");
 				fw.write(xmlContent);
-				fw.close();
 				LOG.info("Created .content.xml file for the organization"
 						+ organizationName);
 			} else {
@@ -324,6 +296,12 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 			}
 		} catch (IOException e) {
 			LOG.error(e);
+		} finally {
+			try {
+				fw.close();
+			} catch (IOException e) {
+				LOG.error(e);
+			}
 		}
 
 	}
@@ -356,19 +334,24 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 	private void createContentXML(String tag, String xmlContent,
 			String destinationFolder) {
 		createTagFolder(tag, destinationFolder);
-		FileWriter fw;
+		FileWriter fw = null;
 		try {
 			File tagFolder = new File(destinationFolder + File.separator + tag);
 			if (tagFolder.exists()) {
 				fw = new java.io.FileWriter(destinationFolder + File.separator
 						+ tag + File.separator + ".content.xml");
 				fw.write(xmlContent);
-				fw.close();
 			} else {
 				LOG.info(tagFolder.getName() + " folder is not availabe");
 			}
 		} catch (IOException e) {
 			LOG.error(e);
+		} finally {
+			try {
+				fw.close();
+			} catch (IOException e) {
+				LOG.error(e);
+			}
 		}
 	}
 
