@@ -6,6 +6,8 @@
 
 package com.tc.util;
 
+import java.util.Collection;
+
 /**
  * The Interface Constants.
  */
@@ -714,5 +716,38 @@ public interface Constants {
         public static final String PUBLICATION_DATE = "publicationDate";
         public static final String EXPIRATION_DATE = "expirationDate";
     }
-
+    
+    
+    /**
+     * The Interface ADVERTISER.
+     */
+    public interface ADVERTISER {
+        public static final String NAME1 = "name1";
+        public static final String NAME2 = "name2";
+        public static final String ADDRESS = "address";
+        public static final String CITY = "city";
+        public static final String PROVINCE = "province";
+        public static final String COUNTRY = "country";
+        public static final String ZIPCODE = "zipcode";
+        public static final String TELEPHONE = "telephone";
+        public static final String CLIENT_NUMBER = "clientNumber";
+    }
+    
+    /**
+     * The Interface ADCOMPONENT
+     */
+    public interface ADCOMPONENT {
+        public static final String PUBLICATION_DATE = "publicationDate";
+        public static final String EXPIRATION_DATE = "expirationDate";
+        public static final String ADVERTISER_ID = "advertiserId";
+        public static final String AD_CATEGORY = "adCategory";
+        public static final String KEYWORDS = "keywords";
+        public static final String AD_FINDER = "adFinder";
+        public static final String START_DATE = "startDate";
+        public static final String END_DATE = "endDate";
+        public static final String DISPLAY_NAME = "displayName";
+        public static final String SHARED_SITES = "sharedSites";
+        public static final String SITE = "site";
+    }
+    
 }

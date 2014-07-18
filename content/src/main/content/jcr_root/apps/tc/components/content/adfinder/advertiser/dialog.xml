@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="500"
+    title="Advertiser"
+    width="500"
+    xtype="dialog">
+    <items jcr:primaryType="cq:TabPanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Widget"
+                anchor="100%"
+                title="Properties"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <name1
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="false"
+                        fieldLabel="Name1"
+                        name="./name1"
+                        xtype="textfield"/>
+                    <name2
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Name2"
+                        name="./name2"
+                        xtype="textfield"/>
+                    <address
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Address"
+                        name="./address"
+                        xtype="textfield"/>
+                    <city
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="City"
+                        name="./city"
+                        xtype="textfield"/>
+                    <province
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="false"
+                        fieldLabel="Province"
+                        name="./province"
+                        optionsProvider="function () {&#xa;    var resultStringArray = new Array();&#xa;    var url = CQ.HTTP.noCaching('/apps/tc/components/content/adfinder/tags.list.json');&#xa;    var value = CQ.HTTP.eval(url);&#xa;   &#xa;    for (var name in value) {&#xa;        &#xa;                result['text'] = name;&#xa;                result['value'] = content[name].publish;&#xa;                resultStringArray.push(result);&#xa;            &#xa;      &#xa;    }&#xa;    return resultStringArray;&#xa;}"
+                        type="select"
+                        xtype="selection"/>
+                    <country
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Country"
+                        name="./country"
+                        xtype="textfield"/>
+                    <zipCode
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Zipcode"
+                        name="./zipcode"
+                        xtype="textfield"/>
+                    <telephone
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Telephone"
+                        name="./telephone"
+                        xtype="textfield"/>
+                    <clientNumber
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="false"
+                        fieldLabel="ClientNumber"
+                        name="./clientNumber"
+                        xtype="textfield"/>
+                </items>
+            </tab1>
+            <tab2
+                jcr:primaryType="cq:Widget"
+                title="Settings"
+                xtype="panel"/>
+        </items>
+    </items>
+</jcr:root>
