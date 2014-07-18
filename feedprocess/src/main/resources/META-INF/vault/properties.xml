@@ -3,7 +3,7 @@
 <properties>
 <comment>FileVault Package Properties</comment>
 <entry key="createdBy">admin</entry>
-<entry key="name">CanadianFeedPackage</entry>
+<entry key="name">@packageName@</entry>
 <entry key="lastModified">2014-07-14T16:05:12.683+05:30</entry>
 <entry key="lastModifiedBy">admin</entry>
 <entry key="created">2014-07-14T16:05:12.810+05:30</entry>

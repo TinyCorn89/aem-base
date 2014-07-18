@@ -3,13 +3,18 @@ package com.tc.process.handler;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -42,8 +47,8 @@ import com.tc.process.pressfeed.CanadianFeedEntityResolver;
 
 
 
-public class TCNewLetterTransformerHandler {
-	static Logger LOG = Logger.getLogger(TCNewLetterTransformerHandler.class
+public class TCTransformerHandler {
+	static Logger LOG = Logger.getLogger(TCTransformerHandler.class
 			.getName());
 	private TransformerFactory factory = null;
 	private Transformer transformer;
@@ -111,8 +116,7 @@ public class TCNewLetterTransformerHandler {
 		return sw.getBuffer().toString();
 		
 	}
-	
-	public boolean tranform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName, String workingDir, String packageName)
+	public boolean tranform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName, String workingDir, String packageName, Map<String, String> params)
 			throws Exception {
 		try {
 
@@ -147,7 +151,7 @@ public class TCNewLetterTransformerHandler {
 						continue;
 					}
 					
-					LOG.info(" in the directory" + child.getName());
+					LOG.debug(" in the directory" + child.getName());
 					String fileName = workingDirectory.getAbsolutePath()
 							+ File.separator
 							+ child.getName().replace(".xml", ".jcr.xml");
@@ -161,6 +165,18 @@ public class TCNewLetterTransformerHandler {
 					String damFolder = contentFolder.replaceAll("\\\\", "/");
 					damFolder = damFolder.replaceAll("/content/", "/content/dam/");
 					transformer.setParameter("damFolder", damFolder);
+					/*
+					 * if there are any parameters to send iterate them and add them to the transformer
+					 */
+					if (params != null) {
+						Iterator<String> keySetIterator = params.keySet().iterator();
+						while (keySetIterator.hasNext()) {
+							String key = keySetIterator.next();
+							String value = params.get(key);
+							
+							transformer.setParameter(key, value);
+						}
+					}
 					transformer.transform(saxSource, result);
 					fos.close();
 
@@ -225,7 +241,14 @@ public class TCNewLetterTransformerHandler {
 					
 					List<Element> elements = new ArrayList<Element>();
 					getElementByAttributeValue(elements, "sling:resourceType", jcrContentNode, "tc/components/content/image");
-					boolean imageResultFlag = processImageNodes(elements, newsIdDir, directory, jcrRootDir); 
+					
+					boolean imageResultFlag = false;
+					if (params != null && params.containsKey("imageSourceDir")) {
+						File imageSrcDir = new File(params.get("imageSourceDir"));
+						imageResultFlag = processImageNodes(elements, newsIdDir, imageSrcDir, jcrRootDir);
+					} else {
+						imageResultFlag = processImageNodes(elements, newsIdDir, directory, jcrRootDir);
+					}
 					imageFlag = imageFlag || imageResultFlag;
 					
 					
@@ -235,18 +258,31 @@ public class TCNewLetterTransformerHandler {
 				if (metaInfDir.exists()) {
 					FileUtils
 							.copyDirectoryToDirectory(metaInfDir, workingDirectory);
+					metaInfDir = new File(workingDirectory + File.separator + "META-INF");
+					// replace package name place holder in meta-inf/properties.xml
+					Path path = Paths.get(workingDirectory + File.separator + "META-INF" + File.separator + "vault" + File.separator + "properties.xml");
+					Charset charset = StandardCharsets.UTF_8;
+					String content = new String(Files.readAllBytes(path), charset);
+					String propPackageName = packageName;
+					if (packageName.indexOf(".zip") != -1) {
+						propPackageName = packageName.substring(0, packageName.indexOf(".zip"));	
+					}
+					
+					content = content.replaceAll("@packageName@", propPackageName);
+					Files.write(path, content.getBytes(charset));
+					
 				}
-				if (jcrRootDir.exists()) {
+				/*if (jcrRootDir.exists()) {
 					if (imageFlag) {
 						// move /content/dam folder and zip up only the images
 						File contentDamFolder = new File(jcrRootDir.getAbsolutePath() + File.separator + "content" + File.separator + "dam");
 						File imagesFolder = new File(workingDirectory.getAbsolutePath() + File.separator + "images");
 						contentDamFolder.renameTo(imagesFolder);
 						
-						/*
+						
 						 * This needs to be refactored, the objective here is to 
 						 * determine the zip file name and also the folder to be zipped
-						 */
+						 
 						String folders[] = imagesFolder.list(new FilenameFilter() {
 							
 							@Override
@@ -281,7 +317,7 @@ public class TCNewLetterTransformerHandler {
 						imagesOs.close();					
 						
 					}
-				}
+				}*/
 
 			} else {
 				LOG.info("no files in the directory");
@@ -309,6 +345,14 @@ public class TCNewLetterTransformerHandler {
 			throw e;
 		}
 		return true;
+	
+		
+		
+	}
+	
+	public boolean tranform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName, String workingDir, String packageName)
+			throws Exception {
+		return tranform(inputdir, xslFileName, contentFolder, metaInfFolder, idName, workingDir, packageName, null);
 	}
 	
 	protected boolean processImageNodes(List<Element> images, File leafFolder, File inputDir, File jcrRootDir) {
@@ -343,12 +387,12 @@ public class TCNewLetterTransformerHandler {
 				File dstImage = new File(jcrRootDir.getAbsolutePath() + File.separator + contentDamFolder + File.separator + imageName);
 				
 				if (srcImage.exists()) {
-					LOG.info("moving "+ srcImage.getAbsolutePath() + " to " + dstImage.getAbsolutePath());
+					LOG.debug("moving "+ srcImage.getAbsolutePath() + " to " + dstImage.getAbsolutePath());
 					//srcImage.renameTo(dstImage);
 					try {
 						FileUtils.copyFile(srcImage, dstImage);
 					} catch (IOException e) {
-						LOG.info("Error copy a file"+e);
+						LOG.error("Error copy a file"+e);
 					}
 					
 				}

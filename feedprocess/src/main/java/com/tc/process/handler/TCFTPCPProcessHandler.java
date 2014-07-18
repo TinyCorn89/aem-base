@@ -16,15 +16,17 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;
 import org.apache.log4j.Logger;
 
-public class TCFTPNewsLetterProcessHandler extends TCFTPProcessHandler {
+import com.tc.process.unis.MigrationUtils;
 
-	static Logger LOG = Logger.getLogger(TCFTPNewsLetterProcessHandler.class
+public class TCFTPCPProcessHandler extends TCFTPProcessHandler {
+
+	static Logger LOG = Logger.getLogger(TCFTPCPProcessHandler.class
 			.getName());
 	Properties props;
 	
 	
 
-	public TCFTPNewsLetterProcessHandler(Properties props) {
+	public TCFTPCPProcessHandler(Properties props) {
 		super(props);
 		this.props = props;
 	}
@@ -37,7 +39,7 @@ public class TCFTPNewsLetterProcessHandler extends TCFTPProcessHandler {
 			
 			File localDir = new File(localDirectory);
 			if (localDir.exists()) {
-				clearDirectory(localDir);
+				MigrationUtils.clearDirectory(localDir);
 				// clear the content of the directory
 			} else {
 				localDir.mkdirs();
@@ -170,11 +172,4 @@ public class TCFTPNewsLetterProcessHandler extends TCFTPProcessHandler {
 
 	}
 
-	private void clearDirectory(File dir) {
-		for (File file : dir.listFiles()) {
-			if (file.isDirectory())
-				clearDirectory(file);
-			file.delete();
-		}
-	}
 }

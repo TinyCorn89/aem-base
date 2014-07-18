@@ -7,9 +7,8 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 import com.tc.aem.importer.AEMPackageImporter;
-import com.tc.process.handler.DamAssetUploadHandler;
-import com.tc.process.handler.TCFTPNewsLetterProcessHandler;
-import com.tc.process.handler.TCNewLetterTransformerHandler;
+import com.tc.process.handler.TCFTPCPProcessHandler;
+import com.tc.process.handler.TCTransformerHandler;
 
 public class TCCanadianPressFeedProcessor {
 	static Logger LOG = Logger.getLogger(TCCanadianPressFeedProcessor.class
@@ -25,7 +24,7 @@ public class TCCanadianPressFeedProcessor {
 		Properties pressProps = new Properties();
 		pressProps.load(pressInputst);
 		// download the press feed
-		TCFTPNewsLetterProcessHandler process = new TCFTPNewsLetterProcessHandler(
+		TCFTPCPProcessHandler process = new TCFTPCPProcessHandler(
 				pressProps);
 
 		if (process.process()) {
@@ -37,7 +36,7 @@ public class TCCanadianPressFeedProcessor {
 
 			// run the trasformer
 			// zip
-			TCNewLetterTransformerHandler transformer = new TCNewLetterTransformerHandler();
+			TCTransformerHandler transformer = new TCTransformerHandler();
 			String metaInfFolder = aemProps.getProperty("aem.metainffolder");
 			String contentFolder = aemProps.getProperty("aem.contentfolder");
 			String localDir = pressProps.getProperty("ftp.localDirectory");
@@ -52,7 +51,7 @@ public class TCCanadianPressFeedProcessor {
 				LOG.info("Completed the transformations Sucessfully");
 				
 
-				DamAssetUploadHandler uploader = new DamAssetUploadHandler();
+				/*DamAssetUploadHandler uploader = new DamAssetUploadHandler();
 				
 				// upload image zip file if exist
 				File imageZip = new File(workingDir
@@ -64,7 +63,7 @@ public class TCCanadianPressFeedProcessor {
 					} else {
 						LOG.error("uploaded to cq failed");
 					}
-				}
+				}*/
 				
 				// upload package
 				AEMPackageImporter importer = new AEMPackageImporter();
