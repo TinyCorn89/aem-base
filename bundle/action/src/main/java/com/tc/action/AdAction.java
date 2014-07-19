@@ -64,9 +64,6 @@ public class AdAction extends BaseAction {
 				if(adNode.hasProperty(Constants.ADCOMPONENT.DISPLAY_NAME)){
 					adBean.setDisplayName(adNode.getProperty(Constants.ADCOMPONENT.DISPLAY_NAME).getString());
 				}
-				if(adNode.hasProperty(Constants.ADCOMPONENT.SITE)){
-					adBean.setSite(adNode.getProperty(Constants.ADCOMPONENT.SITE).getString());
-				}
 				
 				if(adNode.hasProperty(Constants.ADCOMPONENT.KEYWORDS)){
 					adBean.setKeywords(getTags(adNode.getProperty(Constants.ADCOMPONENT.KEYWORDS)));

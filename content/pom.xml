@@ -62,6 +62,9 @@
                         <filter>
                             <root>/etc/tags/tc</root>
                         </filter>
+                         <filter>
+                            <root>/etc/tags/provinces</root>
+                        </filter>
                         <filter>
                             <root>/etc/cloudservices/facebookconnect/tcfbconnect</root>
                         </filter>
