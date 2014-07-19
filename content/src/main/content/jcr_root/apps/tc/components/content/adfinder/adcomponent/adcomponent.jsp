@@ -28,5 +28,3 @@ sharedSites are
 <c:forEach items="${adBean.sharedSites}" var="sharedSites1">
     <p>${sharedSites1}</p>
                 </c:forEach>
-
-site<p>${adBean.site}</p>

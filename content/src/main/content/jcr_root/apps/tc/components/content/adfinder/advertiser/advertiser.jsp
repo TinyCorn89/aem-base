@@ -18,4 +18,3 @@ Province<p>${advertiseBean.province}</p>
 country<p>${advertiseBean.country}</p>
 zipcode<p>${advertiseBean.zipcode}</p>
 telephone<p>${advertiseBean.telephone}</p>
-clientNumber<p>${advertiseBean.clientNumber}</p>
