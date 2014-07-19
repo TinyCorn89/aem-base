@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    boxMaxWidth="800"
+    height="500"
+    title="AdFinder Search"
+    width="800"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="AdFinder Search Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <keywords
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Keywords"
+                        name="./keywords"
+                        xtype="textfield"/>
+                    <category
+                        jcr:primaryType="cq:Widget"
+                        emptyText="Select"
+                        fieldLabel="Category"
+                        name="./category"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <all
+                                jcr:primaryType="nt:unstructured"
+                                text="All categories"
+                                value="all"/>
+                            <advertisingAgencies
+                                jcr:primaryType="nt:unstructured"
+                                text="ADVERTISING AGENCIES"
+                                value="advertisingAgencies"/>
+                            <agriculture
+                                jcr:primaryType="nt:unstructured"
+                                text="AGRICULTURE"
+                                value="agriculture"/>
+                            <food
+                                jcr:primaryType="nt:unstructured"
+                                text="FOOD"
+                                value="food"/>
+                            <animal
+                                jcr:primaryType="nt:unstructured"
+                                text="ANIMAL - ANIMAL"
+                                value="animal"/>
+                            <antiques
+                                jcr:primaryType="nt:unstructured"
+                                text="ANTIQUES - ARTS AND GIFTS"
+                                value="antiques"/>
+                            <articles
+                                jcr:primaryType="nt:unstructured"
+                                text="ARTICLES OF ACTIVITIES"
+                                value="articles"/>
+                        </options>
+                    </category>
+                    <newspapers
+                        jcr:primaryType="cq:Widget"
+                        emptyText="Select"
+                        fieldLabel="Newspapers"
+                        name="./newspapers"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <action
+                                jcr:primaryType="nt:unstructured"
+                                text="The Action"
+                                value="action"/>
+                            <region
+                                jcr:primaryType="nt:unstructured"
+                                text="In the region"
+                                value="region"/>
+                            <neighbors
+                                jcr:primaryType="nt:unstructured"
+                                text="Neighbors"
+                                value="neighbors"/>
+                        </options>
+                    </newspapers>
+                    <date
+                        jcr:primaryType="cq:Widget"
+                        emptyText="Select"
+                        fieldLabel="Date"
+                        name="./date"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <last7days
+                                jcr:primaryType="nt:unstructured"
+                                text="In the last 7 days"
+                                value="7"/>
+                            <last14days
+                                jcr:primaryType="nt:unstructured"
+                                text=" Since the last 14 days "
+                                value="14"/>
+                            <last28days
+                                jcr:primaryType="nt:unstructured"
+                                text=" Since the last 28 days "
+                                value="28"/>
+                        </options>
+                    </date>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tc.action.AdAction;
+import com.tc.action.AdFinderSearchAction;
 import com.tc.action.AdvertiseAction;
 import com.tc.action.ArticleAction;
 import com.tc.action.BreadCrumbAction;
@@ -84,7 +85,7 @@ public class LaunchpadActionFactory implements ActionFactory {
 		CarouselAction.class.getName(),ChartAction.class.getName(),NewsAction.class.getName(),TopNavigationAction.class.getName(),
 		MapAction.class.getName(),SectionNavigationAction.class.getName(),HeroBannerAction.class.getName(),
 		GalleryAction.class.getName(),SiteNavigationAction.class.getName(),SocialFollowAction.class.getName(),
-		EventPreviewAction.class.getName(),BreadCrumbAction.class.getName(),SearchAction.class.getName(),CategoryAction.class.getName(),ArticleAction.class.getName(),SocialLoginAction.class.getName(),LongArticlePropertiesAction.class.getName(),TwitterFeedAction.class.getName(),MostViewedAticleAction.class.getName(),FacebookFeedAction.class.getName(),FeaturedAction.class.getName(),LatestArticlesAction.class.getName(),MostCommentedArticleAction.class.getName(),FreeHTMLAction.class.getName(),FreeJavaScriptAction.class.getName(),IframeAction.class.getName(),ImageAction.class.getName(),TableAction.class.getName(),VideoAction.class.getName(),FlipbookAction.class.getName(),DynamicFlipbookAction.class.getName(),FlipbooksListAction.class.getName(),AdvertiseAction.class.getName(),AdAction.class.getName()};
+		EventPreviewAction.class.getName(),BreadCrumbAction.class.getName(),SearchAction.class.getName(),CategoryAction.class.getName(),ArticleAction.class.getName(),SocialLoginAction.class.getName(),LongArticlePropertiesAction.class.getName(),TwitterFeedAction.class.getName(),MostViewedAticleAction.class.getName(),FacebookFeedAction.class.getName(),FeaturedAction.class.getName(),LatestArticlesAction.class.getName(),MostCommentedArticleAction.class.getName(),FreeHTMLAction.class.getName(),FreeJavaScriptAction.class.getName(),IframeAction.class.getName(),ImageAction.class.getName(),TableAction.class.getName(),VideoAction.class.getName(),FlipbookAction.class.getName(),DynamicFlipbookAction.class.getName(),FlipbooksListAction.class.getName(),AdvertiseAction.class.getName(),AdAction.class.getName(), AdFinderSearchAction.class.getName()};
 
 
 
