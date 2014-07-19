@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-07-19T14:53:00.644+05:30"
+        cq:lastModifiedBy="admin"
+        cq:template="/apps/tc/templates/adfinder-page"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="ad6"
+        sling:resourceType="/apps/tc/components/page/adfiner-page">
+        <content-region
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <adcomponent
+                jcr:created="{Date}2014-07-19T14:52:53.527+05:30"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2014-07-19T14:52:53.527+05:30"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="tc/components/content/adfinder/adcomponent"/>
+            <image
+                jcr:created="{Date}2014-07-19T14:53:00.640+05:30"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2014-07-19T14:53:00.640+05:30"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"/>
+        </content-region>
+    </jcr:content>
+</jcr:root>
