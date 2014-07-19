@@ -77,11 +77,6 @@
                         fieldLabel="SharedSites"
                         name="./sharedSites"
                         xtype="tags"/>
-                    <site
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Site"
-                        name="./site"
-                        xtype="textfield"/>
                 </items>
             </tab1>
             <tab2

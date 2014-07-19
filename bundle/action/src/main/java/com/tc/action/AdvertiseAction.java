@@ -10,7 +10,6 @@ import com.tc.util.Constants;
 
 public class AdvertiseAction extends BaseAction {
 
-	
 	private static final Logger LOG = LoggerFactory
 			.getLogger(AdvertiseAction.class);
 
@@ -41,11 +40,7 @@ public class AdvertiseAction extends BaseAction {
 					advertiseBean.setProvince(adrvertiser.getProperty(
 							Constants.ADVERTISER.PROVINCE).getString());
 				}
-				if (adrvertiser.hasProperty(Constants.ADVERTISER.COUNTRY)) {
-					advertiseBean.setProvince(adrvertiser.getProperty(
-							Constants.ADVERTISER.COUNTRY).getString());
-
-				}
+				
 				if (adrvertiser.hasProperty(Constants.ADVERTISER.COUNTRY)) {
 					advertiseBean.setCountry(adrvertiser.getProperty(
 							Constants.ADVERTISER.COUNTRY).getString());
@@ -59,10 +54,7 @@ public class AdvertiseAction extends BaseAction {
 							Constants.ADVERTISER.TELEPHONE).getString());
 
 				}
-				if (adrvertiser.hasProperty(Constants.ADVERTISER.CLIENT_NUMBER)) {
-					advertiseBean.setClientNumber(adrvertiser.getProperty(Constants.ADVERTISER.CLIENT_NUMBER).getString());
 
-				}
 			}
 
 		} catch (Exception e) {

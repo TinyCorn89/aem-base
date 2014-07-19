@@ -16,7 +16,7 @@ public class AdvertiseBean implements Serializable{
 	private String country;
 	private String zipcode;
 	private String telephone;
-	private String clientNumber;
+	
 	public String getName1() {
 		return name1;
 	}
@@ -64,12 +64,6 @@ public class AdvertiseBean implements Serializable{
 	}
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
-	}
-	public String getClientNumber() {
-		return clientNumber;
-	}
-	public void setClientNumber(String clientNumber) {
-		this.clientNumber = clientNumber;
 	}
 	
 	

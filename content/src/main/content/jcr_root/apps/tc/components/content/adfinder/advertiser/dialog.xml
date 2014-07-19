@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     height="500"
     title="Advertiser"
@@ -39,14 +39,22 @@
                         allowBlank="false"
                         fieldLabel="Province"
                         name="./province"
-                        optionsProvider="function () {&#xa;    var resultStringArray = new Array();&#xa;    var url = CQ.HTTP.noCaching('/apps/tc/components/content/adfinder/tags.list.json');&#xa;    var value = CQ.HTTP.eval(url);&#xa;   &#xa;    for (var name in value) {&#xa;        &#xa;                result['text'] = name;&#xa;                result['value'] = content[name].publish;&#xa;                resultStringArray.push(result);&#xa;            &#xa;      &#xa;    }&#xa;    return resultStringArray;&#xa;}"
+                        optionsProvider="function(path, record){return CQ.Util.formatData(CQ.HTTP.eval(CQ.HTTP.noCaching('/apps/tc/components/content/tags.list.json?'+ &quot;path=/etc/tags/provinces&quot;)));}"
                         type="select"
                         xtype="selection"/>
                     <country
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Country"
                         name="./country"
-                        xtype="textfield"/>
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <canada
+                                jcr:primaryType="nt:unstructured"
+                                text="Canada"
+                                value="canada"/>
+                        </options>
+                    </country>
                     <zipCode
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Zipcode"
@@ -56,12 +64,6 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Telephone"
                         name="./telephone"
-                        xtype="textfield"/>
-                    <clientNumber
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="false"
-                        fieldLabel="ClientNumber"
-                        name="./clientNumber"
                         xtype="textfield"/>
                 </items>
             </tab1>

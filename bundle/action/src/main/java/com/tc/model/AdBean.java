@@ -19,7 +19,7 @@ public class AdBean implements Serializable {
 	private String endDate;
 	private String displayName;
 	Collection<String>sharedSites;
-	private String site;
+	
 	public String getPublicationDate() {
 		return publicationDate;
 	}
@@ -75,12 +75,7 @@ public class AdBean implements Serializable {
 	public void setSharedSites(Collection<String> sharedSites) {
 		this.sharedSites = sharedSites;
 	}
-	public String getSite() {
-		return site;
-	}
-	public void setSite(String site) {
-		this.site = site;
-	}
+	
 	public String getAdFinder() {
 		return adFinder;
 	}
