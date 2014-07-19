@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-07-19T14:51:01.198+05:30"
+        cq:lastModified="{Date}2014-07-19T15:38:21.326+05:30"
         cq:lastModifiedBy="admin"
         cq:template="/apps/tc/templates/adfinder-page"
         jcr:primaryType="cq:PageContent"
@@ -14,17 +14,28 @@
             <adcomponent
                 jcr:created="{Date}2014-07-19T14:50:56.271+05:30"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2014-07-19T14:50:56.271+05:30"
+                jcr:lastModified="{Date}2014-07-19T15:38:11.972+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="tc/components/content/adfinder/adcomponent"/>
+                sling:resourceType="tc/components/content/adfinder/adcomponent"
+                adCategory="adcat2"
+                adFinder="true"
+                advertiserId="2"
+                displayName="AD2"
+                endDate="{Date}2014-07-22T15:37:52.000+05:30"
+                expirationDate="{Date}2014-07-22T15:37:28.000+05:30"
+                keywords="[geometrixx-media:gadgets,geometrixx-media:gadgets/cars]"
+                publicationDate="{Date}2014-07-21T15:37:26.000+05:30"
+                sharedSites="[marketing:interest,marketing:interest/business]"
+                startDate="{Date}2014-07-21T15:37:50.000+05:30"/>
             <image
                 jcr:created="{Date}2014-07-19T14:51:01.196+05:30"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2014-07-19T14:51:01.196+05:30"
+                jcr:lastModified="{Date}2014-07-19T15:38:21.323+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="foundation/components/image"/>
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/projects/shapes/cover"/>
         </content-region>
     </jcr:content>
 </jcr:root>

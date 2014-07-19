@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-07-19T14:46:09.679+05:30"
+        cq:lastModified="{Date}2014-07-19T15:26:28.611+05:30"
         cq:lastModifiedBy="admin"
         cq:template="/apps/tc/templates/adfinder-page"
         jcr:primaryType="cq:PageContent"
@@ -14,10 +14,18 @@
             <advertiser
                 jcr:created="{Date}2014-07-19T14:46:09.663+05:30"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2014-07-19T14:46:09.663+05:30"
+                jcr:lastModified="{Date}2014-07-19T15:26:28.607+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="tc/components/content/adfinder/advertiser"/>
+                sling:resourceType="tc/components/content/adfinder/advertiser"
+                address="adress1"
+                city="city1"
+                country="canada"
+                name1="1"
+                name2="name12"
+                province="provinces:NovaScotia"
+                telephone="telephone1"
+                zipcode="zipcode1"/>
         </content-region>
     </jcr:content>
 </jcr:root>

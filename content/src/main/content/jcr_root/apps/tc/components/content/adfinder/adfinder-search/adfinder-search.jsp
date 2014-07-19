@@ -9,6 +9,7 @@
 --%>
 <%@include file="/apps/tc/global/global.jsp"%>
 <%@page session="false" %>
+
 <action:action actionClassName="com.tc.action.AdFinderSearchAction" bean="adFinderSearchBean" actionName="getAdFinderSearchDetails" />
 <h1 align="center">AdFinder Search</h1>
 <center>
@@ -25,6 +26,33 @@
         <input type="submit" name="submit" id="submit" onclick="" value="Search">
     </form>
 </center>
+
+
+
+
+ <c:forEach items="${requestScope.adFinderSearchResults}" var="bean">
+     <c:if test="${not empty bean}">
+         Title:${bean.title}<br/>
+         <img src="${bean.imagePath}"/><br/>
+
+Publication Date: ${bean.publicationDate}
+Keywords:
+         <c:forEach items="${bean.keywords}" var="tag">
+    ${tag}<br/>
+                </c:forEach>
+Journal:
+         <c:forEach items="${bean.journal}" var="tag">
+   ${tag}<br/>
+                </c:forEach>
+
+         <a href="http://annonces.transcontinentalmedia.com/pdf/AW/"+${bean.advertiserId}+".pdf">The link to the PDF </a><br/>
+</c:if>
+</c:forEach>
+
+
+
+
+
 
 <script type="text/javascript">
     window.onload = function()

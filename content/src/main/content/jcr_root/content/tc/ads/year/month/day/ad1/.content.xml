@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-07-19T14:49:31.362+05:30"
+        cq:lastModified="{Date}2014-07-19T15:35:08.435+05:30"
         cq:lastModifiedBy="admin"
         cq:template="/apps/tc/templates/adfinder-page"
         jcr:primaryType="cq:PageContent"
@@ -14,17 +14,29 @@
             <adcomponent
                 jcr:created="{Date}2014-07-19T14:48:55.830+05:30"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2014-07-19T14:48:55.830+05:30"
+                jcr:lastModified="{Date}2014-07-19T15:33:23.284+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="tc/components/content/adfinder/adcomponent"/>
+                sling:resourceType="tc/components/content/adfinder/adcomponent"
+                adCategory="adcategory"
+                adFinder="true"
+                advertiserId="1"
+                displayName="ad1"
+                endDate="{Date}2014-07-20T15:32:59.000+05:30"
+                expirationDate="{Date}2014-07-20T15:29:15.000+05:30"
+                keywords="[geometrixx-outdoors:activity]"
+                publicationDate="{Date}2014-07-19T15:29:13.000+05:30"
+                sharedSites="[tc:Business,tc:Technology]"
+                startDate="{Date}2014-07-19T15:32:56.000+05:30"/>
             <image
                 jcr:created="{Date}2014-07-19T14:49:31.360+05:30"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2014-07-19T14:49:31.360+05:30"
+                jcr:lastModified="{Date}2014-07-19T15:35:08.432+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="foundation/components/image"/>
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/projects/gov/cover"
+                imageRotate="0"/>
         </content-region>
     </jcr:content>
 </jcr:root>
