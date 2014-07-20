@@ -65,6 +65,7 @@
     }
 
 %>
+<div height="outer"><%-- todo: create css to take thumbnail height into account --%>
 <div class="inner">
     <h2><a target="_blank" title="<%=title%>" href="<%=pdfPath%>"><%=title%></a></h2>
     <p><%=subTitle%></p>
@@ -72,3 +73,4 @@
 <figure>
     <a target="_blank" title="<%=title%>" href="<%=pdfPath%>"><img alt="<%=title%>" src="<%=pdfThumbnail%>"></a>
 </figure>
+</div
