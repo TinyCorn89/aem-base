@@ -31,8 +31,10 @@ html, body{
 }
 
 .content article .inner {
-    width: 542px;
+    margin: 0 0 0 20px; 
+    width: 532px; 
 }
+
 .content article .inner {
     float: right;
 }
@@ -55,3 +57,9 @@ article figure, article figure img {
     text-decoration:none;
 }
 
+.outer{
+    position:relative;
+    margin:0 0 20px 0; 
+    padding:0;
+    float:left;
+}
