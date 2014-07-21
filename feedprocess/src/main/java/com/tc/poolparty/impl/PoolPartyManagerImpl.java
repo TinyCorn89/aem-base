@@ -498,8 +498,15 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 
 	}
 
+    @Override
+    public List<String> crawlText(String text) {
+        return crawlText(text, poolPropertyProperties
+                .getProperty("poolparty.language"));
+    }
+
+
 	@Override
-	public List<String> crawlText(String text) {
+	public List<String> crawlText(String text, String language) {
 		String charSet = "UTF-8";
 		String urlStr = poolPropertyProperties
 				.getProperty("poolparty.crawlerurl");
@@ -508,8 +515,6 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 				.getProperty("poolparty.password");
 		String projectId = poolPropertyProperties
 				.getProperty("poolparty.projectId");
-		String language = poolPropertyProperties
-				.getProperty("poolparty.language");
 
 		LOG.info(urlStr + "--" + user + "--" + projectId + "--" + language);
 		try {

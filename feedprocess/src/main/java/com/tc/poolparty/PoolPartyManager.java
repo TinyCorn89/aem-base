@@ -20,4 +20,12 @@ public interface PoolPartyManager {
 	 * @return
 	 */
 	public List<String> crawlText(String text);
+
+
+    /**
+     * Crawl text and get back the tags to be created for the page
+     * @param text; language - specifies which language the text is in to only match keywords in that language tree
+     * @return
+     */
+    public List<String> crawlText(String text, String language);
 }

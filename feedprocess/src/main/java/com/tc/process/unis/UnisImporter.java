@@ -13,29 +13,29 @@ import com.tc.process.handler.TCTransformerHandler;
 import com.tc.process.pressfeed.TCCanadianPressFeedProcessor;
 
 public class UnisImporter {
-	static Logger LOG = Logger.getLogger(UnisImporter.class);
-	static Properties properties = null;
-	public static void main(String args[]) throws Exception {
-		
-		
-		Properties properties = MigrationUtils.loadProperties("unis.properties");
-		LOG.info(properties);
-		
-		TCTransformerHandler transformer = new TCTransformerHandler();
-		String sourceDir = properties.getProperty("article.sourcedir");
-		String xslFile = properties.getProperty("article.xslfile");
-		String contentDir = properties.getProperty("article.contentdir");
-		String metaInfDir = properties.getProperty("article.metainfdir");
-		String uniqueId = properties.getProperty("article.uniqueid");
-		String workingDir = properties.getProperty("article.workingdir");
-		String packageName = properties.getProperty("article.packagename");
-		String photoXmlDir = properties.getProperty("photo.sourcedir");
-		String photoJpgDir = properties.getProperty("image.sourcedir");
-		String photoWorkingDir = properties.getProperty("photo.workingdir");
-		String photoXslFile = properties.getProperty("photo.xslfile");
-		
-		cleanDir(workingDir);
-		cleanDir(photoWorkingDir);
+    static Logger LOG = Logger.getLogger(UnisImporter.class);
+    static Properties properties = null;
+    public static void main(String args[]) throws Exception {
+
+
+        Properties properties = MigrationUtils.loadProperties("unis.properties");
+        LOG.info(properties);
+
+        TCTransformerHandler transformer = new TCTransformerHandler();
+        String sourceDir = properties.getProperty("article.sourcedir");
+        String xslFile = properties.getProperty("article.xslfile");
+        String contentDir = properties.getProperty("article.contentdir");
+        String metaInfDir = properties.getProperty("article.metainfdir");
+        String uniqueId = properties.getProperty("article.uniqueid");
+        String workingDir = properties.getProperty("article.workingdir");
+        String packageName = properties.getProperty("article.packagename");
+        String photoXmlDir = properties.getProperty("photo.sourcedir");
+        String photoJpgDir = properties.getProperty("image.sourcedir");
+        String photoWorkingDir = properties.getProperty("photo.workingdir");
+        String photoXslFile = properties.getProperty("photo.xslfile");
+
+        cleanDir(workingDir);
+        cleanDir(photoWorkingDir);
 		
 				
 		/*
@@ -43,36 +43,36 @@ public class UnisImporter {
 		 * are used by ArticleImageProcessor to process photos referenced
 		 * by article xml
 		 */
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("photoSourceDir", photoXmlDir);
-		params.put("imageSourceDir", photoJpgDir);
-		params.put("photoWorkingDir", photoWorkingDir);
-		params.put("photoXslFile", photoXslFile);
-		
-		boolean flag = transformer.tranform(sourceDir, xslFile, contentDir, metaInfDir, uniqueId, workingDir, packageName, params);
-		if (flag) {
-			InputStream aemInputSt = TCCanadianPressFeedProcessor.class.getClassLoader()
-					.getResourceAsStream("aem.properties");
-			Properties aemProps = new Properties();
-			aemProps.load(aemInputSt);
-			
-			// upload package
-			AEMPackageImporter importer = new AEMPackageImporter();
-			String repoURL = aemProps.getProperty("aem.url") + "/crx/server";
-			String userName = aemProps.getProperty("aem.userid");
-			String password = aemProps.getProperty("aem.password");
-			String packagePath = workingDir + File.separator + packageName;
-			
-			importer.importPackage(repoURL, userName, password, packagePath, true);
-		} else {
-			LOG.error("No files got migrated");
-		}
-		
-	}
-	protected static void cleanDir(String workingDir) {
-		File workingDirFile = new File(workingDir);
-		if (workingDirFile.exists()) {
-			MigrationUtils.clearDirectory(workingDirFile);
-		}
-	}
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("photoSourceDir", photoXmlDir);
+        params.put("imageSourceDir", photoJpgDir);
+        params.put("photoWorkingDir", photoWorkingDir);
+        params.put("photoXslFile", photoXslFile);
+
+        boolean flag = transformer.transform(sourceDir, xslFile, contentDir, metaInfDir, uniqueId, workingDir, packageName, params);
+        if (flag) {
+            InputStream aemInputSt = TCCanadianPressFeedProcessor.class.getClassLoader()
+                    .getResourceAsStream("aem.properties");
+            Properties aemProps = new Properties();
+            aemProps.load(aemInputSt);
+
+            // upload package
+            AEMPackageImporter importer = new AEMPackageImporter();
+            String repoURL = aemProps.getProperty("aem.url") + "/crx/server";
+            String userName = aemProps.getProperty("aem.userid");
+            String password = aemProps.getProperty("aem.password");
+            String packagePath = workingDir + File.separator + packageName;
+
+            importer.importPackage(repoURL, userName, password, packagePath, true);
+        } else {
+            LOG.error("No files got migrated");
+        }
+
+    }
+    protected static void cleanDir(String workingDir) {
+        File workingDirFile = new File(workingDir);
+        if (workingDirFile.exists()) {
+            MigrationUtils.clearDirectory(workingDirFile);
+        }
+    }
 }

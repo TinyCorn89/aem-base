@@ -51,6 +51,7 @@ public class AEMPackageImporter {
 			}
 		} catch (Exception e) {
 			LOG.error("Error while uploading package", e);
+			System.out.println("Error while uploading package " + e.getMessage());
 			isSuccess = false;
 			session.logout();
 			LOG.info("Session ends");
@@ -67,6 +68,7 @@ public class AEMPackageImporter {
 		}
 		if (isSuccess) {
 			LOG.info("Package imported successfully");	
+			System.out.println("Package imported successfully");
 		}
 		
 		return isSuccess;

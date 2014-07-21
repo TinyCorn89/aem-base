@@ -74,11 +74,14 @@ public class TCTransformerHandler {
 			poolPartyManager = new PoolPartyManagerImpl(poolPartyProps);
 		}
 		String text;
+        String language;
 		try {
 			
 			String xslFile = poolPartyProps.getProperty("poolparty.extractTextXml");
+			String xslLanguageFile = poolPartyProps.getProperty("poolparty.extractLanguageXml");
 			text = extractTextFields(xslFile, xmlFile.getAbsolutePath());
-			tags = poolPartyManager.crawlText(text);
+			language = extractTextFields(xslLanguageFile, xmlFile.getAbsolutePath());
+			tags = poolPartyManager.crawlText(text, language);
 			if (tags != null) {
 				for (int i = 0; i < tags.size(); i++) {
 					String tag = tags.get(i);
@@ -116,7 +119,7 @@ public class TCTransformerHandler {
 		return sw.getBuffer().toString();
 		
 	}
-	public boolean tranform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName, String workingDir, String packageName, Map<String, String> params)
+	public boolean transform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName, String workingDir, String packageName, Map<String, String> params)
 			throws Exception {
 		boolean contentExistFlag = false;
 		try {
@@ -310,7 +313,7 @@ public class TCTransformerHandler {
 	
 	public boolean tranform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName, String workingDir, String packageName)
 			throws Exception {
-		return tranform(inputdir, xslFileName, contentFolder, metaInfFolder, idName, workingDir, packageName, null);
+		return transform(inputdir, xslFileName, contentFolder, metaInfFolder, idName, workingDir, packageName, null);
 	}
 	
 	protected boolean processImageNodes(List<Element> images, File leafFolder, File inputDir, File jcrRootDir) {
