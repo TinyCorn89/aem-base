@@ -38,9 +38,7 @@
     List list = (List)request.getAttribute("list");
     if (!list.isEmpty()) {
         String cls = list.getType();
-        cls = (cls == null) ? "" : cls.replaceAll("/", "");
-
-        %><%= list.isOrdered() ? "<ol" : "<ul" %> class="<%= xssAPI.encodeForHTML(cls) %>"><%
+        cls = (cls == null) ? "" : cls.replaceAll("/", "");       
         Iterator<Page> items = list.getPages();
         String listItemClass = null;
 %>        
@@ -76,7 +74,7 @@
         			</article>
             </div>
         </div>
-        <%= list.isOrdered() ? "</ol>" : "</ul>" %><%
+<%
         if (list.isPaginating()) {
             %><cq:include script="pagination.jsp"/><%
         }
