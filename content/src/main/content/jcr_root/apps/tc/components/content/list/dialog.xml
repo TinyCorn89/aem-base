@@ -51,6 +51,7 @@
                 </listFrom>
                 <displayAs
                     jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     defaultValue=""
                     fieldLabel="Display as"
                     name="./displayAs"
