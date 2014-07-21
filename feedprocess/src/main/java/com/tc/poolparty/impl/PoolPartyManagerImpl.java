@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -379,31 +378,31 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 	@Override
 	public List<String> getTags() {
 		LOG.info("Entered getTags()");
-		String masterJSON = getJSONFromPoolParty();
+		String topConcepts = poolPropertyProperties.get("poolparty.topconcepts").toString();
+		String masterJSON = getJSONFromPoolParty(topConcepts);
 		List<String> tags = null;
 		try {
-			JSONObject masterJSONObject = new JSONObject(masterJSON);
-			JSONObject results = masterJSONObject.getJSONObject("results");
-			JSONArray bindings = results.getJSONArray("bindings");
+			JSONArray bindings = new JSONArray(masterJSON);
 			tags = new ArrayList<String>();
 			for (int i = 0; i < bindings.length(); ++i) {
 				JSONObject binding = bindings.getJSONObject(i);
-				JSONObject prefLabelObject = (JSONObject) binding
-						.get("prefLabel");
-				tags.add(prefLabelObject.getString("value").trim());
+				String prefLabel = binding.getString("prefLabel");
+				tags.add(prefLabel.trim());
 			}
 		} catch (JSONException e) {
 			LOG.error(e);
 		}
 		return tags;
 	}
+	
+
 
 	/**
 	 * Connects to PoolParty. Gets the jSON from pool party.
 	 * 
 	 * @return the jSON from pool party
 	 */
-	private String getJSONFromPoolParty() {
+	private String getJSONFromPoolParty(String topConcepts) {
 		StringBuilder content = null;
 		String serverAddress = poolPropertyProperties
 				.getProperty("poolparty.serverAddress");
@@ -441,8 +440,11 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 		}
 		BufferedReader in = null;
 		try {
-			URL url = new URL(serverAddress);
-			HttpURLConnection connection = (HttpURLConnection) url
+			//String topConcepts = poolPropertyProperties.get("poolparty.topconcepts").toString();
+			String projectId = poolPropertyProperties.get("poolparty.projectId").toString();
+			
+			URL url = new URL(serverAddress + projectId + "/topconcepts?scheme=" + topConcepts);
+			HttpURLConnection connection = (HttpURLConnection) url 
 					.openConnection();
 			String userpassword = userId + ":" + password;
 			String encoded = "Basic "
@@ -453,15 +455,18 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 			connection.setRequestProperty("Content-Type", contentType);
 			connection.setConnectTimeout(connectTimeout);
 			connection.setReadTimeout(readTimeout);
-			String encodedQuery = URLEncoder.encode(query.toString(), "UTF-8");
-			connection.setRequestProperty("content-type", encodedContentType);
-			OutputStreamWriter out = new OutputStreamWriter(
-					connection.getOutputStream());
-			out.write("query=" + encodedQuery);
-			out.write("&format="
-					+ URLEncoder.encode("application/json", "utf-8"));
-			out.flush();
-			out.close();
+			
+			
+			
+			//String encodedQuery = URLEncoder.encode(query.toString(), "UTF-8");
+			//connection.setRequestProperty("content-type", encodedContentType);
+			//OutputStreamWriter out = new OutputStreamWriter(
+			//		connection.getOutputStream());
+			//out.write("query=" + encodedQuery);
+			//out.write("&format="
+			//		+ URLEncoder.encode("application/json", "utf-8"));
+			//out.flush();
+			//out.close();
 			in = new BufferedReader(new InputStreamReader(
 					connection.getInputStream()));
 			String line;
@@ -481,7 +486,10 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 			LOG.error(ioException);
 		} finally {
 			try {
-				in.close();
+				if (in != null) {
+					in.close();
+				}
+					
 			} catch (IOException e) {
 				LOG.error(e);
 			}
@@ -505,7 +513,7 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 
 		LOG.info(urlStr + "--" + user + "--" + projectId + "--" + language);
 		try {
-
+		
 			StringBuffer query = new StringBuffer(String.format("text=%s",
 					URLEncoder.encode(text, charSet)));
 			query.append("&").append(
@@ -569,8 +577,9 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 			if (jsonArray != null) {
 				for (int i = 0; i < jsonArray.length(); i++) {
 					JSONObject obj = jsonArray.getJSONObject(i);
-
-					String tag = "tc:" + obj.getString("prefLabel");
+					String organizationName = poolPropertyProperties
+							.getProperty("poolparty.organizationName");
+					String tag = organizationName + ":" + obj.getString("prefLabel");
 
 					tags.add(tag);
 				}
