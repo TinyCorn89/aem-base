@@ -16,10 +16,7 @@ public class UnisImporter {
 	static Logger LOG = Logger.getLogger(UnisImporter.class);
 	static Properties properties = null;
 	public static void main(String args[]) throws Exception {
-		if (args.length == 0) {
-			LOG.error("Please specify the import type...exiting");
-			return;
-		}
+		
 		
 		Properties properties = MigrationUtils.loadProperties("unis.properties");
 		LOG.info(properties);
@@ -52,33 +49,25 @@ public class UnisImporter {
 		params.put("photoWorkingDir", photoWorkingDir);
 		params.put("photoXslFile", photoXslFile);
 		
-		transformer.tranform(sourceDir, xslFile, contentDir, metaInfDir, uniqueId, workingDir, packageName, params);
-		InputStream aemInputSt = TCCanadianPressFeedProcessor.class.getClassLoader()
-				.getResourceAsStream("aem.properties");
-		Properties aemProps = new Properties();
-		aemProps.load(aemInputSt);
+		boolean flag = transformer.tranform(sourceDir, xslFile, contentDir, metaInfDir, uniqueId, workingDir, packageName, params);
+		if (flag) {
+			InputStream aemInputSt = TCCanadianPressFeedProcessor.class.getClassLoader()
+					.getResourceAsStream("aem.properties");
+			Properties aemProps = new Properties();
+			aemProps.load(aemInputSt);
+			
+			// upload package
+			AEMPackageImporter importer = new AEMPackageImporter();
+			String repoURL = aemProps.getProperty("aem.url") + "/crx/server";
+			String userName = aemProps.getProperty("aem.userid");
+			String password = aemProps.getProperty("aem.password");
+			String packagePath = workingDir + File.separator + packageName;
+			
+			importer.importPackage(repoURL, userName, password, packagePath, true);
+		} else {
+			LOG.error("No files got migrated");
+		}
 		
-		// upload package
-		AEMPackageImporter importer = new AEMPackageImporter();
-		String repoURL = aemProps.getProperty("aem.url") + "/crx/server";
-		String userName = aemProps.getProperty("aem.userid");
-		String password = aemProps.getProperty("aem.password");
-		String packagePath = workingDir + File.separator + packageName;
-		
-		importer.importPackage(repoURL, userName, password, packagePath, true);
-		//DamAssetUploadHandler uploader = new DamAssetUploadHandler();
-		
-		// upload image zip file if exist
-		/*File imageZip = new File(workingDir
-						+ File.separator 
-						+ "tc.zip");
-		if (imageZip.exists()) {
-			if (uploader.uploadToAEM(imageZip.getAbsolutePath(), aemProps)) {
-				LOG.info("uploaded to cq successfully");
-			} else {
-				LOG.error("uploaded to cq failed");
-			}
-		}*/
 	}
 	protected static void cleanDir(String workingDir) {
 		File workingDirFile = new File(workingDir);

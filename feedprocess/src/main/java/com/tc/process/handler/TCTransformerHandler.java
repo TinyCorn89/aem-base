@@ -118,6 +118,7 @@ public class TCTransformerHandler {
 	}
 	public boolean tranform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName, String workingDir, String packageName, Map<String, String> params)
 			throws Exception {
+		boolean contentExistFlag = false;
 		try {
 
 			xmlReader = XMLReaderFactory.createXMLReader();
@@ -150,7 +151,7 @@ public class TCTransformerHandler {
 					if (!child.getName().contains(".xml")) {
 						continue;
 					}
-					
+					contentExistFlag = true;
 					LOG.debug(" in the directory" + child.getName());
 					String fileName = workingDirectory.getAbsolutePath()
 							+ File.separator
@@ -272,79 +273,36 @@ public class TCTransformerHandler {
 					Files.write(path, content.getBytes(charset));
 					
 				}
-				/*if (jcrRootDir.exists()) {
-					if (imageFlag) {
-						// move /content/dam folder and zip up only the images
-						File contentDamFolder = new File(jcrRootDir.getAbsolutePath() + File.separator + "content" + File.separator + "dam");
-						File imagesFolder = new File(workingDirectory.getAbsolutePath() + File.separator + "images");
-						contentDamFolder.renameTo(imagesFolder);
-						
-						
-						 * This needs to be refactored, the objective here is to 
-						 * determine the zip file name and also the folder to be zipped
-						 
-						String folders[] = imagesFolder.list(new FilenameFilter() {
-							
-							@Override
-							public boolean accept(File dir, String name) {
-								return dir.isDirectory();
-							}
-						});
-						String zipFileName = "images.zip";
-						if (folders != null) {
-							zipFileName = folders[0];
-							imagesFolder = new File(imagesFolder.getAbsolutePath() + File.separator + folders[0]);
-						}
-						
-						folders = imagesFolder.list(new FilenameFilter() {
-							
-							@Override
-							public boolean accept(File dir, String name) {
-								return dir.isDirectory();
-							}
-						});
-						if (folders != null) {
-							imagesFolder = new File(imagesFolder.getAbsolutePath() + File.separator + folders[0]);
-						}
-						
-						FileOutputStream imagesOs = new FileOutputStream(
-								workingDirectory.getAbsolutePath() + File.separator
-										 + zipFileName + ".zip");
-						ZipOutputStream imagesZos = new ZipOutputStream(imagesOs);
-						addDirToZipArchive(imagesZos, imagesFolder, null, false);
-						
-						imagesZos.close();
-						imagesOs.close();					
-						
-					}
-				}*/
 
 			} else {
 				LOG.info("no files in the directory");
+				contentExistFlag = false;
 			}
-			try {
+			if (contentExistFlag) {
+				try {
 
-				FileOutputStream fos = new FileOutputStream(
-						workingDirectory.getAbsolutePath() + File.separator
-								+ packageName);
+					FileOutputStream fos = new FileOutputStream(
+							workingDirectory.getAbsolutePath() + File.separator
+									+ packageName);
 
-				ZipOutputStream zos = new ZipOutputStream(fos);
+					ZipOutputStream zos = new ZipOutputStream(fos);
 
-				addDirToZipArchive(zos, jcrRootDir, null, false);
-				addDirToZipArchive(zos, metaInfDir, null, false);
+					addDirToZipArchive(zos, jcrRootDir, null, false);
+					addDirToZipArchive(zos, metaInfDir, null, false);
 
-				
-				zos.close();
+					
+					zos.close();
 
-			} catch (IOException ioe) {
-				LOG.error("Error creating zip file: ", ioe);
+				} catch (IOException ioe) {
+					LOG.error("Error creating zip file: ", ioe);
+				}
 			}
 
 		} catch (Exception e) {
 			LOG.error("error in transform", e);
 			throw e;
 		}
-		return true;
+		return contentExistFlag;
 	
 		
 		
