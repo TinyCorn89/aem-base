@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.tc.poolparty.impl.PoolPartyBean;
@@ -27,6 +28,10 @@ public class PoolPartyTagsImporter {
 	public static void main(String[] args) {
 		InputStream poolPartyPropsStream = PoolPartyTagsImporter.class
 				.getClassLoader().getResourceAsStream("poolparty.properties");
+		String locale = null;
+		if (args != null) {
+			locale = args[0];
+		}
 		Properties poolPartyProps = new Properties();
 		try {
 			poolPartyProps.load(poolPartyPropsStream);
@@ -36,7 +41,9 @@ public class PoolPartyTagsImporter {
 		PoolPartyManager poolPartyManager = new PoolPartyManagerImpl(
 				poolPartyProps);
 		String topConcepts = poolPartyProps.get("poolparty.topconcepts").toString();
-		String locale = poolPartyProps.get("poolparty.language").toString();
+		if (StringUtils.isEmpty(locale)) {
+			locale = poolPartyProps.get("poolparty.language").toString();
+		}
 		List<PoolPartyBean> listOfTags = poolPartyManager.getTags(topConcepts, true, locale);
 		
 		//logTags(listOfTags);
