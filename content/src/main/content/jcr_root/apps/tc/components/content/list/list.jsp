@@ -41,6 +41,8 @@
         cls = (cls == null) ? "" : cls.replaceAll("/", "");       
         Iterator<Page> items = list.getPages();
         String listItemClass = null;
+        String url = request.getRequestURL().toString();
+    	if(!url.contains("dam")) {
 %>        
         <div id="wrapper">
             <div class="content">
@@ -75,6 +77,7 @@
             </div>
         </div>
 <%
+        }
         if (list.isPaginating()) {
             %><cq:include script="pagination.jsp"/><%
         }
