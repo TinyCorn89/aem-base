@@ -24,18 +24,15 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@ page import="javax.jcr.ValueFormatException,javax.jcr.PathNotFoundException,javax.jcr.RepositoryException,javax.jcr.Node,javax.jcr.NodeIterator" %>
 
-<%
-
+<%	
+	String currentPagePath = currentPage.getPath();
     Page listItem = (Page)request.getAttribute("listitem");
-	String title= null;
-    String subTitle = null;
-    String pdfPath = null;
-    String pdfThumbnail = null;
-	String flipbookPath = null;
-	try {
-        if(currentNode.hasProperty("flipbookPath")) {
-            flipbookPath = currentNode.getProperty("./flipbookPath").getString();        
-        }	        
+	String title= "";
+    String subTitle = "";
+    String pdfPath = "";
+    String pdfThumbnail = "";	
+	String flipbookUrl = "";
+	try {                
         String issuePath = listItem.getPath();
         Node issuePageNode = slingRequest.getResourceResolver().getResource(issuePath).adaptTo(Node.class);        
         if(issuePageNode.hasNode("jcr:content") && issuePageNode.getNode("jcr:content").hasNode("content-region") && issuePageNode.getNode("jcr:content").getNode("content-region").hasNode("issue")) {
@@ -50,12 +47,12 @@
                 pdfPath = issueNode.getProperty("./pdfPath").getString();
                 pdfPath = pdfPath.replace("/content", "");
                 pdfPath = pdfPath.replaceAll("/", ".");                
-                pdfPath = flipbookPath+pdfPath+".html";                
+                flipbookUrl = currentPagePath + pdfPath + ".html";				
             }
             if(issueNode.hasProperty("thumbnail")) {
                 pdfThumbnail = issueNode.getProperty("./thumbnail").getString();                
             }
-        }
+        }        
     } catch (ValueFormatException e) {
         e.printStackTrace();
     } catch (PathNotFoundException e) {
@@ -67,10 +64,10 @@
 %>
 <div class="outer">
     <div class="inner">
-        <h2><a target="_blank" title="<%=title%>" href="<%=pdfPath%>"><%=title%></a></h2>
+        <h2><a target="_blank" title="<%=title%>" href="<%=flipbookUrl%>"><%=title%></a></h2>
         <p><%=subTitle%></p>
     </div>
     <figure>
-        <a target="_blank" title="<%=title%>" href="<%=pdfPath%>"><img alt="<%=title%>" src="<%=pdfThumbnail%>"></a>
+        <a target="_blank" title="<%=title%>" href="<%=flipbookUrl%>"><img alt="<%=title%>" src="<%=pdfThumbnail%>"></a>
     </figure>
 </div>
