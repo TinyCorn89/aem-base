@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -16,9 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.jcr.Node;
-import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.Value;
 import javax.servlet.ServletException;
 
 import org.apache.felix.scr.annotations.Properties;
@@ -35,12 +33,13 @@ import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.SearchResult;
 import com.tc.framework.api.ManagerProvider;
 import com.tc.model.AdFinderSearchResultBean;
+import com.tc.model.AdFinderSearchResultsBean;
 import com.tc.util.CommonUtils;
 
 /**
  * The Class AdFinderSearchServlet.
  * 
- * @author gdinakar
+ *
  */
 
 @SlingServlet(paths = { "/bin/adFinderSearchResultsServlet" })
@@ -59,26 +58,25 @@ public class AdFinderSearchServlet extends BaseSlingServlet {
 
 	protected void doGet(SlingHttpServletRequest req,
 			SlingHttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("doGet");
 		doPost(req, resp);
 	}
 
 	protected void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) throws ServletException,
 			IOException {
-		System.out.println("doPost");
+
 		LOG.info("Enetered in to AdFinderSearchServlet class");
 
-		request.setAttribute("advertiserId",
-				request.getParameter("advertiserId"));
-		LOG.info("advertiserId from request = "
-				+ request.getParameter("advertiserId"));
-		
-		List<AdFinderSearchResultBean> listOfAdNodes = new ArrayList<AdFinderSearchResultBean>();
-		listOfAdNodes = getAds(request);
-		System.out.println("listOfAdNodes::"+listOfAdNodes.size());
-		System.out.println("listOfAdNodes::"+listOfAdNodes);
-		request.setAttribute("adFinderSearchResults", listOfAdNodes);
+		request.setAttribute("advertisersKeywords",
+				request.getParameter("advertisersKeywords"));
+		request.setAttribute("daterange", request.getParameter("daterange"));
+		LOG.info("advertisersKeywords from request = "
+				+ request.getParameter("advertisersKeywords"));
+
+		List<AdFinderSearchResultsBean> listOfadvertiesrs = getResultpage(request);
+
+		request.setAttribute("adFinderSearchResults", listOfadvertiesrs);
+
 		try {
 			CommonUtils.getRequestDispatcher(request, response,
 					request.getParameter("resultPath") + ".html");
@@ -88,70 +86,135 @@ public class AdFinderSearchServlet extends BaseSlingServlet {
 
 	}
 
-	/**
-	 * Gets the ads.
-	 *
-	 * @param advertiserId the advertiser id
-	 * @return the ads
-	 */
-	private List<AdFinderSearchResultBean> getAds(SlingHttpServletRequest request) {
-		//Map<String, Object> responseMap = new HashMap<String, Object>();
-		System.out.println(request.getParameter("advertiserId"));
+	private List<AdFinderSearchResultsBean> getResultpage(
+			SlingHttpServletRequest request) {
+
+		List<AdFinderSearchResultBean> tempListOfads = getAds1(request);
+		String keyword = request.getParameter("advertisersKeywords");
 		QueryBuilder builder = ManagerProvider.getManager(QueryBuilder.class);
-		 Map<String, Object> predicateMap = new LinkedHashMap<String, Object>();
-		 predicateMap.put("type", "nt:unstructured");
-		 predicateMap.put("property", "advertiserId");
-		 predicateMap.put("property.value", request.getParameter("advertiserId"));
-		 predicateMap.put("path", "/content/tc/ads");
-		 
-		 ResourceResolver resolver = request.getResourceResolver();
-	     Session session = resolver.adaptTo(Session.class);
-	
-	     Query query = builder.createQuery(PredicateGroup.create(predicateMap), session);
-	     SearchResult searchResult = query.getResult();
-	     Iterator<Node> iterator = searchResult.getNodes();
-	    
-	 	AdFinderSearchResultBean adFinderSearchResultBean = null;
-	 	Node imageNode = null;
-	 	List<AdFinderSearchResultBean> listOfAds = new ArrayList<AdFinderSearchResultBean>();
-	    
-	 	while (iterator.hasNext()) {
-	        Node adNode = (Node) iterator.next();
-	        adFinderSearchResultBean = new AdFinderSearchResultBean();
-	        try {
-	        	System.out.println(adNode.getName());
-				if(adNode.hasProperty("displayName")) {
-					adFinderSearchResultBean.setTitle(adNode.getProperty("displayName").getString());
+		Map<String, Object> predicateMap1 = new LinkedHashMap<String, Object>();
+		predicateMap1.put("path", "/etc/tc/advertisers");
+		predicateMap1.put("type", "nt:unstructured");
+		predicateMap1.put("p.offset", "0"); // same as query.setStart(0) below
+		predicateMap1.put("p.limit", "200");// this will tell how many records
+											// will fetch
+		predicateMap1.put("property", "name1");
+		predicateMap1.put("property.value", keyword);
+		ResourceResolver resolver = request.getResourceResolver();
+		Session session = resolver.adaptTo(Session.class);
+		AdFinderSearchResultsBean adFinderSearchResultsBean = null;
+		Query query = builder.createQuery(PredicateGroup.create(predicateMap1),
+				session);
+		SearchResult searchResult = query.getResult();
+		List<AdFinderSearchResultsBean> listOfadvertiesrs = new ArrayList<AdFinderSearchResultsBean>();
+		Iterator<Node> advertisers = searchResult.getNodes();
+		List<AdFinderSearchResultBean> adslist = null;
+		while (advertisers.hasNext()) {
+			adslist = new ArrayList<AdFinderSearchResultBean>();
+			adFinderSearchResultsBean = new AdFinderSearchResultsBean();
+			Node advertiser = advertisers.next();
+			try {
+				String advertiserID = advertiser.getName();
+				if (advertiser.hasProperty("name1")) {
+					adFinderSearchResultsBean.setName(advertiser.getProperty(
+							"name1").getString());
 				}
-				if(adNode.hasProperty("publicationDate")) {
-					adFinderSearchResultBean.setPublicationDate(getDateAsString(parseDate(convert(adNode.getProperty("publicationDate").getString()))));
+				if (advertiser.hasProperty("address")) {
+					adFinderSearchResultsBean.setAdress(advertiser.getProperty(
+							"address").getString());
 				}
-				if(adNode.hasProperty("sharedSites")) {
-					adFinderSearchResultBean.setJournal(getTags(adNode.getProperty("sharedSites")));
+				if (advertiser.hasProperty("city")) {
+					adFinderSearchResultsBean.setCity(advertiser.getProperty(
+							"city").getString());
 				}
-				if(adNode.hasProperty("keywords")) {
-					adFinderSearchResultBean.setKeywords(getTags(adNode.getProperty("keywords")));
+				if (advertiser.hasProperty("zipCode")) {
+					adFinderSearchResultsBean.setZipcode(advertiser
+							.getProperty("zipCode").getString());
 				}
-				if(adNode.getParent().hasNode("image")) {
-					imageNode = adNode.getParent().getNode("image");
-					if(imageNode.hasProperty("fileReference")) {
-						adFinderSearchResultBean.setImagePath(imageNode.getProperty("fileReference").getString());
+
+				for (int i = 0; i < tempListOfads.size(); i++) {
+					AdFinderSearchResultBean adFinderSearchResultBean = tempListOfads
+							.get(i);
+					if (advertiserID.equalsIgnoreCase(adFinderSearchResultBean
+							.getAdvertiserID())) {
+						adslist.add(adFinderSearchResultBean);
 					}
 				}
-				adFinderSearchResultBean.setAdvertiserId(Long.parseLong(request.getParameter("advertiserId")));
-				
-				listOfAds.add(adFinderSearchResultBean);
-			} catch (RepositoryException e) {
-				e.printStackTrace();
+				adFinderSearchResultsBean.setListOfAds(adslist);
+				if (adslist.size() > 0) {
+					listOfadvertiesrs.add(adFinderSearchResultsBean);
+				}
+
+			} catch (Exception e) {
+				LOG.error("Error is ", e);
 			}
-	     }
-	 	//request.setAttribute("adFinderSearchResults", listOfAds);
-	 	for(AdFinderSearchResultBean temp: listOfAds){
-	 		System.out.println(temp.getJournal());
-	 	}
-		return listOfAds;
+
+		}
+
+		return listOfadvertiesrs;
 	}
-	
+
+	private List<AdFinderSearchResultBean> getAds1(
+			SlingHttpServletRequest request) {
+		int dateRange = Integer.parseInt(request.getParameter("daterange"));
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -dateRange);
+		String publicationDate = dateFormat.format(cal.getTime());
+		QueryBuilder builder = ManagerProvider.getManager(QueryBuilder.class);
+		Map<String, Object> predicateMap = new LinkedHashMap<String, Object>();
+		predicateMap.put("path", "/etc/tc");
+		predicateMap.put("type", "nt:unstructured");
+		predicateMap.put("daterange.property", "publicationDate");
+		predicateMap.put("daterange.lowerBound", publicationDate);
+		predicateMap.put("p.offset", "0"); // same as query.setStart(0) below
+		predicateMap.put("p.limit", "200");
+		// predicateMap.put("orderby.sor", "desc");
+		ResourceResolver resolver = request.getResourceResolver();
+		Session session = resolver.adaptTo(Session.class);
+		Query query = builder.createQuery(PredicateGroup.create(predicateMap),
+				session);
+		SearchResult searchResult = query.getResult();
+		Iterator<Node> ads = searchResult.getNodes();
+		AdFinderSearchResultBean adFinderSearchResultBean = null;
+		List<AdFinderSearchResultBean> listOfAds = new ArrayList<AdFinderSearchResultBean>();
+		while (ads.hasNext()) {
+			adFinderSearchResultBean = new AdFinderSearchResultBean();
+			Node adNode = ads.next();
+			try {
+
+				adFinderSearchResultBean.setAdID(adNode.getName());
+				System.out.println("adNode.getName()" + adNode.getName());
+				if (adNode.hasProperty("publicationDate")) {
+					adFinderSearchResultBean
+							.setPublicationDate(getDateAsString(parseDate(convert(adNode
+									.getProperty("publicationDate").getString()))));
+				}
+				if (adNode.hasProperty("advertiserId")) {
+					adFinderSearchResultBean.setAdvertiserID(adNode
+							.getProperty("advertiserId").getString());
+
+				}
+				if (adNode.hasNode("image")) {
+					Node imageNode = adNode.getNode("image");
+					if (imageNode.hasProperty("fileReference")) {
+						adFinderSearchResultBean.setImagePath(imageNode
+								.getProperty("fileReference").getString());
+					}
+
+				}
+
+			} catch (Exception e) {
+				LOG.error("Error is " + e);
+			}
+			listOfAds.add(adFinderSearchResultBean);
+		}
+		predicateMap = null;
+
+		return listOfAds;
+
+	}
+
 	private Date parseDate(String date) {
 		try {
 			SimpleDateFormat format = new SimpleDateFormat(
@@ -170,25 +233,6 @@ public class AdFinderSearchServlet extends BaseSlingServlet {
 		return fromDate;
 	}
 
-	private Collection<String> getTags(javax.jcr.Property property) {
-
-		Collection<String> tags = new ArrayList<String>();
-		Value[] values = null;
-		try {
-			values = property.getValues();
-
-			for (Value tagValue : values) {
-				tags.add(tagValue.getString());
-			}
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return tags;
-	}
-	
 	private String getDateAsString(Date date) {
 
 		if (date == null) {
@@ -198,4 +242,5 @@ public class AdFinderSearchServlet extends BaseSlingServlet {
 				Locale.CANADA);
 		return df.format(date);
 	}
+
 }
