@@ -4,6 +4,7 @@
     <xsl:template match="/">
         <xsl:copy>
             <xsl:apply-templates select="article" />
+            <xsl:apply-templates select="NewsML/NewsItem/NewsComponent/DescriptiveMetadata/Language" />
         </xsl:copy>
     </xsl:template>
 
@@ -13,5 +14,8 @@
         <xsl:value-of select="language" />
     </xsl:template>
 
-
+ 	<xsl:template match="NewsML/NewsItem/NewsComponent/DescriptiveMetadata/Language">
+        <xsl:output method="text"/>
+        <xsl:value-of select="@FormalName" />
+    </xsl:template>
 </xsl:stylesheet>

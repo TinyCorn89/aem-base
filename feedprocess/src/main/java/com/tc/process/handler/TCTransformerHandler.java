@@ -90,6 +90,7 @@ public class TCTransformerHandler {
 						tagsSb.append(",");
 					}
 				}
+				LOG.info(tagsSb.toString());
 			}
 		} catch (Exception e) {
 			LOG.error("Error while extracting text ", e);
