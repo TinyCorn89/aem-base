@@ -456,7 +456,7 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 			 */
 			int length = bindings.length();
 			if (firstTime) {
-				length = 2;
+				length = 1;
 			}
 
 			for (int i = 0; i < length; i++) {
@@ -503,7 +503,7 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 						String narrower = narrowers.getString(j);
 						childUris.add(narrower);
 						indent += 2;
-						// firstTime = false;
+						// firstTime = true;
 						List<PoolPartyBean> children = getTags(narrower, false,
 								locale);
 						indent -= 2;
