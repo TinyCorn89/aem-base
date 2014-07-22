@@ -2,17 +2,19 @@ package com.tc.poolparty;
 
 import java.util.List;
 
+import com.tc.poolparty.impl.PoolPartyBean;
+
 public interface PoolPartyManager {
 	/**
 	 * Create tags in AEM
 	 * @param tags
 	 */
-	public void createTags(List<String> tags);
+	public void createTags(List<PoolPartyBean> tags);
 	/**
 	 * Get the taxonomy from PoolParty
 	 * @return
 	 */
-	public List<String> getTags();
+	public List<PoolPartyBean> getTags(String concepts, boolean schemeFlag, String locale);
 	
 	/**
 	 * Crawl text and get back the tags to be created for the page
