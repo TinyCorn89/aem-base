@@ -101,6 +101,13 @@
 			<version>1.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>1.6</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.day.cq.mcm</groupId>
 			<artifactId>cq-mcm-core</artifactId>
@@ -130,13 +137,19 @@
 			<artifactId>cq-security-api</artifactId>
 			<version>5.6.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.day.cq</groupId>
 			<artifactId>cq-retriever</artifactId>
 			<version>5.6.2</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.day.commons</groupId>
+			<artifactId>day.commons.datasource.poolservice</artifactId>
+			<version>1.0.10</version>
+		</dependency>		
+
 		<dependency>
 			<groupId>org.apache.sling</groupId>
 			<artifactId>org.apache.sling.jcr.contentloader</artifactId>

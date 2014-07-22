@@ -32,6 +32,7 @@ public abstract class BaseService {
      */
     protected SlingRepository repository;
 
+	
     protected final Session getSession() throws RepositoryException {
         LOG.info("Retrieving JCR session");
         if (adminSession == null) {
@@ -46,4 +47,5 @@ public abstract class BaseService {
         return adminSession;
     }
 
+	
 }

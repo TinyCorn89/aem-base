@@ -131,7 +131,14 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>1.6</version>
+			<scope>provided</scope>
+		</dependency>
+			
 		<dependency>
 			<groupId>com.day.cq.wcm</groupId>
 			<artifactId>cq-wcm-commons</artifactId>
@@ -168,6 +175,11 @@
 			<version>5.7.4</version>
 			<scope>provided</scope>
 		</dependency>
+		
+        <!-- =========================== -->
+        <!-- Social Commons              -->
+        <!-- =========================== -->
+        
 		<dependency>
 			<groupId>com.day.cq</groupId>
 			<artifactId>cq-search</artifactId>
@@ -193,6 +205,13 @@
 			<scope>provided</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.day.commons</groupId>
+			<artifactId>day.commons.datasource.poolservice</artifactId>
+			<version>1.0.10</version>
+			<scope>provided</scope>
+		</dependency>
+				
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
