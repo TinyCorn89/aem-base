@@ -15,27 +15,13 @@ public class AdFinderSearchResultBean implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	private long advertiserId;
+	private String adID;
 	private String title;
 	private String publicationDate;
 	private Collection<String> journal;
 	private String imagePath;
 	Collection<String> keywords;
-
-	/**
-	 * @return the advertiserId
-	 */
-	public long getAdvertiserId() {
-		return advertiserId;
-	}
-
-	/**
-	 * @param advertiserId
-	 *            the advertiserId to set
-	 */
-	public void setAdvertiserId(long advertiserId) {
-		this.advertiserId = advertiserId;
-	}
+	private String advertiserID;
 
 	/**
 	 * @return the title
@@ -75,7 +61,8 @@ public class AdFinderSearchResultBean implements Serializable {
 	}
 
 	/**
-	 * @param journal the journal to set
+	 * @param journal
+	 *            the journal to set
 	 */
 	public void setJournal(Collection<String> journal) {
 		this.journal = journal;
@@ -111,29 +98,45 @@ public class AdFinderSearchResultBean implements Serializable {
 		this.keywords = keywords;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the adID
 	 */
-	@Override
-	public String toString() {
-		return "AdFinderSearchResultBean [advertiserId=" + advertiserId
-				+ ", title=" + title + ", publicationDate=" + publicationDate
-				+ ", journal=" + journal + ", imagePath=" + imagePath
-				+ ", keywords=" + keywords + "]";
+	public String getAdID() {
+		return adID;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * @param adID
+	 *            the adID to set
+	 */
+	public void setAdID(String adID) {
+		this.adID = adID;
+	}
+
+	/**
+	 * @return the advertiserID
+	 */
+	public String getAdvertiserID() {
+		return advertiserID;
+	}
+
+	/**
+	 * @param advertiserID the advertiserID to set
+	 */
+	public void setAdvertiserID(String advertiserID) {
+		this.advertiserID = advertiserID;
+	}
+
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (advertiserId ^ (advertiserId >>> 32));
+		result = prime * result + ((adID == null) ? 0 : adID.hashCode());
+		result = prime * result
+				+ ((advertiserID == null) ? 0 : advertiserID.hashCode());
 		result = prime * result
 				+ ((imagePath == null) ? 0 : imagePath.hashCode());
 		result = prime * result + ((journal == null) ? 0 : journal.hashCode());
@@ -145,9 +148,7 @@ public class AdFinderSearchResultBean implements Serializable {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -162,7 +163,18 @@ public class AdFinderSearchResultBean implements Serializable {
 			return false;
 		}
 		AdFinderSearchResultBean other = (AdFinderSearchResultBean) obj;
-		if (advertiserId != other.advertiserId) {
+		if (adID == null) {
+			if (other.adID != null) {
+				return false;
+			}
+		} else if (!adID.equals(other.adID)) {
+			return false;
+		}
+		if (advertiserID == null) {
+			if (other.advertiserID != null) {
+				return false;
+			}
+		} else if (!advertiserID.equals(other.advertiserID)) {
 			return false;
 		}
 		if (imagePath == null) {
@@ -202,5 +214,7 @@ public class AdFinderSearchResultBean implements Serializable {
 		}
 		return true;
 	}
+
+	
 
 }

@@ -1,0 +1,268 @@
+@font-face {
+    font-family: "cassiabold";
+    font-style: normal;
+    font-weight: normal;
+    src: url("http://www.laction.com/unis2/css/fonts/cassiabol-webfont.eot?#iefix") format("embedded-opentype"), url("http://www.laction.com/unis2/css/fonts/cassiabol-webfont.woff") format("woff"), url("http://www.laction.com/unis2/css/fonts/cassiabol-webfont.ttf") format("truetype"), url("http://www.laction.com/unis2/css/fonts/cassiabol-webfont.svg#cassiabold") format("svg");
+}
+@font-face {
+    font-family: "cassiaregular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("http://www.laction.com/unis2/css/fonts/cassiareg-webfont.eot?#iefix") format("embedded-opentype"), url("http://www.laction.com/unis2/css/fonts/cassiareg-webfont.woff") format("woff"), url("http://www.laction.com/unis2/css/fonts/cassiareg-webfont.ttf") format("truetype"), url("http://www.laction.com/unis2/css/fonts/cassiareg-webfont.svg#cassiaregular") format("svg");
+}
+*{
+margin:0;
+padding:0;
+}
+html,body{
+margin:0;
+padding:0;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+    display: block;
+}
+
+#wrapper{
+margin:20px auto;
+width:650px;
+}
+
+#announce_block {
+    float: left;
+    margin-right: 30px;
+    overflow: visible;
+    width: 650px;
+}
+#announce_block.single h1,  {
+    border-top: 4px solid #0361b0 !important;
+}
+#announce_block.single h1{
+    border-bottom: 1px solid #3e464d;
+    border-top: 4px solid #0361b0;
+    color: #333333;
+    font-size: 28px;
+    line-height: 30px;
+    margin-top: 0;
+    padding: 12px 0 16px;
+}
+h1 {
+    font-family: 'cassiabold';
+    font-weight: normal;
+    margin: 0;
+    padding: 0 0 13px;
+}
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+
+#adFinderSearchForm {
+    background: none repeat scroll 0 0 #f7f7f7;
+    float: left;
+    margin-bottom: 19px;
+    padding: 19px 17px 23px;
+    width: 615px;
+}
+
+.form #adFinderSearchForm fieldset {
+    margin: 0;
+    width: 615px;
+}
+.form.single label {
+    width: 170px;
+}
+.form label{
+    clear: both;
+    display: block;
+    float: left;
+    font-size: 15px;
+    line-height: 18px;
+    margin: 6px 9px 0 0;
+    text-align: right;
+
+}
+label, select, button, input[type="button"], input[type="reset"], input[type="submit"], input[type="radio"], input[type="checkbox"] {
+    cursor: pointer;
+}
+
+#adFinderSearchForm input, #adFinderSearchForm select {
+    margin: 0 9px 6px 12px;
+    width: 339px;
+	clear: none;
+    float: left;
+    font-size: 15px;
+    line-height: 18px;
+	 -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #fff;
+    border-color: #ebebeb;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px 2px;
+    box-shadow: 0 1px 0 0 #bbbbbb inset;
+	color: #333333;
+	 padding: 6px 0 3px 9px;
+}
+input {
+    outline: medium none;
+}
+
+
+
+#adFinderSearchForm legend {
+    display: none;
+}
+fieldset {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+
+#search_frm_submit {
+    margin-top: 2px;
+}
+.advertisers form .btn.submit {
+    margin-left: 192px;
+	margin-top: 10px;
+}
+.single.form .btn {
+    clear: both;
+    float: left;
+    font-size: 16px;
+    line-height: 18px;
+    padding: 7px 20px;
+    width: auto;
+}
+
+.btn, .btn:hover, .btn:focus, .btn:active, .btn.active{
+    background-color: #0361b0 !important;
+    color:#ffffff;
+}
+.btn {
+    background: url("http://www.laction.com/unis2/css/../images/sprite.png") repeat scroll 0 -661px #0361b0;
+    border: medium none;
+    border-radius: 4px;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+
+    height: auto;
+
+    margin-bottom: 0;
+
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+
+}
+.single h2 {
+    float: left;
+    padding: 10px 0;
+	color: #0361b0;
+	
+	border-bottom: 1px solid #e6e6e6;
+    border-top: 1px solid #e6e6e6;
+    display: block;
+    font-family: 'cassiabold';
+    font-size: 20px;
+    font-weight: normal;
+
+    margin:5px 0;
+    width: 650px;
+}
+.single h2:hover {
+    color: #0361b0 !important;
+}
+
+.advertisers .advertisers-info {
+    float: left;
+    margin-left: 10px;
+    width: 400px;
+}
+
+
+.advertisers .advertisers-info .title {
+    padding: 0;
+	margin:0;
+	font-weight:bold;
+}
+
+.advertisers .advertisers-info p {
+    margin: 13px 0 0 0;
+}
+.informations{
+margin:0 0 10px 0;
+padding:0;
+float:left;
+}
+
+
+section.advertisers{
+    /*border-top: 1px solid #e6e6e6;
+    float: left;
+    font-size: 15px;
+    line-height: 18px;
+    margin-bottom: 18px;
+    padding-top: 19px;*/
+}
+.advertisers figure img {
+    max-height: 150px;
+    width: 150px;
+}
+.advertisers figure {
+    clear: both;
+    float: left;
+}
+.advertisers figure img {
+    height: auto;
+    width: 90px;
+}
+figure {
+    margin: 0;
+}
+
+.advertisers .inner {
+    float: left;
+    margin-left: 20px;
+    width: 480px;
+}
+
+.advertisers .updated {
+    margin-top: 0;
+}
+
+.advertisers p.pdf {
+    background: url("http://www.laction.com/unis2/css/../images/sprite.png") no-repeat scroll -197px -330px rgba(0, 0, 0, 0);
+    min-height: 21px;
+    padding-left: 25px;
+    cursor: pointer;
+    color: #0361b0;
+    text-decoration:none;
+}
+.advertisers p.pdf:hover {
+    text-decoration:underline;
+    color: #0361b0;
+    }
+.advertisers p {
+    clear: both;
+}
+
+.advertisers p {
+    margin: 1em 0;
+}
+b, strong {
+    font-family: 'cassiabold';
+    font-weight: normal;
+}
+a:hover {
+    color: #0361b0 !important;
+}
+a {
+    color: #0361b0;
+    text-decoration: none;
+}
+
+

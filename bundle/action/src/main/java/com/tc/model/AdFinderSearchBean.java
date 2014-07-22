@@ -14,7 +14,8 @@ public class AdFinderSearchBean implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-
+	
+	
 	/** The keywords. */
 	private String keywords;
 
