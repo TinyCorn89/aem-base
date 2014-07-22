@@ -29,7 +29,7 @@ public class PoolPartyTagsImporter {
 		InputStream poolPartyPropsStream = PoolPartyTagsImporter.class
 				.getClassLoader().getResourceAsStream("poolparty.properties");
 		String locale = null;
-		if (args != null) {
+		if (args != null && args.length >= 1) {
 			locale = args[0];
 		}
 		Properties poolPartyProps = new Properties();
