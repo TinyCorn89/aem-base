@@ -9,3 +9,12 @@
 <%@page session="false"%>
 
 <cq:include path="content-region" resourceType="foundation/components/parsys" />
+
+<%
+    String url = request.getRequestURL().toString();
+    if(url.contains("dam")) {
+%>
+		<cq:include path="dynamic-flipbook-component" resourceType="/apps/tc/components/content/dynamic-flipbook" />
+<%
+    }
+%>
