@@ -103,16 +103,6 @@
                     fieldLabel="Category Name"
                     name="./categoryName"
                     xtype="textfield"/>
-                <flipbookPath
-                    jcr:primaryType="cq:Widget"
-                    allowBlank="{Boolean}false"
-                    blankText="Flipbook Path is mandatory"
-                    fieldLabel="Flipbook Page"
-                    labelSeparator=":"
-                    name="./flipbookPath"
-                    rootPath="/content/tc"
-                    width="{Long}300"
-                    xtype="pathfield"/>
             </items>
         </list>
         <children
