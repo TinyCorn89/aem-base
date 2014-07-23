@@ -56,13 +56,13 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 			LOG.info("Parent folder, " + directory.getName()
 					+ " Folder does not exists!");
 			directory.mkdirs();
-			LOG.info("creatred parent folder, " + directory.getName());
+			LOG.info("created parent folder, " + directory.getName());
 		}
 		String tagsDirectory = null;
 		File jcrRootDir = new File(directory.getAbsolutePath() + File.separator
 				+ "jcr_root");
 		if (jcrRootDir.exists()) {
-			LOG.info(jcrRootDir.getName() + " is already exists");
+			LOG.info(jcrRootDir.getName() + " already exists");
 			try {
 				FileUtils.deleteDirectory(jcrRootDir);
 				LOG.info("So deleted " + jcrRootDir.getName());
@@ -227,7 +227,7 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 				fw = new java.io.FileWriter(path);
 				fw.write(xmlContent);
 			} else {
-				LOG.info(xmlFile.getName() + " is already exists");
+				LOG.info(xmlFile.getName() + " already exists");
 			}
 		} catch (IOException e) {
 			LOG.error(e);
