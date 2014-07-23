@@ -75,7 +75,7 @@ public class TCCanadianPressFeedProcessor {
 				importer.importPackage(repoURL, userName, password, packagePath, true);
 				
 			} else {
-				LOG.error("tranform failed");
+				LOG.error("transform failed");
 			}
 
 		} else {

@@ -213,6 +213,8 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 		
 		try{
 			connection = getConnection();
+
+            if (connection == null) throw new Exception("Could not retrieve MySQL connection; Check your config");
 			session = getSession();
 			final Statement statement = connection.createStatement();
 			final ResultSet resultSet = statement.executeQuery(
@@ -312,11 +314,14 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 		Connection con = null;
 		try{
 			dataSource = (DataSource) source.getDataSource("advertisers_ds");
+            LOG.info("----- dataSource is " + dataSource);
 			con = dataSource.getConnection();
+            LOG.info("----- con is " + con);
 			return con;
 
 		}
 		catch (Exception e){
+            LOG.error("------ Connection error; check your settings in Day Commons JDBC Connections Pool");
 			e.printStackTrace(); 
 		}
 		return null; 
