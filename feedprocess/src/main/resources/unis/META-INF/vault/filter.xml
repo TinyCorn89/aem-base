@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/content/tc/laction"/>
+    <filter root="/content/tc/articles"/>
+    <filter root="/content/dam/tc/articles"/>
 </workspaceFilter>
