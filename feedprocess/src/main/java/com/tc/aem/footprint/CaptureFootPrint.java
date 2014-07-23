@@ -90,6 +90,7 @@ public class CaptureFootPrint {
 					count--;
 					if (count == 0) {
 						this.cancel();
+						System.exit(0);
 					}
 					LOG.info("Running CaptureFootPrint finished");
 				} catch (Exception e) {
@@ -97,7 +98,8 @@ public class CaptureFootPrint {
 				}
 			}
 		};
-		timer.schedule(task, 0, 60000);
+		// every hour
+		timer.schedule(task, 0, (1000 * 60) * 60);
 
 	}
 	static long initialSize = 0;
