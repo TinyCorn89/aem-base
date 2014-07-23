@@ -97,7 +97,7 @@ public class CaptureFootPrint {
 				}
 			}
 		};
-		timer.schedule(task, 0, 30000);
+		timer.schedule(task, 0, 60000);
 
 	}
 	static long initialSize = 0;
