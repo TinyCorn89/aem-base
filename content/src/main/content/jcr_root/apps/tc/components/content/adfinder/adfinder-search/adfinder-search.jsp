@@ -12,19 +12,21 @@
 
 <action:action actionClassName="com.tc.action.AdFinderSearchAction" bean="adFinderSearchBean" actionName="getAdFinderSearchDetails" />
 <cq:includeClientLib categories="tc.components.adfindersearch"/>
+
+
 <div id="wrapper">
 	<div id="announce_block" class="advertisers form single">
 		<!-- Nos annonceurs block -->
-		<h1>Our advertisers</h1>
+		<h1>${adFinderSearchBean.title}</h1>
 		<form id="adFinderSearchForm" name="adFinderSearchForm" method="get" action="/bin/adFinderSearchResultsServlet" accept-charset="utf-8" enctype="multipart/form-data">
 
         <fieldset>                                      
 
-             <label for="advertiser_category">Keywords:</label>  
+             <label for="advertiser_category">${adFinderSearchBean.keywordsLabel}</label>  
 
             <input type="text" id="advertisersKeywords" name="advertisersKeywords" value="">
 
-            <label for="advertiser_category">Date:</label>  
+            <label for="advertiser_category">${adFinderSearchBean.dateLabel}</label>  
 
              <select id="daterange" name="daterange" class="large">
                  <option value="7">In the last 7 days</option>
@@ -36,8 +38,9 @@
 
 
             <input type="hidden" name="resultPath" id="resultPath" value="${currentPage.path}">
+            <input type="hidden" name="serchPath" id="serchPath" value="${adFinderSearchBean.searchPath}">
 
-            <button id="submit" class="btn submit" title="Search" value="Search" name="submit" type="submit" onclick="">Search</button>
+            <button id="submit" class="btn submit" title="Search" value="Search" name="submit" type="submit" onclick="">${adFinderSearchBean.buttonLabel}</button>
 
 	  	</fieldset>
 
@@ -46,14 +49,14 @@
 
  <c:forEach items="${requestScope.adFinderSearchResults}" var="bean">
     <c:if test="${not empty bean}">
-        <h2>Advertiser information</h2>
+        <h2>${adFinderSearchBean.advertiserLabel}</h2>
          <div class="informations">
              <div class="advertisers-info">
                <span class="title">${bean.name}</span>
                  <p>${bean.adress}<br>${bean.city} <br><strong>${bean.zipcode}</strong></p>
 		     </div>
           </div>
-         <h2>Ads published by this advertiser</h2>
+         <h2>${adFinderSearchBean.adLabel}</h2>
     <c:forEach items="${bean.listOfAds}" var="adFinderSearchResultBean">
 
             <c:if test="${not empty adFinderSearchResultBean}">
