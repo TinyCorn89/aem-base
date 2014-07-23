@@ -22,7 +22,7 @@
                     editElementQuery="div[class=&quot;text&quot;]"
                     fieldLabel="Description"
                     hideLabel="{Boolean}false"
-                    name="./desciption"
+                    name="./description"
                     xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <links jcr:primaryType="nt:unstructured">
