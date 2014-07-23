@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-07-21T14:26:05.659+05:30"
+        cq:lastModified="{Date}2014-07-23T18:06:03.020+05:30"
         cq:lastModifiedBy="admin"
         cq:template="/apps/tc/templates/adfinder-page"
         jcr:lockIsDeep="{Boolean}true"
@@ -17,10 +17,17 @@
             <adfinder_search
                 jcr:created="{Date}2014-07-19T15:43:12.336+05:30"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2014-07-19T15:43:12.336+05:30"
+                jcr:lastModified="{Date}2014-07-23T18:06:03.017+05:30"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="tc/components/content/adfinder/adfinder-search"/>
+                sling:resourceType="tc/components/content/adfinder/adfinder-search"
+                adLabel="Ads published by this advertiser"
+                advertiserLabel="Advertiser information"
+                buttonLabel="Search"
+                dateLabel="Date:"
+                keywordsLabel="Keywords:"
+                searchPath="/etc/tc"
+                titleLabel="Our advertisers"/>
         </content-region>
     </jcr:content>
 </jcr:root>
