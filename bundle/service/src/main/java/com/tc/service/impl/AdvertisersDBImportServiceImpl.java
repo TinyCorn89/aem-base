@@ -293,7 +293,7 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 				}
 			}
 			resultSet.close();
-			//process.disconnect();
+			process.disconnect();
 			
 			
 		}catch (Exception e) {
