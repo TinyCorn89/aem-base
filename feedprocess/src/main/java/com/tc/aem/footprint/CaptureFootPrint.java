@@ -112,7 +112,7 @@ public class CaptureFootPrint {
 		LOG.info("crx-quickstart folder = " + quickStartFolder);
 		File quickStartFolderFile = new File(quickStartFolder);
 
-		initialSize += folderSize(quickStartFolderFile);
+		initialSize = folderSize(quickStartFolderFile);
 
 		LOG.info("quickStartFolder size in MB before execution = "
 				+ (initialSize / 1024) / 1024);
@@ -154,7 +154,7 @@ public class CaptureFootPrint {
 		LOG.info("quickStartFolder size in MB after unis uninstalled = "
 				+ (sizeAfterUnisUnInstall / 1024) / 1024);
 		LOG.info("-------------------- UN-INSTALLING UNIS ARTICLES COMPLETED --------------------");
-		finalSize += folderSize(quickStartFolderFile);
+		finalSize = folderSize(quickStartFolderFile);
 		LOG.info("delta of quickStartFolder in MB = "
 				+ ((finalSize - initialSize) / 1024) / 1024);
 	}
