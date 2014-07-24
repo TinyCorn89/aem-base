@@ -2,13 +2,14 @@ package com.tc.servlet;
 
 import java.io.IOException;
 import java.io.StringWriter;
-
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
+
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Properties;
@@ -85,7 +86,7 @@ public class AdvertisersListServlet extends BaseSlingServlet {
         StringWriter writer = new StringWriter();
         
 		try {
-			
+			LOG.error("enter in : " + action);
 			QueryManager queryManager = session.getWorkspace().getQueryManager();
 			StringBuilder queryString = new StringBuilder("SELECT p.* FROM [nt:base] AS p WHERE ISDESCENDANTNODE(p,[/etc/tc/"+action+"])");
 			if(StringUtils.equals(action,"advertisers") ){
@@ -103,14 +104,29 @@ public class AdvertisersListServlet extends BaseSlingServlet {
 					 JSONObject curObj = new JSONObject();
 		                try {
 		                	if(StringUtils.equals(action,"advertisers") ){
-			                    curObj.put("advertiserID", node.getName() );
-			                    curObj.put("path", node.getPath());
-			                    curObj.put("name1",node.getProperty("name1").getString());
-			                    curObj.put("province",node.getProperty("province").getString());
-			                    curObj.put("address",node.getProperty("address").getString());
-			                    curObj.put("city",node.getProperty("city").getString());
-			                    curObj.put("zipCode",node.getProperty("zipCode").getString());
-			                    curObj.put("telephone",node.getProperty("telephone").getString());
+		                		String name1 ="";
+		                		if(node.getProperty("name1").getString()!=null){
+		                			name1 = JSONObject.quote(node.getProperty("name1").getString());
+		                		}
+		                		String province ="";
+		                		if(node.getProperty("province").getString()!=null){
+		                			province = JSONObject.quote(node.getProperty("province").getString());
+		                		}
+		                		String address ="";
+		                		if(node.getProperty("address").getString()!=null){
+		                			address = JSONObject.quote(node.getProperty("address").getString());
+		                		}
+		                		String city ="";
+		                		if(node.getProperty("city").getString()!=null){
+		                			city = JSONObject.quote(node.getProperty("city").getString());
+		                		}
+		                		
+			                    curObj.put("advertiserID",node.getName());
+			                    curObj.put("path",node.getPath());
+			                    curObj.put("name1",name1);
+			                    curObj.put("province",province);
+			                    curObj.put("address",address);
+			                    curObj.put("city",city);
 		                	}else{
 			                    curObj.put("adId", node.getName() );
 			                    curObj.put("path", node.getPath());
