@@ -1,2 +1,3 @@
 #base=source
 appsconfig.js
+adsAppsconfig.js
