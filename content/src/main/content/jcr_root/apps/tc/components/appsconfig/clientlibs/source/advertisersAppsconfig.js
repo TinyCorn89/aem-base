@@ -126,7 +126,7 @@ CQ.wcm.AdvertisersAppsConfigManager = CQ.Ext.extend(
                                             var field = "";
 
                                             field = myThis.newDialog.getField("./advertiserId");
-                                            field.setValue(advertiserId);
+                                            field.setValue(advertiserID);
 
                                             field = myThis.newDialog.getField("./province");
                                             field.setValue(province);
