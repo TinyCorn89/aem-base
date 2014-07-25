@@ -10,12 +10,10 @@ import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.jcr.contentloader.ContentImporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tc.service.api.AdvertisersDBImportService;
-import com.tc.service.api.NewsLetterService;
 
 @SlingServlet(paths = { "/bin/services/ads-import" }, methods = { "GET",
 		"POST" }, metatype = true)

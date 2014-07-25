@@ -175,11 +175,7 @@
 			<version>5.7.4</version>
 			<scope>provided</scope>
 		</dependency>
-		
-        <!-- =========================== -->
-        <!-- Social Commons              -->
-        <!-- =========================== -->
-        
+
 		<dependency>
 			<groupId>com.day.cq</groupId>
 			<artifactId>cq-search</artifactId>
@@ -236,7 +232,14 @@
 			<version>2.2.0</version>
 			<scope>provided</scope>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
@@ -247,6 +250,27 @@
 			<groupId>org.twitter4j</groupId>
 			<artifactId>twitter4j-core</artifactId>
 			<version>4.0.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.3</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.commons-net</artifactId>
+			<version>1.4.1_6</version>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>

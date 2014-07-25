@@ -60,6 +60,7 @@ public class AppsConfigServlet extends BaseSlingServlet {
 
         String action = request.getParameter(Constants.ACTION);
         response.setHeader("Cache-Control", Constants.NOCACHE_HEADER);
+        response.setCharacterEncoding("UTF-8");
         LOG.debug("request.getHeader() === " + request.getHeader(Constants.REFERER));
         String path = request.getHeader(Constants.REFERER);
 

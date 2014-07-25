@@ -503,7 +503,7 @@ public class PoolPartyManagerImpl implements PoolPartyManager {
 						String narrower = narrowers.getString(j);
 						childUris.add(narrower);
 						indent += 2;
-						// firstTime = true;
+						//firstTime = false;
 						List<PoolPartyBean> children = getTags(narrower, false,
 								locale);
 						indent -= 2;

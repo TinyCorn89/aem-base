@@ -15,51 +15,54 @@ import com.tc.model.AdFinderSearchBean;
 
 /**
  * The Class AdFinderSearchAction.
- *
+ * 
  * @author gdinakar
  */
 public class AdFinderSearchAction extends BaseAction {
 	/** The Constant LOG. */
-	private static final Logger LOG = LoggerFactory.getLogger(AdFinderSearchAction.class);
-	
+	private static final Logger LOG = LoggerFactory
+			.getLogger(AdFinderSearchAction.class);
+
 	public AdFinderSearchBean getAdFinderSearchDetails() {
 		LOG.info("Entered getAdFinderSearchDetails method");
-		AdFinderSearchBean adFinderSearchBean = null;
+		AdFinderSearchBean adFinderSearchBean = new AdFinderSearchBean();
 		Node currentNode = getCurrentNode();
-		
-		String keywords = null;
-		String category = null;
-		String newspapaers = null;
-		String timePeriod = null;
-		
-		if(currentNode != null){
-			 try {
-				if(currentNode.hasProperty("keywords")) {
-					 keywords = currentNode.getProperty("./keywords").getString();
-				 }
-				if(currentNode.hasProperty("category")) {
-					category = currentNode.getProperty("./category").getString();
-				 }
-				if(currentNode.hasProperty("newspapaers")) {
-					newspapaers = currentNode.getProperty("./newspapaers").getString();
-				 }
-				if(currentNode.hasProperty("timePeriod")) {
-					timePeriod = currentNode.getProperty("./timePeriod").getString();
-				 }
-				adFinderSearchBean = new AdFinderSearchBean();
-				adFinderSearchBean.setKeywords(keywords);
-				adFinderSearchBean.setCategory(category);
-				adFinderSearchBean.setNewspapaers(newspapaers);
-				adFinderSearchBean.setTimePeriod(timePeriod);
-			} catch (ValueFormatException e) {
-				LOG.error("ValueFormatException:"+e);
-			} catch (PathNotFoundException e) {
-				e.printStackTrace();
-			} catch (RepositoryException e) {
-				e.printStackTrace();
-			}
-		}
 
+		if (currentNode != null) {
+			try {
+				if (currentNode.hasProperty("titleLabel")) {
+					adFinderSearchBean.setTitle(currentNode.getProperty(
+							"titleLabel").getString());
+				}
+				if (currentNode.hasProperty("keywordsLabel")) {
+					adFinderSearchBean.setKeywordsLabel(currentNode
+							.getProperty("keywordsLabel").getString());
+				}
+				if (currentNode.hasProperty("dateLabel")) {
+					adFinderSearchBean.setDateLabel(currentNode.getProperty(
+							"dateLabel").getString());
+				}
+				if (currentNode.hasProperty("buttonLabel")) {
+					adFinderSearchBean.setButtonLabel(currentNode.getProperty(
+							"buttonLabel").getString());
+				}
+				if (currentNode.hasProperty("advertiserLabel")) {
+					adFinderSearchBean.setAdvertiserLabel(currentNode
+							.getProperty("advertiserLabel").getString());
+				}
+				if (currentNode.hasProperty("adLabel")) {
+					adFinderSearchBean.setAdLabel(currentNode.getProperty(
+							"adLabel").getString());
+				}
+				if (currentNode.hasProperty("searchPath")) {
+					adFinderSearchBean.setSearchPath(currentNode.getProperty(
+							"searchPath").getString());
+				}
+			} catch (RepositoryException e) {
+				LOG.error("Error is", e);
+			}
+
+		}
 		return adFinderSearchBean;
 	}
 }

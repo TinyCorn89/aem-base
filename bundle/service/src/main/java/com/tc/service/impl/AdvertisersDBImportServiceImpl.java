@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import java.util.Dictionary;
 import java.util.GregorianCalendar;
 
 import javax.jcr.ItemExistsException;
@@ -21,6 +22,7 @@ import javax.jcr.nodetype.NodeType;
 import javax.jcr.version.VersionException;
 import javax.sql.DataSource;
 
+import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
@@ -29,33 +31,74 @@ import org.apache.felix.scr.annotations.Service;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.sling.commons.osgi.PropertiesUtil;
+import org.osgi.service.component.ComponentContext;
 
 import com.day.commons.datasource.poolservice.DataSourcePool;
 import com.day.cq.commons.jcr.JcrUtil;
+import com.tc.process.handler.TCFTPAdsProcessHandler;
 import com.tc.service.api.AdvertisersDBImportService;
 import com.tc.service.api.BaseService;
 
-@Component(label = "TC Content Import Service", description = "TC Content Import Service either imports individual xml files or zip files containing multiple xml files", immediate = true, metatype = true)
+@Component(label = "TC Advertisers Import Service", description = "Sync content from Advertisers DB to AEM", immediate = true, metatype = true)
 @Properties({
 	@Property(name = "service.pid", value = "com.tc.service.api.AdvertisersDBImportServiceImpl", propertyPrivate = false),
 	@Property(name = "service.description", value = "Sync content from Advertisers DB to AEM", propertyPrivate = false) })
 @Service({ AdvertisersDBImportService.class })
 
 public class AdvertisersDBImportServiceImpl extends BaseService  implements AdvertisersDBImportService {
-
+	
+	@Property(label = "FTP Server Adress", description = "URL of the FTP")
+	private static final String FTP_SERVER_ADDRESS = "ftp.serverAddress";
+	
+	@Property(label = "FTP USER", description = "User name")
+	private static final String FTP_USER_ID = "ftp.userId";
+	
+	@Property(label = "FTP Password", description = "Password")
+	private static final String FTP_PASSWORD = "ftp.password";
+	
+	@Property(label = "FTP remote dir", description = "Remote directory")
+	private static final String FTP_REMOTE_DIR = "ftp.remoteDirectory";
+	
+	@Property(label = "DAM local dir", description = "DAM local dir for images")
+	private static final String DAM_LOCAL_DIR = "ftp.localDirectory";
+ 
+	@Property(label = "FTP Timeout", description = "Timeout")
+	private static final String FTP_TIMEOUT = "ftp.timeout";
+	
 	@Reference
 	private DataSourcePool source;
 
-
+	java.util.Properties props;
+	
 	private static final Logger LOG = LoggerFactory
 			.getLogger(TCFileImportServiceImpl.class);
 
+	@Activate
+	private synchronized void activate(ComponentContext context) {
+		
+		if (context != null) {
+			Dictionary<?, ?> properties = context.getProperties();
+			if (properties != null) {
+				props = new java.util.Properties();
+				props.setProperty(FTP_SERVER_ADDRESS, PropertiesUtil.toString(properties.get(FTP_SERVER_ADDRESS), null));
+				props.setProperty(FTP_USER_ID, PropertiesUtil.toString(properties.get(FTP_USER_ID), null));
+				props.setProperty(FTP_PASSWORD, PropertiesUtil.toString(properties.get(FTP_PASSWORD), null));
+				props.setProperty(FTP_REMOTE_DIR, PropertiesUtil.toString(properties.get(FTP_REMOTE_DIR), null));
+				props.setProperty(DAM_LOCAL_DIR, PropertiesUtil.toString(properties.get(DAM_LOCAL_DIR), null));
+				props.setProperty(FTP_TIMEOUT, PropertiesUtil.toString(properties.get(FTP_TIMEOUT), null));
+			}
+		}
+	}
+
+	
 	@Override
 	public void importAdvertisers(){
 		Connection  connection = null;
 		Session session;
 		Node tc = null;
 		Node parent = null;
+
 		Calendar myCal = new GregorianCalendar();
 
 
@@ -94,7 +137,7 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 				}
 
 				Node nodeTree = createContentStructure(parent,date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), session);
-				LOG.info(nodeTree.getPath());
+				
 				Node advertiser = null;
 
 				if(nodeTree!=null){
@@ -159,10 +202,13 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 
 	@Override
 	public void importAds(){
+		TCFTPAdsProcessHandler process = new TCFTPAdsProcessHandler(props);
 		Connection  connection = null;
 		Session session;
 		Node tc = null;
 		Node parent = null;
+		Node tcDam = null;
+		Node parentDam = null;
 		Calendar myCal = new GregorianCalendar();
 		
 		try{
@@ -179,15 +225,19 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 			
 			if(!session.nodeExists("/etc/tc")){
 				tc = JcrUtil.createPath("/etc/tc","sling:OrderedFolder",session);
+				tcDam = JcrUtil.createPath("/content/dam/tc","sling:OrderedFolder",session);
 				session.save();
 			}else{
 				tc = session.getNode("/etc/tc");
+				tcDam = session.getNode("/content/dam/tc");
 			}
 			if(!session.nodeExists("/etc/tc/ads")){
 				parent = JcrUtil.createPath(tc.getPath()+"/ads","sling:OrderedFolder",session);
+				parentDam = JcrUtil.createPath(tcDam.getPath()+"/ads","sling:OrderedFolder",session);
 				session.save();
 			}else{
 				parent = session.getNode("/etc/tc/ads");
+				parentDam = session.getNode("/content/dam/tc/ads");
 			}
 			while(resultSet.next()){
 				DateTime date = null;
@@ -198,7 +248,7 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 				}
 
 				Node nodeTree = createContentStructure(parent,date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), session);
-				LOG.info(nodeTree.getPath());
+				//Node nodeTreeDam = createContentStructure(parentDam,date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), session);
 				Node ad = null;
 
 				if(nodeTree!=null){
@@ -226,20 +276,24 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 						if(isNotBlank(resultSet.getString("idPublication"))){
 							ad.setProperty("sharedSites", "share:"+resultSet.getString("idPublication"));
 						}
-						/*
-						 * 
-							adCategory
-							keywords
-							displayName
-							advertisersKeywords
-							photos
-						 */
-						session.save();
+						if(isNotBlank(resultSet.getString("noBillet"))){
+							ad.setProperty("ticketNumber", resultSet.getString("noBillet"));
+						} 
+						session.save(); 
+						if (process.singleProcess(session,parentDam.getPath(),"AW",resultSet.getString("noBillet")+".jpg")){
+						
+							LOG.info("File imported:"+parentDam.getPath()+"/"+resultSet.getString("noBillet")+".jpg");
+							Node image = JcrUtil.createPath(ad.getPath()+"/image",NodeType.NT_UNSTRUCTURED,session);
+							image.setProperty("sling:resourceType", "foundation/components/image");
+							image.setProperty("fileReference", parentDam.getPath()+"/"+resultSet.getString("noBillet")+".jpg");
+							session.save();
+							
+						}
 					}
 				}
 			}
 			resultSet.close();
-			
+			process.disconnect();
 			
 			
 		}catch (Exception e) {
@@ -248,7 +302,7 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 			try{
 				connection.close();
 				LOG.info("importAdvertisers : Connection Closed");
-			}catch (SQLException e) {
+			}catch (SQLException e) { 
 				e.printStackTrace();
 			}
 		}

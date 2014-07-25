@@ -16,7 +16,11 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.jcr.Node;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.query.InvalidQueryException;
+import javax.jcr.query.QueryManager;
+import javax.jcr.query.QueryResult;
 import javax.servlet.ServletException;
 
 import org.apache.felix.scr.annotations.Properties;
@@ -30,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.Query;
 import com.day.cq.search.QueryBuilder;
+import com.day.cq.search.eval.JcrPropertyPredicateEvaluator;
 import com.day.cq.search.result.SearchResult;
 import com.tc.framework.api.ManagerProvider;
 import com.tc.model.AdFinderSearchResultBean;
@@ -70,14 +75,16 @@ public class AdFinderSearchServlet extends BaseSlingServlet {
 		request.setAttribute("advertisersKeywords",
 				request.getParameter("advertisersKeywords"));
 		request.setAttribute("daterange", request.getParameter("daterange"));
+		request.setAttribute("serchPath", request.getParameter("serchPath"));
 		LOG.info("advertisersKeywords from request = "
 				+ request.getParameter("advertisersKeywords"));
 
-		List<AdFinderSearchResultsBean> listOfadvertiesrs = getResultpage(request);
-
-		request.setAttribute("adFinderSearchResults", listOfadvertiesrs);
+		
 
 		try {
+			List<AdFinderSearchResultsBean> listOfadvertiesrs = getResultpage(request);
+
+			request.setAttribute("adFinderSearchResults", listOfadvertiesrs);
 			CommonUtils.getRequestDispatcher(request, response,
 					request.getParameter("resultPath") + ".html");
 		} catch (Exception e) {
@@ -87,27 +94,34 @@ public class AdFinderSearchServlet extends BaseSlingServlet {
 	}
 
 	private List<AdFinderSearchResultsBean> getResultpage(
-			SlingHttpServletRequest request) {
-
+			SlingHttpServletRequest request) throws InvalidQueryException, RepositoryException {
+         String path = request.getParameter("serchPath");
 		List<AdFinderSearchResultBean> tempListOfads = getAds1(request);
 		String keyword = request.getParameter("advertisersKeywords");
-		QueryBuilder builder = ManagerProvider.getManager(QueryBuilder.class);
-		Map<String, Object> predicateMap1 = new LinkedHashMap<String, Object>();
-		predicateMap1.put("path", "/etc/tc/advertisers");
-		predicateMap1.put("type", "nt:unstructured");
-		predicateMap1.put("p.offset", "0"); // same as query.setStart(0) below
-		predicateMap1.put("p.limit", "200");// this will tell how many records
-											// will fetch
-		predicateMap1.put("property", "name1");
-		predicateMap1.put("property.value", keyword);
+		//QueryBuilder builder = ManagerProvider.getManager(QueryBuilder.class);
+		//Map<String, Object> predicateMap1 = new LinkedHashMap<String, Object>();
+		
 		ResourceResolver resolver = request.getResourceResolver();
 		Session session = resolver.adaptTo(Session.class);
+		StringBuffer xpath = new StringBuffer();
+		///etc/tc/advertisers//element(*, nt:unstructured)[jcr:contains(., 'KENT')]
+		if(keyword.isEmpty()){
+			xpath.append("/jcr:root/"+ path+" /advertisers//element(*, nt:unstructured)");
+		}else{
+			xpath.append("/jcr:root/"+ path+"/advertisers//element(*, nt:unstructured)[jcr:like(name1, '%"+keyword+"%')]");
+			
+		}
+		String xpathStatement = xpath.toString();
+		QueryManager queryManager = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query query =  queryManager.createQuery(xpathStatement, "xpath");
+		QueryResult queryResult = query.execute();
 		AdFinderSearchResultsBean adFinderSearchResultsBean = null;
-		Query query = builder.createQuery(PredicateGroup.create(predicateMap1),
-				session);
-		SearchResult searchResult = query.getResult();
+		
 		List<AdFinderSearchResultsBean> listOfadvertiesrs = new ArrayList<AdFinderSearchResultsBean>();
-		Iterator<Node> advertisers = searchResult.getNodes();
+		Iterator<Node> advertisers;
+		try {
+			advertisers = queryResult.getNodes();
+		
 		List<AdFinderSearchResultBean> adslist = null;
 		while (advertisers.hasNext()) {
 			adslist = new ArrayList<AdFinderSearchResultBean>();
@@ -149,6 +163,9 @@ public class AdFinderSearchServlet extends BaseSlingServlet {
 				LOG.error("Error is ", e);
 			}
 
+		}} catch (RepositoryException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 
 		return listOfadvertiesrs;
@@ -156,6 +173,7 @@ public class AdFinderSearchServlet extends BaseSlingServlet {
 
 	private List<AdFinderSearchResultBean> getAds1(
 			SlingHttpServletRequest request) {
+		String path = request.getParameter("serchPath");;
 		int dateRange = Integer.parseInt(request.getParameter("daterange"));
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
@@ -163,7 +181,7 @@ public class AdFinderSearchServlet extends BaseSlingServlet {
 		String publicationDate = dateFormat.format(cal.getTime());
 		QueryBuilder builder = ManagerProvider.getManager(QueryBuilder.class);
 		Map<String, Object> predicateMap = new LinkedHashMap<String, Object>();
-		predicateMap.put("path", "/etc/tc");
+		predicateMap.put("path",path);
 		predicateMap.put("type", "nt:unstructured");
 		predicateMap.put("daterange.property", "publicationDate");
 		predicateMap.put("daterange.lowerBound", publicationDate);

@@ -37,8 +37,8 @@ public class TCCanadianPressFeedProcessor {
 			// run the trasformer
 			// zip
 			TCTransformerHandler transformer = new TCTransformerHandler();
-			String metaInfFolder = aemProps.getProperty("aem.metainffolder");
-			String contentFolder = aemProps.getProperty("aem.contentfolder");
+			String metaInfFolder = pressProps.getProperty("canadianpressfeed.metainffolder");
+			String contentFolder = pressProps.getProperty("canadianpressfeed.contentfolder");
 			String localDir = pressProps.getProperty("ftp.localDirectory");
 			String xslFile = pressProps.getProperty("canadianpressfeed.xslfile");
 			String uniqueId = pressProps.getProperty("canadianpressfeed.uniqueid");
