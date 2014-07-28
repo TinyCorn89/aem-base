@@ -202,7 +202,7 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 
 	@Override
 	public void importAds(){
-		TCFTPAdsProcessHandler process = new TCFTPAdsProcessHandler(props);
+		TCFTPAdsProcessHandler process = null;
 		Connection  connection = null;
 		Session session;
 		Node tc = null;
@@ -212,6 +212,7 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 		Calendar myCal = new GregorianCalendar();
 		
 		try{
+			process = new TCFTPAdsProcessHandler(props);
 			connection = getConnection();
 
             if (connection == null) throw new Exception("Could not retrieve MySQL connection; Check your config");
@@ -279,7 +280,7 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 						if(isNotBlank(resultSet.getString("noBillet"))){
 							ad.setProperty("ticketNumber", resultSet.getString("noBillet"));
 						} 
-						session.save(); 
+						session.save();
 						if (process.singleProcess(session,parentDam.getPath(),"AW",resultSet.getString("noBillet")+".jpg")){
 						
 							LOG.info("File imported:"+parentDam.getPath()+"/"+resultSet.getString("noBillet")+".jpg");
@@ -295,11 +296,11 @@ public class AdvertisersDBImportServiceImpl extends BaseService  implements Adve
 			resultSet.close();
 			process.disconnect();
 			
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			try{
+				
 				connection.close();
 				LOG.info("importAdvertisers : Connection Closed");
 			}catch (SQLException e) { 
