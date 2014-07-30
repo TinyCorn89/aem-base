@@ -45,5 +45,5 @@ done
 
 sleep 1
 let average=$sum/$2
-echo "sum at end" $sum
-echo "average delta" $average
+echo "sum at end of "$2" imports, in KB:" $sum
+echo "average delta in KB after "$2" imports:" $average
