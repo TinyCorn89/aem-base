@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.lang.System;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -18,6 +19,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -120,7 +123,23 @@ public class TCTransformerHandler {
 		return sw.getBuffer().toString();
 		
 	}
-	public boolean transform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder, String idName, String workingDir, String packageName, Map<String, String> params)
+
+    /**
+     *
+     * @param inputdir: the sourceDir (where original xml files are stored) ex: /Users/mpetzold/tcFromCustomer/full/rubicon_export/Articles
+     * @param xslFileName: the xslFile used to perform the transformation
+     * @param contentFolder: the content folder within AEM
+     * @param metaInfFolder: the folder for the filter.xml to describe the package creation
+     * @param idName: the id in the name of the deepest asset to be created. ex: articleId
+     * @param workingDir: ex: /Users/mpetzold/tcFromCustomer/full/rubicon_export/Articles/working
+     * @param packageName: the AEM package to be created, ex: articles.zip
+     * @param params: other parameters as a Map (for ex. for articles: photo.xsl, folder locations etc)
+     * @return
+     * @throws Exception
+     */
+
+	public boolean transform(String inputdir, String xslFileName, String contentFolder, String metaInfFolder,
+                             String idName, String workingDir, String packageName, Map<String, String> params)
 			throws Exception {
 		boolean contentExistFlag = false;
 		try {
@@ -151,8 +170,11 @@ public class TCTransformerHandler {
 					.newTransformer(stylesource);
 			if (directoryListing != null) {
 				boolean imageFlag = false;
+
+                long timePoolPartyCall = 0;
+
 				for (File child : directoryListing) {
-					if (!child.getName().contains(".xml")) {
+					if (!child.getName().contains(".xml")) { // we only take into account original *.xml files
 						continue;
 					}
 					contentExistFlag = true;
@@ -164,9 +186,42 @@ public class TCTransformerHandler {
 					InputSource inputSource = new InputSource(new FileInputStream(child));
 					SAXSource saxSource = new SAXSource(xmlReader, inputSource);
 					StreamResult result = new StreamResult(fos);
+
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+                    String oldDate = sdf.format(new Date());
+
+                    long startTime = System.nanoTime();
+
+                    LOG.info("Before making call to PoolParty " + oldDate);
 					String tags = getTagsFromPoolParty(child);
-					
-					transformer.setParameter("tags", tags);
+
+                    long endTime = System.nanoTime() - startTime;
+                    String newDate = sdf.format(new Date());
+
+                    long milliSecondsEndTime = endTime / 1000000;
+
+                    timePoolPartyCall += milliSecondsEndTime;
+
+                    long milliSeconds = milliSecondsEndTime % 1000;
+                    long secondsTemp = milliSecondsEndTime / 1000;
+                    long seconds = secondsTemp % 60;
+                    long minutesTemp = secondsTemp / 60;
+                    long minutes = minutesTemp % 60;
+                    long hours = minutesTemp / 60; //since both are ints, you get an int
+
+
+                    LOG.info("After making call to PoolParty at " + newDate + ", it took " +
+                            endTime + " nanoseconds, which is " +
+                            (endTime/1000000000) + " seconds, which is "
+                            + hours + "h" + minutes + ":" + seconds + "s" + milliSeconds + "ms");
+
+                    System.out.println("After making call to PoolParty at " + newDate + ", it took " +
+                            endTime + " nanoseconds, which is " +
+                            (endTime / 1000000000) + " seconds, which is "
+                            + hours + "h" + minutes + ":" + seconds + "s" + milliSeconds + "ms");
+
+                    transformer.setParameter("tags", tags);
 					String damFolder = contentFolder.replaceAll("\\\\", "/");
 					damFolder = damFolder.replaceAll("/content/", "/content/dam/");
 					transformer.setParameter("damFolder", damFolder);
@@ -258,6 +313,13 @@ public class TCTransformerHandler {
 					
 					
 				}
+
+                System.out.println("total time to call PoolParty was " +
+                        ((timePoolPartyCall/1000)/60) + "m" +
+                        ((timePoolPartyCall/1000)%60) + "s" +
+                        (timePoolPartyCall%1000) + "ms"
+                );
+
 				// copy META-INF folder to outputdir
 				metaInfDir = new File(metaInfFolder);
 				if (metaInfDir.exists()) {

@@ -49,7 +49,8 @@ public class UnisImporter {
         params.put("photoWorkingDir", photoWorkingDir);
         params.put("photoXslFile", photoXslFile);
 
-        boolean flag = transformer.transform(sourceDir, xslFile, contentDir, metaInfDir, uniqueId, workingDir, packageName, params);
+        boolean flag = transformer.transform(sourceDir, xslFile, contentDir, metaInfDir, uniqueId, workingDir,
+                packageName, params);
         if (flag) {
             InputStream aemInputSt = TCCanadianPressFeedProcessor.class.getClassLoader()
                     .getResourceAsStream("aem.properties");
