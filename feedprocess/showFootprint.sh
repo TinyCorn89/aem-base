@@ -14,8 +14,15 @@ function runImport {
 	echo "We are about to import assets..." $j
 	oldVal=$j
 
+	dateBefore=$(date +"%s")
+	echo "before running $2:" $(date +"%F %T %z")
 	source $(eval echo /Users/mpetzold/Documents/development/aem-base/feedprocess/$2)
 
+	dateAfter=$(date +"%s")
+	let elapsedTime=$dateAfter-$dateBefore
+	let elapsedMinutes=$elapsedTime/60
+	let elapsedSeconds=$elapsedTime%60
+	echo "after running $2:" $(date +"%F %T %z") " - it took $elapsedMinutes min and $elapsedSeconds seconds - after: $dateAfter and before: $dateBefore"
 	showSize $1
 
 	echo "going to delete the just imported package..."
@@ -35,15 +42,19 @@ function runImport {
 
 echo "Going to run importer for $2 times"
 sum=0
-
+totalTime=0
 for i in $(eval echo {1..$2}); do
 		runImport $1 $3
 		let delta=j-oldVal
 		let sum=sum+delta
+		let totalTime=totalTime+elapsedTime
 		echo "before:" $oldVal "and after:" $j "and delta is" $delta " and sum " $sum 
 done
 
 sleep 1
 let average=$sum/$2
+let averageTime=$totalTime/$2
 echo "sum at end of "$2" imports, in KB:" $sum
-echo "average delta in KB after "$2" imports:" $average
+let averageMin=$averageTime/60
+let averageSec=$averageTime%60
+echo "average delta in KB after "$2" imports:" $average " - it took an average time of $averageMin min and $averageSec seconds"

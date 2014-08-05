@@ -203,7 +203,7 @@ public class TCTransformerHandler {
 
                     timePoolPartyCall += milliSecondsEndTime;
 
-                    long milliSeconds = milliSecondsEndTime % 1000;
+                   /* long milliSeconds = milliSecondsEndTime % 1000;
                     long secondsTemp = milliSecondsEndTime / 1000;
                     long seconds = secondsTemp % 60;
                     long minutesTemp = secondsTemp / 60;
@@ -219,7 +219,7 @@ public class TCTransformerHandler {
                     System.out.println("After making call to PoolParty at " + newDate + ", it took " +
                             endTime + " nanoseconds, which is " +
                             (endTime / 1000000000) + " seconds, which is "
-                            + hours + "h" + minutes + ":" + seconds + "s" + milliSeconds + "ms");
+                            + hours + "h" + minutes + ":" + seconds + "s" + milliSeconds + "ms");*/
 
                     transformer.setParameter("tags", tags);
 					String damFolder = contentFolder.replaceAll("\\\\", "/");
@@ -314,6 +314,11 @@ public class TCTransformerHandler {
 					
 				}
 
+                LOG.info("total time to call PoolParty was " +
+                                ((timePoolPartyCall/1000)/60) + "m" +
+                                ((timePoolPartyCall/1000)%60) + "s" +
+                                (timePoolPartyCall%1000) + "ms"
+                );
                 System.out.println("total time to call PoolParty was " +
                         ((timePoolPartyCall/1000)/60) + "m" +
                         ((timePoolPartyCall/1000)%60) + "s" +
