@@ -36,12 +36,14 @@
 				<xsl:if test="$tags">
     				<xsl:attribute name="cq:tags"><xsl:value-of select="$tags" /></xsl:attribute>
 				</xsl:if>
-				
+
+
+
 				<!--  add article component -->
 				<xsl:element name="article">
 					<xsl:attribute name="jcr:primaryType">nt:unstructured</xsl:attribute>
 					<xsl:attribute name="sling:resourceType">tc/components/content/article</xsl:attribute>
-					<xsl:attribute name="description"><xsl:value-of select="fulltext" /></xsl:attribute>
+					<xsl:attribute name="description"><xsl:value-of select="chapters/item/text" /></xsl:attribute>
 					<xsl:attribute name="articleId"><xsl:value-of select="id" /></xsl:attribute>
 					<xsl:attribute name="title"><xsl:value-of select="title" /></xsl:attribute>
 					<xsl:attribute name="publicationDate"><xsl:value-of select="publicationDate" /></xsl:attribute>
