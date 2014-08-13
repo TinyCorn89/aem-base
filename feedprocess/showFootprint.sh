@@ -35,8 +35,8 @@ function runImport {
 		poolpartytagsimporter*.sh) zipFile="PoolPartyTags.zip";;
 		siteimporter*.sh) zipFile="tcsiteconfig.zip";;
 	esac
-	curl -u admin:admin -X POST $(eval echo http://localhost:4502/crx/packmgr/service/.json/etc/packages/tc/$zipFile?cmd=uninstall)
-	curl -u admin:admin -X POST $(eval echo http://localhost:4502/crx/packmgr/service/.json/etc/packages/tc/$zipFile?cmd=delete)
+	#curl -u admin:admin -X POST $(eval echo http://localhost:4502/crx/packmgr/service/.json/etc/packages/tc/$zipFile?cmd=uninstall)
+	#curl -u admin:admin -X POST $(eval echo http://localhost:4502/crx/packmgr/service/.json/etc/packages/tc/$zipFile?cmd=delete)
 	sleep 1
 }
 
